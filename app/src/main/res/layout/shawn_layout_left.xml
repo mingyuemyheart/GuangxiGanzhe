@@ -1,0 +1,156 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#F8FCFE"
+                android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/llPortrait"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical"
+        android:orientation="vertical"
+        android:padding="15dp">
+
+        <TextView
+            android:id="@+id/tvUserName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="test"
+            android:textColor="@color/text_color3"
+            android:textSize="@dimen/level_2"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/divider1"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@+id/llPortrait"
+        android:layout_marginBottom="15dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
+        android:background="#dadbdd"/>
+
+    <LinearLayout
+        android:id="@+id/llFeedBack"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/divider1"
+        android:background="@drawable/shawn_selector_item"
+        android:gravity="center_vertical"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/shawn_icon_feedback"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="意见反馈"
+            android:textColor="@color/text_color4"
+            android:textSize="@dimen/level_4"/>
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="15dp"
+            android:background="@drawable/shawn_icon_arrow"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llClearCache"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llFeedBack"
+        android:background="@drawable/shawn_selector_item"
+        android:gravity="center_vertical"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/shawn_icon_cache"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="清除缓存"
+            android:textColor="@color/text_color4"
+            android:textSize="@dimen/level_4"/>
+
+        <TextView
+            android:id="@+id/tvCache"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/level_4"/>
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="15dp"
+            android:background="@drawable/shawn_icon_arrow"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llVersion"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/llClearCache"
+        android:background="@drawable/shawn_selector_item"
+        android:gravity="center_vertical"
+        android:paddingStart="15dp"
+        android:paddingEnd="15dp">
+
+        <ImageView
+            android:layout_width="18dp"
+            android:layout_height="18dp"
+            android:src="@drawable/shawn_icon_version"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:text="版本检测"
+            android:textColor="@color/text_color4"
+            android:textSize="@dimen/level_4"/>
+
+        <TextView
+            android:id="@+id/tvVersion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/level_4"/>
+
+        <ImageView
+            android:layout_width="8dp"
+            android:layout_height="15dp"
+            android:background="@drawable/shawn_icon_arrow"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginBottom="20dp"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/shawn_selector_logout"
+        android:gravity="center"
+        android:padding="5dp"
+        android:text="退出登录"
+        android:textColor="@color/white"
+        android:textSize="@dimen/level_5"/>
+
+</RelativeLayout>
