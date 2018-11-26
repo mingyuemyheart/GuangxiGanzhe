@@ -156,6 +156,8 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
         tvLocation.setText(cityName);
         ImageView ivSetting = findViewById(R.id.ivSetting);
         ivSetting.setOnClickListener(this);
+        ImageView ivSearch = findViewById(R.id.ivSearch);
+        ivSearch.setOnClickListener(this);
         tvTime = findViewById(R.id.tvTime);
         tvPhe = findViewById(R.id.tvPhe);
         tvTemperature = findViewById(R.id.tvTemperature);
@@ -247,6 +249,9 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
      * 获取7天aqi
      */
     private void OkHttpAqi() {
+        if (!refreshLayout.isRefreshing()) {
+            refreshLayout.setRefreshing(true);
+        }
         final String url = SecretUrlUtil.airForecast(lng, lat);
         new Thread(new Runnable() {
             @Override
@@ -682,6 +687,9 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
                     drawerlayout.openDrawer(reLeft);
                 }
                 break;
+            case R.id.ivSearch:
+                startActivityForResult(new Intent(mContext, ShawnCityActivity.class), 1001);
+                break;
             case R.id.tvLocation:
 //                Intent intentLo = new Intent(mContext, ForecastActivity.class);
 //                intentLo.putExtra("cityName", cityName);
@@ -713,7 +721,25 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (resultCode == 0) {
+        if (resultCode == RESULT_OK) {
+            switch (requestCode) {
+                case 1001:
+                    if (data != null) {
+                        Bundle bundle = data.getExtras();
+                        if (bundle != null) {
+                            cityName = bundle.getString("cityName");
+                            lng = bundle.getDouble("lng");
+                            lat = bundle.getDouble("lat");
+                            tvLocation.setText(cityName);
+                            OkHttpAqi();
+                        }
+                    }
+                    break;
+
+                default:
+                    break;
+            }
+        }else if (resultCode == 0) {
             switch (requestCode) {
                 case 1000:
                     startLocation();

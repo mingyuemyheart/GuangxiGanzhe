@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/reTitle"
+        layout="@layout/shawn_layout_title" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_margin="10dp"
+        android:background="@drawable/shawn_bg_corner_edittext"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp" >
+
+        <ImageView
+            android:id="@+id/ivSearch"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_centerVertical="true"
+            android:src="@drawable/shawn_icon_search_black" />
+
+        <EditText
+            android:id="@+id/etSearch"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="10dp"
+            android:layout_toEndOf="@+id/ivSearch"
+            android:background="@color/transparent"
+            android:hint="请输入城市"
+            android:textColor="@color/text_color3"
+            android:textColorHint="@color/text_color2"
+            android:textSize="@dimen/level_4" />
+
+    </RelativeLayout>
+
+    <ListView
+        android:id="@+id/listView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:cacheColorHint="@color/transparent"
+        android:divider="@color/light_gray"
+        android:dividerHeight="0.5dp"
+        android:listSelector="@color/transparent"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:visibility="gone" />
+
+    <LinearLayout
+        android:id="@+id/llGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center" >
+
+        <TextView
+            android:id="@+id/tvProvince"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/shawn_bg_corner_left_blue"
+            android:gravity="center"
+            android:text="云南市县"
+            android:textColor="@color/white"
+            android:textSize="@dimen/level_4" />
+
+        <TextView
+            android:id="@+id/tvNational"
+            android:layout_width="wrap_content"
+            android:layout_height="30dp"
+            android:background="@drawable/shawn_bg_corner_right_white"
+            android:gravity="center"
+            android:text="全国热门"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/level_4" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/llGridView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical" >
+
+        <com.cxwl.shawn.guangxi.ganzhe.view.stickygridheaders.StickyGridHeadersGridView
+            xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/pGridView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:cacheColorHint="@color/transparent"
+            android:fadingEdge="none"
+            android:horizontalSpacing="3dip"
+            android:listSelector="@color/transparent"
+            android:numColumns="4"
+            android:overScrollMode="never"
+            android:layout_margin="10dp"
+            android:scrollbars="none"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="5dip" />
+
+        <GridView
+            android:id="@+id/nGridView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:cacheColorHint="@color/transparent"
+            android:fadingEdge="none"
+            android:gravity="center"
+            android:horizontalSpacing="3dp"
+            android:listSelector="@color/transparent"
+            android:numColumns="4"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            android:stretchMode="columnWidth"
+            android:verticalSpacing="10dp"
+            android:visibility="gone" />
+    </LinearLayout>
+
+</LinearLayout>

@@ -36,6 +36,15 @@
             android:background="@drawable/shawn_selector_btn_back"
             android:padding="10dp"
             android:src="@drawable/shawn_icon_setting"/>
+
+        <ImageView
+            android:id="@+id/ivSearch"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/shawn_selector_btn_back"
+            android:padding="10dp"
+            android:src="@drawable/shawn_icon_search"/>
     </RelativeLayout>
 
     <android.support.v4.widget.SwipeRefreshLayout
