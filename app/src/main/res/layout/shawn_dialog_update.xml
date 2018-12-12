@@ -32,7 +32,7 @@
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/tvVersion"
+                android:id="@+id/tvContent"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="3dp"
@@ -56,7 +56,7 @@
         <TextView
             android:id="@+id/tvNegtive"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/shawn_update_left_btn"
             android:gravity="center"
@@ -72,7 +72,7 @@
         <TextView
             android:id="@+id/tvPositive"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_weight="1"
             android:background="@drawable/shawn_update_right_btn"
             android:gravity="center"

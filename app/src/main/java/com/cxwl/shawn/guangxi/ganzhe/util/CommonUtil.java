@@ -6,17 +6,31 @@ import android.content.pm.PackageManager;
 import android.content.res.AssetManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.location.LocationManager;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
+import com.amap.api.maps.AMap;
+import com.amap.api.maps.CameraUpdateFactory;
+import com.amap.api.maps.model.BitmapDescriptorFactory;
+import com.amap.api.maps.model.LatLng;
+import com.amap.api.maps.model.LatLngBounds;
+import com.amap.api.maps.model.Polygon;
+import com.amap.api.maps.model.PolygonOptions;
+import com.amap.api.maps.model.Polyline;
+import com.amap.api.maps.model.PolylineOptions;
+import com.amap.api.maps.model.Text;
+import com.amap.api.maps.model.TextOptions;
 import com.amap.api.services.district.DistrictItem;
 import com.amap.api.services.district.DistrictResult;
 import com.amap.api.services.district.DistrictSearch;
 import com.amap.api.services.district.DistrictSearchQuery;
+import com.cxwl.shawn.guangxi.ganzhe.R;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -36,8 +50,10 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
 public class CommonUtil {
@@ -359,6 +375,81 @@ public class CommonUtil {
 
                     }
                 });//绑定监听器
+            }
+        }).start();
+    }
+
+    /**
+     * 绘制地块
+     * @param context
+     * @param name
+     * @param aMap
+     */
+    public static void drawLand(final Context context, final String name, final AMap aMap) {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                String result = CommonUtil.getFromAssets(context, "json/"+name+".json");
+                if (!TextUtils.isEmpty(result)) {
+                    try {
+                        JSONArray array = new JSONArray(result);
+                        LatLngBounds.Builder builder = LatLngBounds.builder();
+                        for (int i = 0; i < array.length(); i++) {
+                            JSONObject itemObj = array.getJSONObject(i);
+                            if (!itemObj.isNull("data")) {
+                                JSONArray dataArray = itemObj.getJSONArray("data");
+                                List<LatLng> latLngs = new ArrayList<>();
+                                double minLat = 0,minLng = 0,maxLat = 0,maxLng = 0;
+                                for (int j = 0; j < dataArray.length(); j++) {
+                                    JSONObject dataObj = dataArray.getJSONObject(j);
+                                    double lat = dataObj.getDouble("lat");
+                                    double lng = dataObj.getDouble("lng");
+                                    latLngs.add(new LatLng(lat, lng));
+                                    builder.include(new LatLng(lat, lng));
+
+                                    if (j == 0) {
+                                        minLat = lat;
+                                        minLng = lng;
+                                        maxLat = lat;
+                                        maxLng = lng;
+                                    }
+                                    if (maxLat <= lat) {
+                                        maxLat = lat;
+                                    }
+                                    if (maxLng <= lng) {
+                                        maxLng = lng;
+                                    }
+                                    if (minLat >= lat) {
+                                        minLat = lat;
+                                    }
+                                    if (minLng >= lng) {
+                                        minLng = lng;
+                                    }
+                                }
+                                PolygonOptions polygonOptions = new PolygonOptions();
+                                polygonOptions.addAll(latLngs);
+                                polygonOptions.strokeWidth(2);
+                                polygonOptions.strokeColor(context.getResources().getColor(R.color.colorPrimary));
+                                polygonOptions.fillColor(context.getResources().getColor(R.color.refresh_color2));
+                                Polygon polygon = aMap.addPolygon(polygonOptions);
+                                polygon.setZIndex(-1000);
+
+                                TextOptions textOptions = new TextOptions();
+                                textOptions.text("地块"+(i+1));
+                                textOptions.position(new LatLng((minLat+maxLat)/2, (minLng+maxLng)/2));
+                                textOptions.fontSize(30);
+                                textOptions.fontColor(Color.WHITE);
+                                textOptions.backgroundColor(Color.TRANSPARENT);
+                                Text text = aMap.addText(textOptions);
+                                text.setZIndex(-1000);
+
+                            }
+                        }
+                        aMap.animateCamera(CameraUpdateFactory.newLatLngBounds(builder.build(), 100));
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                }
             }
         }).start();
     }

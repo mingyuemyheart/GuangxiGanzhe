@@ -23,6 +23,19 @@
                 android:textSize="@dimen/level_4"/>
 
             <TextView
+                android:id="@+id/tvLand"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_margin="10dp"
+                android:background="@drawable/shawn_selector_logout"
+                android:text="地块信息"
+                android:padding="5dp"
+                android:gravity="center"
+                android:layout_alignParentEnd="true"
+                android:textColor="@color/white"
+                android:textSize="@dimen/level_5"/>
+
+            <TextView
                 android:id="@+id/tvState"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

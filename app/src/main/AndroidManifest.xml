@@ -67,6 +67,9 @@
         <activity android:name=".ShawnCityActivity"
                   android:screenOrientation="portrait"/>
 
+        <activity android:name=".ShawnLandActivity"
+                  android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

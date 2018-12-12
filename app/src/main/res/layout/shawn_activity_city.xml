@@ -64,7 +64,7 @@
             android:layout_height="30dp"
             android:background="@drawable/shawn_bg_corner_left_blue"
             android:gravity="center"
-            android:text="云南市县"
+            android:text="广西市县"
             android:textColor="@color/white"
             android:textSize="@dimen/level_4" />
 

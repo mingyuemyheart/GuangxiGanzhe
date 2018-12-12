@@ -1,10 +1,12 @@
 package com.cxwl.shawn.guangxi.ganzhe.fragment;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +15,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cxwl.shawn.guangxi.ganzhe.R;
+import com.cxwl.shawn.guangxi.ganzhe.ShawnLandActivity;
 import com.cxwl.shawn.guangxi.ganzhe.common.CONST;
 import com.cxwl.shawn.guangxi.ganzhe.dto.FactDto;
 import com.cxwl.shawn.guangxi.ganzhe.util.CommonUtil;
@@ -72,6 +75,8 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
         tvState = view.findViewById(R.id.tvState);
         tvSwitch = view.findViewById(R.id.tvSwitch);
         tvSwitch.setOnClickListener(this);
+        TextView tvLand = view.findViewById(R.id.tvLand);
+        tvLand.setOnClickListener(this);
 
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -91,6 +96,8 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
         FormBody.Builder builder = new FormBody.Builder();
         builder.add("user_id", "8888889031");
         builder.add("user_token", CommonUtil.toMD5("weather888"+sdf1.format(new Date())+"asdcsfdf~!%h"));
+        String a = CommonUtil.toMD5("weather888"+sdf1.format(new Date())+"asdcsfdf~!%h");
+        Log.e("a", a);
         builder.add("device_id", "2222222320");
         builder.add("valve_id", valve_id);
         builder.add("timestamp", new Date().getTime()/1000+"");
@@ -297,6 +304,9 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
         switch (v.getId()) {
             case R.id.tvSwitch:
                 OkHttpSwitch();
+                break;
+            case R.id.tvLand:
+                startActivity(new Intent(getActivity(), ShawnLandActivity.class));
                 break;
             default:
                 break;
