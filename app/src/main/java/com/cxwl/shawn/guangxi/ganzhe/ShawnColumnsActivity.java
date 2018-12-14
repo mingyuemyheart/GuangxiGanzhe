@@ -19,8 +19,9 @@ import android.widget.TextView;
 import com.cxwl.shawn.guangxi.ganzhe.common.CONST;
 import com.cxwl.shawn.guangxi.ganzhe.dto.ColumnData;
 import com.cxwl.shawn.guangxi.ganzhe.fragment.ShawnFactFragment;
-import com.cxwl.shawn.guangxi.ganzhe.fragment.ShawnFocusFragment;
+import com.cxwl.shawn.guangxi.ganzhe.fragment.ShawnFactImageFragment;
 import com.cxwl.shawn.guangxi.ganzhe.fragment.ShawnGuangaiFragment;
+import com.cxwl.shawn.guangxi.ganzhe.fragment.ShawnPDFFragment;
 import com.cxwl.shawn.guangxi.ganzhe.fragment.ShawnRadarFragment;
 import com.cxwl.shawn.guangxi.ganzhe.util.CommonUtil;
 import com.cxwl.shawn.guangxi.ganzhe.view.MainViewPager;
@@ -123,7 +124,10 @@ public class ShawnColumnsActivity extends ShawnBaseActivity implements View.OnCl
                         }else if (TextUtils.equals(dto.id, "102")) {//田间实况
                             fragment = new ShawnFactFragment();
                         }else if (TextUtils.equals(dto.id, "103")) {//农事焦点
-                            fragment = new ShawnFocusFragment();
+                            fragment = new ShawnPDFFragment();
+                            Bundle bundle = new Bundle();
+                            bundle.putString(CONST.WEB_URL, dto.dataUrl);
+                            fragment.setArguments(bundle);
                         }else if (TextUtils.equals(dto.id, "2001")) {//智能灌溉-阀门1
                             fragment = new ShawnGuangaiFragment();
                             Bundle bundle = new Bundle();

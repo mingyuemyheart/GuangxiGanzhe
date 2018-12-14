@@ -11,8 +11,10 @@
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <!--<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>-->
-    <!--<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>-->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <!--//添加允许安装未知应用市场权限，这个权限不是动态权限，所以不用进行动态申请，否则自动更新功能失效-->
+    <uses-permission android:name="android.permission.REQUEST_INSTALL_PACKAGES" />
 
     <application
         android:name=".common.MyApplication"
@@ -68,6 +70,18 @@
                   android:screenOrientation="portrait"/>
 
         <activity android:name=".ShawnLandActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".ShawnPDFActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".ShawnPdfTitleActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".ShawnFactClimateDetailActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".ShawnFactDataDetailActivity"
                   android:screenOrientation="portrait"/>
 
     </application>

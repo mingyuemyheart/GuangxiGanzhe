@@ -5,7 +5,6 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
@@ -96,7 +95,6 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
     private SimpleDateFormat sdf2 = new SimpleDateFormat("HH", Locale.CHINA);
     private SimpleDateFormat sdf3 = new SimpleDateFormat("MM月dd日", Locale.CHINA);
     private SimpleDateFormat sdf4 = new SimpleDateFormat("MM月dd日 HH:mm", Locale.CHINA);
-    private List<WeatherDto> aqiList = new ArrayList<>();//空气指数list
     private int width, height, gridViewHeight;
     private float density;
     private SwipeRefreshLayout refreshLayout;//下拉刷新布局
@@ -180,6 +178,7 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
         drawerlayout.setVisibility(View.VISIBLE);
         reLeft = findViewById(R.id.reLeft);
         TextView tvUserName = findViewById(R.id.tvUserName);
+        tvUserName.setText(MyApplication.USERNAME);
         TextView tvLogout = findViewById(R.id.tvLogout);
         tvLogout.setOnClickListener(this);
         tvCache = findViewById(R.id.tvCache);
@@ -198,12 +197,6 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
         LayoutParams params = reLeft.getLayoutParams();
         params.width = width-(int) CommonUtil.dip2px(mContext, 50);
         reLeft.setLayoutParams(params);
-
-        SharedPreferences sharedPreferences = getSharedPreferences(MyApplication.USERINFO, Context.MODE_PRIVATE);
-        String userName = sharedPreferences.getString(MyApplication.USERNAME, null);
-        if (userName != null) {
-            tvUserName.setText(userName);
-        }
 
         getCache();
     }
@@ -240,60 +233,8 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
             cityName = amapLocation.getDistrict();
             lat = amapLocation.getLatitude();
             lng = amapLocation.getLongitude();
-            OkHttpAqi();
-
+            OkHttpGeo(lng, lat);
         }
-    }
-
-    /**
-     * 获取7天aqi
-     */
-    private void OkHttpAqi() {
-        if (!refreshLayout.isRefreshing()) {
-            refreshLayout.setRefreshing(true);
-        }
-        final String url = SecretUrlUtil.airForecast(lng, lat);
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                OkHttpUtil.enqueue(new Request.Builder().url(url).build(), new Callback() {
-                    @Override
-                    public void onFailure(Call call, IOException e) {
-                    }
-                    @Override
-                    public void onResponse(Call call, Response response) throws IOException {
-                        if (!response.isSuccessful()) {
-                            return;
-                        }
-                        final String result = response.body().string();
-                        runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                if (!TextUtils.isEmpty(result)) {
-                                    try {
-                                        JSONObject obj = new JSONObject(result);
-                                        if (!obj.isNull("series")) {
-                                            aqiList.clear();
-                                            JSONArray array = obj.getJSONArray("series");
-                                            for (int i = 0; i < array.length(); i++) {
-                                                WeatherDto data = new WeatherDto();
-                                                data.aqi = String.valueOf(array.get(i));
-                                                aqiList.add(data);
-                                            }
-                                        }
-                                    } catch (JSONException e1) {
-                                        e1.printStackTrace();
-                                    }
-                                }
-
-                                OkHttpGeo(lng, lat);
-
-                            }
-                        });
-                    }
-                });
-            }
-        }).start();
     }
 
     /**
@@ -458,12 +399,6 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
                                                 dto.windDir = Integer.valueOf(weeklyObj.getString("fe"));
                                                 dto.windForce = Integer.valueOf(weeklyObj.getString("fg"));
 
-                                                if (aqiList.size() > 0 && i < aqiList.size()) {
-                                                    String aqiValue = aqiList.get(i).aqi;
-                                                    if (!TextUtils.isEmpty(aqiValue)) {
-                                                        dto.aqi = aqiValue;
-                                                    }
-                                                }
                                                 weeklyList.add(dto);
                                             }
                                             if (mAdapter != null) {
@@ -474,7 +409,7 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
                                             WeeklyView weeklyView = new WeeklyView(mContext);
                                             weeklyView.setData(weeklyList);
                                             llContainer2.removeAllViews();
-                                            llContainer2.addView(weeklyView, width*2-(int)CommonUtil.dip2px(mContext, 40), (int)(CommonUtil.dip2px(mContext, 200)));
+                                            llContainer2.addView(weeklyView, width*2-(int)CommonUtil.dip2px(mContext, 40), (int)(CommonUtil.dip2px(mContext, 180)));
 
                                         }
 
@@ -731,7 +666,7 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
                             lng = bundle.getDouble("lng");
                             lat = bundle.getDouble("lat");
                             tvLocation.setText(cityName);
-                            OkHttpAqi();
+                            OkHttpGeo(lng, lat);
                         }
                     }
                     break;

@@ -24,12 +24,11 @@
 
             <TextView
                 android:id="@+id/tvLand"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="60sp"
+                android:layout_height="20dp"
                 android:layout_margin="10dp"
                 android:background="@drawable/shawn_selector_logout"
                 android:text="地块信息"
-                android:padding="5dp"
                 android:gravity="center"
                 android:layout_alignParentEnd="true"
                 android:textColor="@color/white"
@@ -41,17 +40,36 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/tvInfo"
                 android:layout_marginStart="10dp"
+                android:layout_marginBottom="5dp"
                 android:textColor="@color/text_color4"
                 android:textSize="@dimen/level_5"/>
 
             <TextView
                 android:id="@+id/tvSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/tvInfo"
-                android:layout_marginStart="30dp"
+                android:layout_width="60sp"
+                android:layout_height="20dp"
+                android:layout_marginStart="15dp"
+                android:text="打开阀门"
+                android:layout_above="@+id/divider1"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:background="@drawable/shawn_bg_corner_gray"
                 android:layout_toEndOf="@+id/tvState"
-                android:textColor="@color/text_color4"
+                android:textColor="@color/white"
+                android:textSize="@dimen/level_5"/>
+
+            <TextView
+                android:id="@+id/tvLog"
+                android:layout_width="60sp"
+                android:layout_height="20dp"
+                android:layout_marginStart="15dp"
+                android:text="灌溉日志"
+                android:layout_above="@+id/divider1"
+                android:layout_marginBottom="5dp"
+                android:gravity="center"
+                android:background="@drawable/shawn_bg_corner_gray"
+                android:layout_toEndOf="@+id/tvSwitch"
+                android:textColor="@color/white"
                 android:textSize="@dimen/level_5"/>
 
             <TextView

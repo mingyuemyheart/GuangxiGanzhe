@@ -216,33 +216,6 @@ public class WeeklyView extends View{
 			canvas.drawText(windDir, dto.lowX-windDirWidth/2, CommonUtil.dip2px(mContext, 155), textP);
 			canvas.drawText(windForce, dto.lowX-windForceWidth/2, CommonUtil.dip2px(mContext, 170), textP);
 
-
-			//绘制aqi数值
-			if (!TextUtils.isEmpty(dto.aqi)) {
-				int aqi = Integer.valueOf(dto.aqi);
-				if (aqi > 150) {
-					textP.setColor(getResources().getColor(R.color.white));
-				}else {
-					textP.setColor(getResources().getColor(R.color.text_color3));
-				}
-				if (aqi <= 50) {
-					roundP.setColor(0xff00FF01);
-				} else if (aqi <= 100)  {
-					roundP.setColor(0xff96EF01);
-				} else if (aqi <= 150)  {
-					roundP.setColor(0xffFFFF01);
-				} else if (aqi <= 200)  {
-					roundP.setColor(0xffFF6400);
-				} else if (aqi <= 300)  {
-					roundP.setColor(0xffFE0000);
-				} else {
-					roundP.setColor(0xff7E0123);
-				}
-				RectF rectF = new RectF(dto.lowX-CommonUtil.dip2px(mContext, 12.5f), CommonUtil.dip2px(mContext, 178), dto.lowX+CommonUtil.dip2px(mContext, 12.5f), CommonUtil.dip2px(mContext, 192));
-				canvas.drawRoundRect(rectF, CommonUtil.dip2px(mContext, 5), CommonUtil.dip2px(mContext, 5), roundP);
-				float tempWidth = textP.measureText(dto.aqi);
-				canvas.drawText(dto.aqi, dto.lowX-tempWidth/2, CommonUtil.dip2px(mContext, 190), textP);
-			}
 		}
 		
 	}

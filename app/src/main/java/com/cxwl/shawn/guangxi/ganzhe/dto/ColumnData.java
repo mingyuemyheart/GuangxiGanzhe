@@ -22,56 +22,72 @@ public class ColumnData implements Parcelable{
 	public String localTag;
 	public String bannerUrl;
 	public String imgUrl;
-	
+
+	//文档类
+	public String title;//标题
+	public String time;//时间
+	public String detailUrl;//文档地址
+
 	@Override
 	public int describeContents() {
 		return 0;
 	}
+
 	@Override
-	public void writeToParcel(Parcel arg0, int arg1) {
-		arg0.writeString(columnId);
-		arg0.writeString(id);
-		arg0.writeString(name);
-		arg0.writeString(level);
-		arg0.writeString(showType);
-		arg0.writeString(icon);
-		arg0.writeString(icon2);
-		arg0.writeString(desc);
-		arg0.writeString(dataUrl);
-		arg0.writeString(newsType);
-		arg0.writeString(newsCount);
-		arg0.writeString(localTag);
-		arg0.writeString(bannerUrl);
-		arg0.writeString(imgUrl);
-		arg0.writeList(child);
+	public void writeToParcel(Parcel dest, int flags) {
+		dest.writeString(this.columnId);
+		dest.writeString(this.id);
+		dest.writeString(this.name);
+		dest.writeString(this.level);
+		dest.writeString(this.showType);
+		dest.writeString(this.icon);
+		dest.writeString(this.icon2);
+		dest.writeString(this.desc);
+		dest.writeString(this.dataUrl);
+		dest.writeString(this.newsType);
+		dest.writeString(this.newsCount);
+		dest.writeTypedList(this.child);
+		dest.writeString(this.localTag);
+		dest.writeString(this.bannerUrl);
+		dest.writeString(this.imgUrl);
+		dest.writeString(this.title);
+		dest.writeString(this.time);
+		dest.writeString(this.detailUrl);
 	}
-	
+
+	public ColumnData() {
+	}
+
+	protected ColumnData(Parcel in) {
+		this.columnId = in.readString();
+		this.id = in.readString();
+		this.name = in.readString();
+		this.level = in.readString();
+		this.showType = in.readString();
+		this.icon = in.readString();
+		this.icon2 = in.readString();
+		this.desc = in.readString();
+		this.dataUrl = in.readString();
+		this.newsType = in.readString();
+		this.newsCount = in.readString();
+		this.child = in.createTypedArrayList(ColumnData.CREATOR);
+		this.localTag = in.readString();
+		this.bannerUrl = in.readString();
+		this.imgUrl = in.readString();
+		this.title = in.readString();
+		this.time = in.readString();
+		this.detailUrl = in.readString();
+	}
+
 	public static final Creator<ColumnData> CREATOR = new Creator<ColumnData>() {
 		@Override
-		public ColumnData[] newArray(int arg0) {
-			return new ColumnData[arg0];
+		public ColumnData createFromParcel(Parcel source) {
+			return new ColumnData(source);
 		}
-		
+
 		@Override
-		public ColumnData createFromParcel(Parcel arg0) {
-			ColumnData columnData = new ColumnData();
-			columnData.columnId = arg0.readString();
-			columnData.id = arg0.readString();
-			columnData.name = arg0.readString();
-			columnData.level = arg0.readString();
-			columnData.showType = arg0.readString();
-			columnData.icon = arg0.readString();
-			columnData.icon2 = arg0.readString();
-			columnData.desc = arg0.readString();
-			columnData.dataUrl = arg0.readString();
-			columnData.newsType = arg0.readString();
-			columnData.newsCount = arg0.readString();
-			columnData.localTag = arg0.readString();
-			columnData.bannerUrl = arg0.readString();
-			columnData.imgUrl = arg0.readString();
-			arg0.readList(columnData.child, ColumnData.class.getClassLoader());
-			return columnData;
+		public ColumnData[] newArray(int size) {
+			return new ColumnData[size];
 		}
 	};
-	
 }

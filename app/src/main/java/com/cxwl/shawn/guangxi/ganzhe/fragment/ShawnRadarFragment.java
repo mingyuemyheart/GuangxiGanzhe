@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -13,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -64,6 +66,7 @@ public class ShawnRadarFragment extends Fragment implements View.OnClickListener
     private int section = 1;
     private HashMap<String, Integer> sectionMap = new HashMap<>();
     private AVLoadingIndicatorView loadingView;
+    private ScrollView scrollView;
 
     @Nullable
     @Override
@@ -86,12 +89,16 @@ public class ShawnRadarFragment extends Fragment implements View.OnClickListener
         loadingView = view.findViewById(R.id.loadingView);
         imageView = view.findViewById(R.id.imageView);
         imageView.setOnClickListener(this);
+        imageView.setFocusable(true);
+        imageView.setFocusableInTouchMode(true);
+        imageView.requestFocus();
         ivPlay = view.findViewById(R.id.ivPlay);
         ivPlay.setOnClickListener(this);
         seekBar = view.findViewById(R.id.seekBar);
         seekBar.setOnSeekBarChangeListener(seekbarListener);
         tvTime = view.findViewById(R.id.tvTime);
         llSeekBar = view.findViewById(R.id.llSeekBar);
+        scrollView = view.findViewById(R.id.scrollView);
 
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -189,6 +196,13 @@ public class ShawnRadarFragment extends Fragment implements View.OnClickListener
      * 获取雷达图片集信息
      */
     private void OkHttpRadarInfo(String radarCode) {
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                scrollView.fullScroll(ScrollView.FOCUS_UP);
+            }
+        });
+
         loadingView.setVisibility(View.VISIBLE);
         final String url = SecretUrlUtil.weatherRadar(radarCode);
         new Thread(new Runnable() {

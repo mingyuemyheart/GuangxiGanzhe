@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/shawn_selector_item"
+              android:gravity="center_vertical"
+              android:orientation="horizontal"
+              android:padding="5dp">
+
+    <TextView
+        android:id="@+id/tvStationName"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvTemp60"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvTemp150"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvTemp300"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvHumidity60"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvHumidity150"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvHumidity300"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+</LinearLayout>

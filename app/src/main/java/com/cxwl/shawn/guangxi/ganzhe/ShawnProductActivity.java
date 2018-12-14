@@ -77,7 +77,12 @@ public class ShawnProductActivity extends ShawnBaseActivity implements View.OnCl
                     }else if (TextUtils.equals(dto.id, "302")) {//专家联盟
                         Toast.makeText(mContext, "研发中，敬请期待！！！", Toast.LENGTH_SHORT).show();
                     }else if (TextUtils.equals(dto.id, "303")) {//服务材料
-                        Toast.makeText(mContext, "研发中，敬请期待！！！", Toast.LENGTH_SHORT).show();
+                        intent = new Intent(mContext, ShawnPdfTitleActivity.class);
+                        intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("data", dto);
+                        intent.putExtras(bundle);
+                        startActivity(intent);
                     }
                 }
             }

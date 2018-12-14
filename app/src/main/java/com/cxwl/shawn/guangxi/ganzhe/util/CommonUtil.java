@@ -396,6 +396,8 @@ public class CommonUtil {
                         LatLngBounds.Builder builder = LatLngBounds.builder();
                         for (int i = 0; i < array.length(); i++) {
                             JSONObject itemObj = array.getJSONObject(i);
+                            String code = itemObj.getString("code");
+                            String name = itemObj.getString("name");
                             if (!itemObj.isNull("data")) {
                                 JSONArray dataArray = itemObj.getJSONArray("data");
                                 List<LatLng> latLngs = new ArrayList<>();
@@ -435,10 +437,10 @@ public class CommonUtil {
                                 polygon.setZIndex(-1000);
 
                                 TextOptions textOptions = new TextOptions();
-                                textOptions.text("地块"+(i+1));
+                                textOptions.text(name);
                                 textOptions.position(new LatLng((minLat+maxLat)/2, (minLng+maxLng)/2));
                                 textOptions.fontSize(30);
-                                textOptions.fontColor(Color.WHITE);
+                                textOptions.fontColor(Color.RED);
                                 textOptions.backgroundColor(Color.TRANSPARENT);
                                 Text text = aMap.addText(textOptions);
                                 text.setZIndex(-1000);

@@ -165,6 +165,31 @@
     
     <!-- 雷达站点 -->
 	<string-array name="radars_station">
+		<item>华南,华南,JC_RADAR_HN_JB,1,0500</item>
+		<item>华南,北海,JC_RADAR_AZ9779_JB,2,4505</item>
+		<item>华南,河池,JC_RADAR_AZ9778_JB,2,4512</item>
+		<item>华南,三亚,JC_RADAR_AZ9070_JB,2,4602</item>
+		<item>华南,桂林,JC_RADAR_AZ9773_JB,2,4503</item>
+		<item>华南,百色,JC_RADAR_AZ9776_JB,2,4510</item>
+		<item>华南,梧州,JC_RADAR_AZ9774_JB,2,4504</item>
+		<item>华南,南宁,JC_RADAR_AZ9771_JB,2,4501</item>
+		<item>华南,北海,JC_RADAR_AZ9779_JB,2,4505</item>
+		<item>华南,防城港,JC_RADAR_AZ9770_JB,2,4506</item>
+		<item>华南,玉林,JC_RADAR_AZ9775_JB,2,4509</item>
+		<item>华南,河源,JC_RADAR_AZ9762_JB,2,4416</item>
+		<item>华南,湛江,JC_RADAR_AZ9759_JB,2,4408</item>
+		<item>华南,肇庆,JC_RADAR_AZ9758_JB,2,4412</item>
+		<item>华南,深圳,JC_RADAR_AZ9755_JB,2,4403</item>
+		<item>华南,海口,JC_RADAR_AZ9898_JB,2,4601</item>
+		<item>华南,西沙,JC_RADAR_AZ9071_JB,2,4603</item>
+		<item>华南,梅州,JC_RADAR_AZ9753_JB,2,4414</item>
+		<item>华南,汕头,JC_RADAR_AZ9754_JB,2,4405</item>
+		<item>华南,汕尾,JC_RADAR_AZ9660_JB,2,4415</item>
+		<item>华南,韶关,JC_RADAR_AZ9751_JB,2,4402</item>
+		<item>华南,阳江,JC_RADAR_AZ9662_JB,2,4417</item>
+		<item>华南,柳州,JC_RADAR_AZ9772_JB,2,4502</item>
+		<item>华南,广州,JC_RADAR_AZ9200_JB,2,4401</item>
+		<item>华南,连州,JC_RADAR_AZ9763_JB,2,4418</item>
 		<item>全国,全国,JC_RADAR_CHN_JB,1,0000</item>
 		<item>华北,华北,JC_RADAR_HB_JB,1,0100</item>
 		<item>华北,北京,JC_RADAR_AZ9010_JB,2,1101</item>
@@ -276,31 +301,6 @@
 		<item>华中,濮阳,JC_RADAR_AZ9393_JB,2,4109</item>
 		<item>华中,郑州,JC_RADAR_AZ9371_JB,2,4101</item>
 		<item>华中,驻马店,JC_RADAR_AZ9396_JB,2,4117</item>
-		<item>华南,华南,JC_RADAR_HN_JB,1,0500</item>
-		<item>华南,北海,JC_RADAR_AZ9779_JB,2,4505</item>
-		<item>华南,河池,JC_RADAR_AZ9778_JB,2,4512</item>
-		<item>华南,三亚,JC_RADAR_AZ9070_JB,2,4602</item>
-		<item>华南,桂林,JC_RADAR_AZ9773_JB,2,4503</item>
-		<item>华南,百色,JC_RADAR_AZ9776_JB,2,4510</item>
-		<item>华南,梧州,JC_RADAR_AZ9774_JB,2,4504</item>
-		<item>华南,南宁,JC_RADAR_AZ9771_JB,2,4501</item>
-		<item>华南,北海,JC_RADAR_AZ9779_JB,2,4505</item>
-		<item>华南,防城港,JC_RADAR_AZ9770_JB,2,4506</item>
-		<item>华南,玉林,JC_RADAR_AZ9775_JB,2,4509</item>
-		<item>华南,河源,JC_RADAR_AZ9762_JB,2,4416</item>
-		<item>华南,湛江,JC_RADAR_AZ9759_JB,2,4408</item>
-		<item>华南,肇庆,JC_RADAR_AZ9758_JB,2,4412</item>
-		<item>华南,深圳,JC_RADAR_AZ9755_JB,2,4403</item>
-		<item>华南,海口,JC_RADAR_AZ9898_JB,2,4601</item>
-		<item>华南,西沙,JC_RADAR_AZ9071_JB,2,4603</item>
-		<item>华南,梅州,JC_RADAR_AZ9753_JB,2,4414</item>
-		<item>华南,汕头,JC_RADAR_AZ9754_JB,2,4405</item>
-		<item>华南,汕尾,JC_RADAR_AZ9660_JB,2,4415</item>
-		<item>华南,韶关,JC_RADAR_AZ9751_JB,2,4402</item>
-		<item>华南,阳江,JC_RADAR_AZ9662_JB,2,4417</item>
-		<item>华南,柳州,JC_RADAR_AZ9772_JB,2,4502</item>
-		<item>华南,广州,JC_RADAR_AZ9200_JB,2,4401</item>
-		<item>华南,连州,JC_RADAR_AZ9763_JB,2,4418</item>
 		<item>西北,西北,JC_RADAR_XB_JB,1,0600</item>
 		<item>西北,西安,JC_RADAR_AZ9290_JB,2,2204</item>
 		<item>西北,宝鸡,JC_RADAR_AZ9917_JB,2,6103</item>

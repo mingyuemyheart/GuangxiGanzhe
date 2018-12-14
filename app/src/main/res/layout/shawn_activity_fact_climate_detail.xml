@@ -1,0 +1,221 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white"
+                android:orientation="vertical">
+
+    <include
+        android:id="@+id/reTitle"
+        layout="@layout/shawn_layout_title"/>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none"
+        android:layout_below="@+id/reTitle">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTemp60"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="温度(60cm)  单位：℃"
+                android:textColor="@color/text_color3"
+                android:textSize="@dimen/level_4"/>
+
+            <HorizontalScrollView
+                android:id="@+id/hScrollView1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTemp60"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/llContainer1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"/>
+
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_below="@+id/hScrollView1"
+                android:background="@color/light_gray"/>
+
+            <TextView
+                android:id="@+id/tvTemp150"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divider1"
+                android:padding="10dp"
+                android:text="温度(150cm)  单位：℃"
+                android:textColor="@color/text_color3"
+                android:textSize="@dimen/level_4"/>
+
+            <HorizontalScrollView
+                android:id="@+id/hScrollView2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTemp150"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/llContainer2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"/>
+
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_below="@+id/hScrollView2"
+                android:background="@color/light_gray"/>
+
+            <TextView
+                android:id="@+id/tvTemp300"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divider2"
+                android:padding="10dp"
+                android:text="温度(300cm)  单位：℃"
+                android:textColor="@color/text_color3"
+                android:textSize="@dimen/level_4"/>
+
+            <HorizontalScrollView
+                android:id="@+id/hScrollView3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvTemp300"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/llContainer3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"/>
+
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_below="@+id/hScrollView3"
+                android:background="@color/light_gray"/>
+
+            <TextView
+                android:id="@+id/tvHumidity60"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divider3"
+                android:padding="10dp"
+                android:text="湿度(60cm)  单位：%"
+                android:textColor="@color/text_color3"
+                android:textSize="@dimen/level_4"/>
+
+            <HorizontalScrollView
+                android:id="@+id/hScrollView4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvHumidity60"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/llContainer4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"/>
+
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_below="@+id/hScrollView4"
+                android:background="@color/light_gray"/>
+
+            <TextView
+                android:id="@+id/tvHumidity150"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divider4"
+                android:padding="10dp"
+                android:text="湿度(150cm)  单位：%"
+                android:textColor="@color/text_color3"
+                android:textSize="@dimen/level_4"/>
+
+            <HorizontalScrollView
+                android:id="@+id/hScrollView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvHumidity150"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/llContainer5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"/>
+
+            </HorizontalScrollView>
+
+            <TextView
+                android:id="@+id/divider5"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_below="@+id/hScrollView5"
+                android:background="@color/light_gray"/>
+
+            <TextView
+                android:id="@+id/tvHumidity300"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/divider5"
+                android:padding="10dp"
+                android:text="湿度(300cm)  单位：%"
+                android:textColor="@color/text_color3"
+                android:textSize="@dimen/level_4"/>
+
+            <HorizontalScrollView
+                android:id="@+id/hScrollView6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvHumidity300"
+                android:scrollbars="none">
+
+                <LinearLayout
+                    android:id="@+id/llContainer6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"/>
+
+            </HorizontalScrollView>
+
+        </RelativeLayout>
+
+    </ScrollView>
+
+    <com.wang.avi.AVLoadingIndicatorView
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/loadingView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        app:indicator="LineScalePulseOutRapid"
+        app:indicator_color="@color/colorPrimary"/>
+
+</RelativeLayout>

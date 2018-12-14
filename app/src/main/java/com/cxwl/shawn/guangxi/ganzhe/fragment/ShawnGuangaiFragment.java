@@ -47,7 +47,7 @@ import okhttp3.Response;
  */
 public class ShawnGuangaiFragment extends Fragment implements View.OnClickListener {
 
-    private TextView tvState,tvSwitch;
+    private TextView tvState,tvSwitch,tvLog;
     private List<FactDto> dataList = new ArrayList<>();
     private int width;
     private LinearLayout llContainer1,llContainer2;
@@ -75,6 +75,8 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
         tvState = view.findViewById(R.id.tvState);
         tvSwitch = view.findViewById(R.id.tvSwitch);
         tvSwitch.setOnClickListener(this);
+        tvLog = view.findViewById(R.id.tvLog);
+        tvLog.setOnClickListener(this);
         TextView tvLand = view.findViewById(R.id.tvLand);
         tvLand.setOnClickListener(this);
 
@@ -130,19 +132,27 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
                                                 String is_open = obj.getString("is_open");
                                                 if (TextUtils.equals(is_open, "1")) {//开启
                                                     tvState.setText("阀门状态：开启");
+                                                    tvState.setTag(status);
                                                     tvSwitch.setText("关闭阀门");
                                                     tvSwitch.setTag(is_open);
+                                                    tvSwitch.setBackgroundResource(R.drawable.shawn_bg_corner_red);
                                                 }else {
                                                     tvState.setText("阀门状态：关闭");
+                                                    tvState.setTag(status);
                                                     tvSwitch.setText("开启阀门");
                                                     tvSwitch.setTag(is_open);
+                                                    tvSwitch.setBackgroundResource(R.drawable.shawn_selector_logout);
                                                 }
+                                                tvLog.setBackgroundResource(R.drawable.shawn_selector_logout);
                                             }
                                         }else {
                                             if (!obj.isNull("msg")) {
                                                 String msg = obj.getString("msg");
                                                 if (!TextUtils.isEmpty(msg)) {
                                                     tvState.setText("阀门状态："+msg);
+                                                    tvState.setTag(status);
+                                                    tvSwitch.setBackgroundResource(R.drawable.shawn_bg_corner_gray);
+                                                    tvLog.setBackgroundResource(R.drawable.shawn_bg_corner_gray);
                                                 }
                                             }
                                         }
@@ -161,7 +171,7 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
     /**
      * 操作阀门开关
      */
-    private void OkHttpSwitch() {
+    private void OkHttpSwitch(String status) {
         loadingView.setVisibility(View.VISIBLE);
         final String url = "http://www.jjr.vip/?r=api/post_switch";
         FormBody.Builder builder = new FormBody.Builder();
@@ -170,12 +180,7 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
         builder.add("device_id", "2222222320");
         builder.add("valve_id", valve_id);
         builder.add("timestamp", new Date().getTime()/1000+"");
-        String tag = tvSwitch.getTag()+"";
-        if (TextUtils.equals(tag, "1")) {
-            builder.add("operate","0");
-        }else {
-            builder.add("operate","1");
-        }
+        builder.add("operate",status);
         final RequestBody body = builder.build();
         new Thread(new Runnable() {
             @Override
@@ -250,7 +255,7 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
                                         if (!obj.isNull("DS")) {
                                             dataList.clear();
                                             JSONArray array = obj.getJSONArray("DS");
-                                            for (int i = array.length()-1; i >= 0; i--) {
+                                            for (int i = 0; i < array.length(); i++) {
                                                 FactDto dto = new FactDto();
                                                 JSONObject itemObj = array.getJSONObject(i);
                                                 if (!itemObj.isNull("DT")) {
@@ -303,7 +308,26 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.tvSwitch:
-                OkHttpSwitch();
+                String tag = tvState.getTag()+"";
+                if (!TextUtils.equals(tag, "1")) {//设备尚未在线
+                    Toast.makeText(getActivity(), "设备尚未在线", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String switchTag = tvSwitch.getTag()+"";
+                if (TextUtils.equals(switchTag, "1")) {//开启状态
+                    tvSwitch.setBackgroundResource(R.drawable.shawn_bg_corner_red);
+                    tvSwitch.setTag("0");
+                    tvSwitch.setText("关闭阀门");
+                }else {//关闭状态
+                    tvSwitch.setBackgroundResource(R.drawable.shawn_selector_logout);
+                    tvSwitch.setTag("1");
+                    tvSwitch.setText("开启阀门");
+                }
+                OkHttpSwitch(tvSwitch.getTag()+"");
+                break;
+            case R.id.tvLog:
+                Toast.makeText(getActivity(), "设备尚未在线，暂无日志", Toast.LENGTH_SHORT).show();
                 break;
             case R.id.tvLand:
                 startActivity(new Intent(getActivity(), ShawnLandActivity.class));
