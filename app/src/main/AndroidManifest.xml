@@ -84,6 +84,27 @@
         <activity android:name=".ShawnFactDataDetailActivity"
                   android:screenOrientation="portrait"/>
 
+        <activity android:name=".ShawnMyFarmActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".ShawnMyFarmDetailActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".ShawnPdfListActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".ShawnExpertActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".ShawnExpertQuestionActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".ShawnExpertQuestionPostActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".ShawnExpertQuestionDetailActivity"
+                  android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

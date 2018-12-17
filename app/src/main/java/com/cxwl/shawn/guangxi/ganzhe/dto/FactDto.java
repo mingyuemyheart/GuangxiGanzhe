@@ -15,6 +15,10 @@ public class FactDto implements Parcelable {
     public String grotemp30,grotemp50;//土壤温度
     public String humidity60,humidity150,humidity300;//相对湿度
     public String grohumidity20,grohumidity40;//土壤体积含水率
+    public String title;
+
+    public FactDto() {
+    }
 
     @Override
     public int describeContents() {
@@ -45,9 +49,7 @@ public class FactDto implements Parcelable {
         dest.writeString(this.humidity300);
         dest.writeString(this.grohumidity20);
         dest.writeString(this.grohumidity40);
-    }
-
-    public FactDto() {
+        dest.writeString(this.title);
     }
 
     protected FactDto(Parcel in) {
@@ -73,6 +75,7 @@ public class FactDto implements Parcelable {
         this.humidity300 = in.readString();
         this.grohumidity20 = in.readString();
         this.grohumidity40 = in.readString();
+        this.title = in.readString();
     }
 
     public static final Creator<FactDto> CREATOR = new Creator<FactDto>() {

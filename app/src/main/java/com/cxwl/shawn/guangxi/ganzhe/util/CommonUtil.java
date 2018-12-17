@@ -12,6 +12,8 @@ import android.os.Environment;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 import android.widget.ListAdapter;
 import android.widget.ListView;
 
@@ -87,6 +89,27 @@ public class CommonUtil {
             e.printStackTrace();
             return "";
         }
+    }
+
+    /**
+     * 显示虚拟键盘
+     * @param editText 输入框
+     * @param context 上下文
+     */
+    public static void showInputSoft(EditText editText, Context context) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
+        imm.showSoftInput(editText, 0);
+    }
+
+    /**
+     * 隐藏虚拟键盘
+     * @param editText 输入框
+     * @param context 上下文
+     */
+    public static void hideInputSoft(EditText editText, Context context) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(editText.getWindowToken(), 0);
     }
 
     /**
