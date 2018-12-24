@@ -25,7 +25,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:padding="10dp"
-                android:text="土壤温度(30cm)  单位：℃"
+                android:text="土壤温度(20cm)  单位：℃"
                 android:textColor="@color/text_color3"
                 android:textSize="@dimen/level_4"/>
 
@@ -57,7 +57,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/divider1"
                 android:padding="10dp"
-                android:text="土壤温度(50cm)  单位：℃"
+                android:text="土壤温度(40cm)  单位：℃"
                 android:textColor="@color/text_color3"
                 android:textSize="@dimen/level_4"/>
 

@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="土壤温度\n(30cm)"
+            android:text="土壤温度\n(20cm)"
             android:textColor="@color/text_color3"
             android:textSize="@dimen/level_5"/>
 
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="土壤温度\n(50cm)"
+            android:text="土壤温度\n(40cm)"
             android:textColor="@color/text_color3"
             android:textSize="@dimen/level_5"/>
 

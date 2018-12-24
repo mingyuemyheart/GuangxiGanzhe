@@ -118,62 +118,49 @@ public class ShawnFactClimateDetailActivity extends ShawnBaseActivity implements
                                                     if (dto.temp60.contains("9999")) {
                                                         dto.temp60 = "--";
                                                     }
+                                                }else {
+                                                    dto.temp60 = "--";
                                                 }
                                                 if (!itemObj.isNull("tem_air_150cm")) {
                                                     dto.temp150 = itemObj.getString("tem_air_150cm");
                                                     if (dto.temp150.contains("9999")) {
                                                         dto.temp150 = "--";
                                                     }
+                                                }else {
+                                                    dto.temp150 = "--";
                                                 }
                                                 if (!itemObj.isNull("tem_air_300cm")) {
                                                     dto.temp300 = itemObj.getString("tem_air_300cm");
                                                     if (dto.temp300.contains("9999")) {
                                                         dto.temp300 = "--";
                                                     }
+                                                }else {
+                                                    dto.temp300 = "--";
                                                 }
                                                 if (!itemObj.isNull("Rh_air_60cm")) {
                                                     dto.humidity60 = itemObj.getString("Rh_air_60cm");
                                                     if (dto.humidity60.contains("9999")) {
                                                         dto.humidity60 = "--";
                                                     }
+                                                }else {
+                                                    dto.humidity60 = "--";
                                                 }
                                                 if (!itemObj.isNull("Rh_air_150cm")) {
                                                     dto.humidity150 = itemObj.getString("Rh_air_150cm");
                                                     if (dto.humidity150.contains("9999")) {
                                                         dto.humidity150 = "--";
                                                     }
+                                                }else {
+                                                    dto.humidity150 = "--";
                                                 }
                                                 if (!itemObj.isNull("Rh_air_300cm")) {
                                                     dto.humidity300 = itemObj.getString("Rh_air_300cm");
                                                     if (dto.humidity300.contains("9999")) {
                                                         dto.humidity300 = "--";
                                                     }
+                                                }else {
+                                                    dto.humidity300 = "--";
                                                 }
-//                                                if (!itemObj.isNull("tem_gro_30cm")) {
-//                                                    dto.grotemp30 = itemObj.getString("tem_gro_30cm");
-//                                                    if (dto.grotemp30.contains("9999")) {
-//                                                        dto.grotemp30 = "--";
-//                                                    }
-//                                                }
-//                                                if (!itemObj.isNull("tem_gro_50cm")) {
-//                                                    dto.grotemp50 = itemObj.getString("tem_gro_50cm");
-//                                                    if (dto.grotemp50.contains("9999")) {
-//                                                        dto.grotemp50 = "--";
-//                                                    }
-//                                                }
-//                                                if (!itemObj.isNull("WCOS_20cm")) {
-//                                                    dto.grohumidity20 = itemObj.getString("WCOS_20cm");
-//                                                    if (dto.grohumidity20.contains("9999")) {
-//                                                        dto.grohumidity20 = "--";
-//                                                    }
-//                                                }
-//                                                if (!itemObj.isNull("WCOS_40cm")) {
-//                                                    dto.grohumidity40 = itemObj.getString("WCOS_40cm");
-//                                                    if (dto.grohumidity40.contains("9999")) {
-//                                                        dto.grohumidity40 = "--";
-//                                                    }
-//                                                }
-
                                                 dataList.add(dto);
                                             }
 
