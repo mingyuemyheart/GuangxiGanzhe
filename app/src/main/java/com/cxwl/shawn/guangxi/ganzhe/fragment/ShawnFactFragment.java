@@ -125,6 +125,16 @@ public class ShawnFactFragment extends Fragment {
                                             if (!itemObj.isNull("iocc")) {
                                                 dto.imgUrlThumb = itemObj.getString("iocc");
                                             }
+
+                                            if (!itemObj.isNull("day_pre")) {
+                                                dto.dayPre = itemObj.getString("day_pre")+"mm";
+                                                if (dto.dayPre.contains("9999")) {
+                                                    dto.dayPre = "--";
+                                                }
+                                            }else {
+                                                dto.dayPre = "--";
+                                            }
+
                                             if (!itemObj.isNull("tem_air_60cm")) {
                                                 dto.temp60 = itemObj.getString("tem_air_60cm")+"℃";
                                                 if (dto.temp60.contains("9999")) {

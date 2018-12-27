@@ -201,7 +201,7 @@ public class ShawnMyFarmDetailActivity extends ShawnBaseActivity implements View
                                                 }
                                             }
 
-                                            if (!dto.stationName.contains("9999")) {//过滤掉站名为9999的站
+                                            if (!TextUtils.isEmpty(dto.stationName) && !dto.stationName.contains("9999")) {//过滤掉站名为9999的站
                                                 if (dto.stationName.contains("甘蔗")) {
                                                     dataList.add(0, dto);
                                                 }else {
@@ -247,23 +247,41 @@ public class ShawnMyFarmDetailActivity extends ShawnBaseActivity implements View
                 e.printStackTrace();
             }
         }
+
         if (!TextUtils.isEmpty(dto.temp60)) {
             tvTemp60.setText("温度(60cm)："+dto.temp60);
+        }else {
+            tvTemp60.setVisibility(View.GONE);
         }
+
         if (!TextUtils.isEmpty(dto.temp150)) {
             tvTemp150.setText("温度(150cm)："+dto.temp150);
+        }else {
+            tvTemp150.setVisibility(View.GONE);
         }
+
         if (!TextUtils.isEmpty(dto.temp300)) {
             tvTemp300.setText("温度(300cm)："+dto.temp300);
+        }else {
+            tvTemp300.setVisibility(View.GONE);
         }
+
         if (!TextUtils.isEmpty(dto.humidity60)) {
             tvHumidity60.setText("湿度(60cm)："+dto.humidity60);
+        }else {
+            tvHumidity60.setVisibility(View.GONE);
         }
+
         if (!TextUtils.isEmpty(dto.humidity150)) {
             tvHumidity150.setText("湿度(150cm)："+dto.humidity150);
+        }else {
+            tvHumidity150.setVisibility(View.GONE);
         }
+
         if (!TextUtils.isEmpty(dto.humidity300)) {
             tvHumidity300.setText("湿度(300cm)："+dto.humidity300);
+        }else {
+            tvHumidity300.setVisibility(View.GONE);
         }
 
         new Handler().post(new Runnable() {

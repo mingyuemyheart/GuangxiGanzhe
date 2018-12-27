@@ -25,7 +25,7 @@ public class WADto implements Parcelable {
     public String research;//研究领域
     public String shanchang;//擅长
     public String content;
-    public String isexpert;//1为专家，2不是专家
+    public String isexpert;//1为专家，0不是专家
     public String phone;//手机号
     public String ask;
     public String answer;

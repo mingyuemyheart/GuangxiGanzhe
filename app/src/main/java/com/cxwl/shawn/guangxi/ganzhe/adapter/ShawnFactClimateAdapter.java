@@ -22,7 +22,7 @@ public class ShawnFactClimateAdapter extends BaseAdapter {
 	private List<FactDto> mArrayList;
 
 	private final class ViewHolder{
-		TextView tvStationName,tvTemp60,tvTemp150,tvTemp300,tvHumidity60,tvHumidity150,tvHumidity300;
+		TextView tvStationName,tvTemp60,tvTemp150,tvTemp300,tvHumidity60,tvHumidity150,tvHumidity300,tvDayPre;
 	}
 
 	public ShawnFactClimateAdapter(Context context, List<FactDto> mArrayList) {
@@ -58,6 +58,7 @@ public class ShawnFactClimateAdapter extends BaseAdapter {
 			mHolder.tvHumidity60 = convertView.findViewById(R.id.tvHumidity60);
 			mHolder.tvHumidity150 = convertView.findViewById(R.id.tvHumidity150);
 			mHolder.tvHumidity300 = convertView.findViewById(R.id.tvHumidity300);
+			mHolder.tvDayPre = convertView.findViewById(R.id.tvDayPre);
 			convertView.setTag(mHolder);
 		}else {
 			mHolder = (ViewHolder) convertView.getTag();
@@ -91,6 +92,10 @@ public class ShawnFactClimateAdapter extends BaseAdapter {
 
 		if (!TextUtils.isEmpty(dto.humidity300)) {
 			mHolder.tvHumidity300.setText(dto.humidity300);
+		}
+
+		if (!TextUtils.isEmpty(dto.dayPre)) {
+			mHolder.tvDayPre.setText(dto.dayPre);
 		}
 
 		return convertView;

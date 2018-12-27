@@ -11,6 +11,7 @@ public class FactDto implements Parcelable {
     public float foreGuangai, humidity;//预报灌溉量、湿度
     public float x = 0;//x轴坐标点
     public float y = 0;//y轴坐标点
+    public String dayPre;//日降水
     public String temp60,temp150,temp300;//温度
     public String grotemp30,grotemp50;//土壤温度
     public String humidity60,humidity150,humidity300;//相对湿度
@@ -39,6 +40,7 @@ public class FactDto implements Parcelable {
         dest.writeFloat(this.humidity);
         dest.writeFloat(this.x);
         dest.writeFloat(this.y);
+        dest.writeString(this.dayPre);
         dest.writeString(this.temp60);
         dest.writeString(this.temp150);
         dest.writeString(this.temp300);
@@ -65,6 +67,7 @@ public class FactDto implements Parcelable {
         this.humidity = in.readFloat();
         this.x = in.readFloat();
         this.y = in.readFloat();
+        this.dayPre = in.readString();
         this.temp60 = in.readString();
         this.temp150 = in.readString();
         this.temp300 = in.readString();

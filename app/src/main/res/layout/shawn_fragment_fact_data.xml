@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="土壤温度\n(20cm)"
+            android:text="土壤温度\n20cm"
             android:textColor="@color/text_color3"
             android:textSize="@dimen/level_5"/>
 
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="土壤温度\n(40cm)"
+            android:text="土壤温度\n40cm"
             android:textColor="@color/text_color3"
             android:textSize="@dimen/level_5"/>
 
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="含水率\n(20cm)"
+            android:text="含水率\n20cm"
             android:textColor="@color/text_color3"
             android:textSize="@dimen/level_5"/>
 
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="含水率\n(40cm)"
+            android:text="含水率\n40cm"
             android:textColor="@color/text_color3"
             android:textSize="@dimen/level_5"/>
 

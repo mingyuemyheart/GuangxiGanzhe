@@ -56,8 +56,7 @@ public class ShawnExpertQuestionActivity extends ShawnBaseActivity implements On
 	private void refresh() {
 		dataList.clear();
 		if (!TextUtils.isEmpty(data.expertId)) {
-			String url = String.format("http://shanxi.decision.tianqi.cn/Home/api/sx_zhny_expert_consult/expertId/%s/pageNum/%s", data.expertId, "1");
-			OkHttpList(url);
+			OkHttpList(data.expertId);
 		}
 	}
 	
@@ -114,9 +113,9 @@ public class ShawnExpertQuestionActivity extends ShawnBaseActivity implements On
 
 	/**
 	 * 获取问题列表
-	 * @param url
 	 */
-	private void OkHttpList(final String url) {
+	private void OkHttpList(final String expertId) {
+		final String url = String.format("http://guangxi.decision.tianqi.cn/getMsgWithE_id?eid=%s&appid=%s", expertId, CONST.APPID);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -141,24 +140,21 @@ public class ShawnExpertQuestionActivity extends ShawnBaseActivity implements On
 											for (int i = 0; i < array.length(); i++) {
 												JSONObject itemObj = array.getJSONObject(i);
 												WADto dto = new WADto();
-												if (!itemObj.isNull("expertId")) {
-													dto.expertId = itemObj.getString("expertId");
+												if (!itemObj.isNull("e_id")) {
+													dto.expertId = itemObj.getString("e_id");
 												}
 												if (!itemObj.isNull("id")) {
 													dto.questionId = itemObj.getString("id");
 												}
-												if (!itemObj.isNull("title")) {
-													dto.title = itemObj.getString("title");
+												if (!itemObj.isNull("message")) {
+													dto.title = itemObj.getString("message");
 												}
-												if (!itemObj.isNull("content")) {
-													dto.content = itemObj.getString("content");
+												if (!itemObj.isNull("m_time")) {
+													dto.time = itemObj.getString("m_time");
 												}
-												if (!itemObj.isNull("addTime")) {
-													dto.time = itemObj.getString("addTime");
-												}
-												if (!itemObj.isNull("picUrl")) {
+												if (!itemObj.isNull("picture")) {
 													List<String> imgs = new ArrayList<>();
-													JSONArray imgArray = itemObj.getJSONArray("picUrl");
+													JSONArray imgArray = itemObj.getJSONArray("picture");
 													for (int j = 0; j < imgArray.length(); j++) {
 														imgs.add(imgArray.getString(j));
 													}

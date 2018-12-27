@@ -110,7 +110,7 @@ public class ShawnExpertQuestionPostActivity extends ShawnBaseActivity implement
      * 发布一个问题
      */
 	private void OkHttpPublishQuestion() {
-		final String url = "http://shanxi.decision.tianqi.cn/Home/api/sx_zhny_expert_userupload";
+		final String url = "http://guangxi.decision.tianqi.cn/addMessage";
 		final WADto data = getIntent().getExtras().getParcelable("data");
 	    if (data == null) {
 	        return;
@@ -121,17 +121,16 @@ public class ShawnExpertQuestionPostActivity extends ShawnBaseActivity implement
             public void run() {
                 MultipartBody.Builder builder = new MultipartBody.Builder();
                 builder.setType(MultipartBody.FORM);
-                builder.addFormDataPart("expertId", data.expertId);
-                builder.addFormDataPart("userId", MyApplication.UID);
-                builder.addFormDataPart("userName", MyApplication.USERNAME);
-				builder.addFormDataPart("title", etTitle.getText().toString());
-				builder.addFormDataPart("content", etContent.getText().toString());
+                builder.addFormDataPart("eid", data.expertId);
+                builder.addFormDataPart("uid", MyApplication.UID);
+				builder.addFormDataPart("message", etTitle.getText().toString());
+				builder.addFormDataPart("describe", etContent.getText().toString());
 				for (int i = 0; i < llContainer.getChildCount(); i++) {
 					ImageView imageView = (ImageView) llContainer.getChildAt(i);
 					String imgPath = imageView.getTag()+"";
 					File imgFile = new File(imgPath);
 					if (imgFile.exists()) {
-						builder.addFormDataPart("picture"+(i+1), imgFile.getName(), RequestBody.create(MediaType.parse("image/*"), imgFile));
+						builder.addFormDataPart("pic"+(i+1), imgFile.getName(), RequestBody.create(MediaType.parse("image/*"), imgFile));
 					}
 				}
                 RequestBody body = builder.build();
@@ -209,13 +208,15 @@ public class ShawnExpertQuestionPostActivity extends ShawnBaseActivity implement
 						}
 
 						ImageView imageView = new ImageView(mContext);
-						imageView.setScaleType(ImageView.ScaleType.FIT_XY);
+						imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
 						imageView.setTag(filePath);
 						int w = (width-(int)(density*30))/3;
 						LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(w, w-(int)(density*10));
 						params.rightMargin = (int)(density*5);
 						imageView.setLayoutParams(params);
-						Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+						BitmapFactory.Options options = new BitmapFactory.Options();
+						options.inSampleSize = 4;
+						Bitmap bitmap = BitmapFactory.decodeFile(filePath, options);
 						if (bitmap != null) {
 							imageView.setImageBitmap(bitmap);
 							llContainer.addView(imageView);

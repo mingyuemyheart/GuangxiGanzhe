@@ -37,7 +37,7 @@ import java.util.List;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
+import okhttp3.MultipartBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
@@ -69,8 +69,8 @@ public class ShawnExpertQuestionDetailActivity extends ShawnBaseActivity impleme
 
 	private void refresh(boolean scrollToDown) {
 		dataList.clear();
-		if (!TextUtils.isEmpty(data.questionId) && !TextUtils.isEmpty(data.expertId)) {
-			String url = String.format("http://shanxi.decision.tianqi.cn/Home/api/sx_zhny_expert_answer/id/%s/expertid/%s", data.questionId, data.expertId);
+		if (!TextUtils.isEmpty(data.questionId)) {
+			String url = String.format("http://guangxi.decision.tianqi.cn/getCommentWithMid?mid=%s&appid=%s", data.questionId, CONST.APPID);
 			OkHttpList(url, scrollToDown);
 		}
 	}
@@ -186,40 +186,42 @@ public class ShawnExpertQuestionDetailActivity extends ShawnBaseActivity impleme
 							public void run() {
 								if (!TextUtils.isEmpty(result)) {
 									try {
-										JSONArray array = new JSONArray(result);
-										for (int i = 0; i < array.length(); i++) {
-											JSONObject itemObj = array.getJSONObject(i);
-											WADto dto = new WADto();
-											if (!itemObj.isNull("content")) {
-												dto.content = EmojiMapUtil.replaceCheatSheetEmojis(itemObj.getString("content"));
-											}
-											if (!itemObj.isNull("addtime")) {
-												dto.time = itemObj.getString("addtime");
-											}
-											if (!itemObj.isNull("isexpert")) {
-												dto.isexpert = itemObj.getString("isexpert");
-											}
-											if (!itemObj.isNull("userName")) {
-												dto.userName = itemObj.getString("userName");
-											}
-											dataList.add(dto);
-										}
-
-										if (mAdapter != null) {
-											mAdapter.notifyDataSetChanged();
-										}
-
-										if (scrollToDown) {
-											new Handler().post(new Runnable() {
-												@Override
-												public void run() {
-													scrollView.fullScroll(ScrollView.FOCUS_DOWN);//滚动到底部
+										JSONObject obj = new JSONObject(result);
+										if (!obj.isNull("data")) {
+											JSONArray array = obj.getJSONArray("data");
+											for (int i = 0; i < array.length(); i++) {
+												JSONObject itemObj = array.getJSONObject(i);
+												WADto dto = new WADto();
+												if (!itemObj.isNull("commentary")) {
+													dto.content = EmojiMapUtil.replaceCheatSheetEmojis(itemObj.getString("commentary"));
 												}
-											});
+												if (!itemObj.isNull("ctime")) {
+													dto.time = itemObj.getString("ctime");
+												}
+												if (!itemObj.isNull("isexpertreply")) {
+													dto.isexpert = itemObj.getString("isexpertreply");
+												}
+												if (!itemObj.isNull("username")) {
+													dto.userName = itemObj.getString("username");
+												}
+												dataList.add(dto);
+											}
 
+											if (mAdapter != null) {
+												mAdapter.notifyDataSetChanged();
+											}
+
+											if (scrollToDown) {
+												new Handler().post(new Runnable() {
+													@Override
+													public void run() {
+														scrollView.fullScroll(ScrollView.FOCUS_DOWN);//滚动到底部
+													}
+												});
+
+											}
+											clearContent();
 										}
-										clearContent();
-
 									} catch (JSONException e) {
 										e.printStackTrace();
 									}
@@ -249,20 +251,19 @@ public class ShawnExpertQuestionDetailActivity extends ShawnBaseActivity impleme
 	 * 专家回答或用户提问
 	 */
 	private void OkHttpSubmit() {
-		final String url = "http://shanxi.decision.tianqi.cn/Home/api/sx_zhny_expert_answerupload";
+		final String url = "http://guangxi.decision.tianqi.cn/addCommentary";
 		if (data == null) {
 			return;
 		}
+		MultipartBody.Builder builder = new MultipartBody.Builder();
+		builder.setType(MultipartBody.FORM);
+		builder.addFormDataPart("mid", data.questionId);
+		builder.addFormDataPart("uid", MyApplication.UID);
+		builder.addFormDataPart("commentary", EmojiMapUtil.replaceUnicodeEmojis(etContent.getText().toString()));
+		final RequestBody body = builder.build();
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
-				FormBody.Builder builder = new FormBody.Builder();
-				builder.add("questionId", data.questionId);
-				builder.add("expertId",data.expertId);
-				builder.add("userId", MyApplication.UID);
-				builder.add("userName", MyApplication.USERNAME);
-				builder.add("content", EmojiMapUtil.replaceUnicodeEmojis(etContent.getText().toString()));
-				RequestBody body = builder.build();
 				OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
 					@Override
 					public void onFailure(Call call, IOException e) {

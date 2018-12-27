@@ -63,10 +63,7 @@ public class ShawnExpertActivity extends ShawnBaseActivity implements OnClickLis
 			tvTitle.setText(title);
 		}
 
-		String dataUrl = getIntent().getStringExtra(CONST.WEB_URL);
-		if (!TextUtils.isEmpty(dataUrl)) {
-			OkHttpList(dataUrl);
-		}
+		OkHttpList();
 		
 	}
 
@@ -90,9 +87,9 @@ public class ShawnExpertActivity extends ShawnBaseActivity implements OnClickLis
 
 	/**
 	 * 获取专家列表
-	 * @param url
 	 */
-	private void OkHttpList(final String url) {
+	private void OkHttpList() {
+		final String url = "http://guangxi.decision.tianqi.cn/getAllexpert?appid="+CONST.APPID;
 		new Thread(new Runnable() {
 			@Override
 			public void run() {

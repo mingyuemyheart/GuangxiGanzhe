@@ -30,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="温度\n(60cm)"
+            android:text="温度\n60cm"
             android:textColor="@color/text_color3"
             android:textSize="@dimen/level_5"/>
 
@@ -40,7 +40,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="温度\n(150cm)"
+            android:text="温度\n150cm"
             android:textColor="@color/text_color3"
             android:textSize="@dimen/level_5"/>
 
@@ -50,7 +50,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="温度\n(300cm)"
+            android:text="温度\n300cm"
             android:textColor="@color/text_color3"
             android:textSize="@dimen/level_5"/>
 
@@ -60,7 +60,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="湿度\n(60cm)"
+            android:text="湿度\n60cm"
             android:textColor="@color/text_color3"
             android:textSize="@dimen/level_5"/>
 
@@ -70,7 +70,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="湿度\n(150cm)"
+            android:text="湿度\n150cm"
             android:textColor="@color/text_color3"
             android:textSize="@dimen/level_5"/>
 
@@ -80,7 +80,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center"
-            android:text="湿度\n(300cm)"
+            android:text="湿度\n300cm"
+            android:textColor="@color/text_color3"
+            android:textSize="@dimen/level_5"/>
+
+        <TextView
+            android:id="@+id/tvDayPre"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="降水"
             android:textColor="@color/text_color3"
             android:textSize="@dimen/level_5"/>
 
