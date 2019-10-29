@@ -9,8 +9,7 @@ import android.widget.BaseAdapter;
 import android.widget.TextView;
 
 import com.cxwl.shawn.guangxi.ganzhe.R;
-import com.cxwl.shawn.guangxi.ganzhe.dto.ColumnData;
-import com.cxwl.shawn.guangxi.ganzhe.dto.FactDto;
+import com.cxwl.shawn.guangxi.ganzhe.dto.FarmDto;
 
 import java.util.List;
 
@@ -20,13 +19,13 @@ import java.util.List;
 public class ShawnMyFarmAdapter extends BaseAdapter {
 
 	private LayoutInflater mInflater;
-	private List<FactDto> mArrayList;
+	private List<FarmDto> mArrayList;
 
 	private final class ViewHolder{
 		TextView tvTitle;
 	}
 
-	public ShawnMyFarmAdapter(Context context, List<FactDto> mArrayList) {
+	public ShawnMyFarmAdapter(Context context, List<FarmDto> mArrayList) {
 		this.mArrayList = mArrayList;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
@@ -58,10 +57,10 @@ public class ShawnMyFarmAdapter extends BaseAdapter {
 			mHolder = (ViewHolder) convertView.getTag();
 		}
 
-		FactDto dto = mArrayList.get(position);
+		FarmDto dto = mArrayList.get(position);
 
-		if (!TextUtils.isEmpty(dto.title)) {
-			mHolder.tvTitle.setText(dto.title);
+		if (!TextUtils.isEmpty(dto.name)) {
+			mHolder.tvTitle.setText(dto.name);
 		}
 
 		return convertView;

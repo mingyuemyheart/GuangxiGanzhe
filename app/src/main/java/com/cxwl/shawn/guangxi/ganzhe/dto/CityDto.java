@@ -20,6 +20,9 @@ public class CityDto implements Parcelable{
 	public int highPheCode;
 	public String lowTemp;
 	public String highTemp;
+	public String areaId;//行政区划id
+	public String areaName;//行政区划name
+	public String adCode;
 
 	public CityDto() {
 	}
@@ -46,6 +49,9 @@ public class CityDto implements Parcelable{
 		dest.writeInt(this.highPheCode);
 		dest.writeString(this.lowTemp);
 		dest.writeString(this.highTemp);
+		dest.writeString(this.areaId);
+		dest.writeString(this.areaName);
+		dest.writeString(this.adCode);
 	}
 
 	protected CityDto(Parcel in) {
@@ -64,6 +70,9 @@ public class CityDto implements Parcelable{
 		this.highPheCode = in.readInt();
 		this.lowTemp = in.readString();
 		this.highTemp = in.readString();
+		this.areaId = in.readString();
+		this.areaName = in.readString();
+		this.adCode = in.readString();
 	}
 
 	public static final Creator<CityDto> CREATOR = new Creator<CityDto>() {

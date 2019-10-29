@@ -53,7 +53,9 @@ public class ShawnLoginActivity extends ShawnBaseActivity implements OnClickList
 		mContext = this;
 		Sofia.with(this)
 				.invasionStatusBar()//设置顶部状态栏缩进
-				.statusBarBackground(Color.TRANSPARENT);//设置状态栏颜色
+				.statusBarBackground(Color.TRANSPARENT)//设置状态栏颜色
+				.invasionNavigationBar()
+				.navigationBarBackground(Color.TRANSPARENT);
 		initWidget();
 	}
 
@@ -66,6 +68,8 @@ public class ShawnLoginActivity extends ShawnBaseActivity implements OnClickList
 		etPwd = findViewById(R.id.etPwd);
 		TextView tvLogin = findViewById(R.id.tvLogin);
 		tvLogin.setOnClickListener(this);
+		TextView tvRegister = findViewById(R.id.tvRegister);
+		tvRegister.setOnClickListener(this);
 	}
 
 	/**
@@ -249,9 +253,31 @@ public class ShawnLoginActivity extends ShawnBaseActivity implements OnClickList
 			case R.id.tvLogin:
 				OkHttpLogin();
 				break;
+			case R.id.tvRegister:
+				startActivityForResult(new Intent(this, ShawnRegisterActivity.class), 1001);
 
 		default:
 			break;
+		}
+	}
+
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (resultCode == RESULT_OK) {
+			switch (requestCode) {
+				case 1001:
+					Bundle bundle = data.getExtras();
+					String userName = bundle.getString("userName");
+					String pwd = bundle.getString("pwd");
+					etUserName.setText(userName);
+					etPwd.setText(pwd);
+					OkHttpLogin();
+					break;
+
+				default:
+					break;
+			}
 		}
 	}
 

@@ -165,19 +165,23 @@
     
     <!-- 雷达站点 -->
 	<string-array name="radars_station">
+		<item>甘蔗种植区,南宁,JC_RADAR_AZ9771_JB,1,4501</item>
+		<item>甘蔗种植区,柳州,JC_RADAR_AZ9772_JB,2,4502</item>
+		<item>甘蔗种植区,北海,JC_RADAR_AZ9779_JB,2,4505</item>
+		<item>甘蔗种植区,河池,JC_RADAR_AZ9778_JB,2,4512</item>
+		<item>甘蔗种植区,百色,JC_RADAR_AZ9776_JB,2,4510</item>
+		<item>甘蔗种植区,防城港,JC_RADAR_AZ9770_JB,2,4506</item>
+		<item>甘蔗种植区,德宏,JC_RADAR_AZ9692_JB,2,5331</item>
+		<item>甘蔗种植区,普洱,JC_RADAR_AZ9879_JB,2,5308</item>
+		<item>甘蔗种植区,文山,JC_RADAR_AZ9876_JB,2,5326</item>
+		<item>甘蔗种植区,湛江,JC_RADAR_AZ9759_JB,2,4408</item>
 		<item>华南,华南,JC_RADAR_HN_JB,1,0500</item>
 		<item>华南,北海,JC_RADAR_AZ9779_JB,2,4505</item>
-		<item>华南,河池,JC_RADAR_AZ9778_JB,2,4512</item>
 		<item>华南,三亚,JC_RADAR_AZ9070_JB,2,4602</item>
 		<item>华南,桂林,JC_RADAR_AZ9773_JB,2,4503</item>
-		<item>华南,百色,JC_RADAR_AZ9776_JB,2,4510</item>
 		<item>华南,梧州,JC_RADAR_AZ9774_JB,2,4504</item>
-		<item>华南,南宁,JC_RADAR_AZ9771_JB,2,4501</item>
-		<item>华南,北海,JC_RADAR_AZ9779_JB,2,4505</item>
-		<item>华南,防城港,JC_RADAR_AZ9770_JB,2,4506</item>
 		<item>华南,玉林,JC_RADAR_AZ9775_JB,2,4509</item>
 		<item>华南,河源,JC_RADAR_AZ9762_JB,2,4416</item>
-		<item>华南,湛江,JC_RADAR_AZ9759_JB,2,4408</item>
 		<item>华南,肇庆,JC_RADAR_AZ9758_JB,2,4412</item>
 		<item>华南,深圳,JC_RADAR_AZ9755_JB,2,4403</item>
 		<item>华南,海口,JC_RADAR_AZ9898_JB,2,4601</item>
@@ -187,7 +191,6 @@
 		<item>华南,汕尾,JC_RADAR_AZ9660_JB,2,4415</item>
 		<item>华南,韶关,JC_RADAR_AZ9751_JB,2,4402</item>
 		<item>华南,阳江,JC_RADAR_AZ9662_JB,2,4417</item>
-		<item>华南,柳州,JC_RADAR_AZ9772_JB,2,4502</item>
 		<item>华南,广州,JC_RADAR_AZ9200_JB,2,4401</item>
 		<item>华南,连州,JC_RADAR_AZ9763_JB,2,4418</item>
 		<item>全国,全国,JC_RADAR_CHN_JB,1,0000</item>
@@ -345,11 +348,8 @@
 		<item>西南,南充,JC_RADAR_AZ9817_JB,2,5113</item>
 		<item>西南,绵阳,JC_RADAR_AZ9816_JB,2,5107</item>
 		<item>西南,丽江,JC_RADAR_AZ9888_JB,2,5307</item>
-		<item>西南,普洱,JC_RADAR_AZ9879_JB,2,5308</item>
-		<item>西南,文山,JC_RADAR_AZ9876_JB,2,5326</item>
 		<item>西南,大理,JC_RADAR_AZ9872_JB,2,5329</item>
 		<item>西南,昆明,JC_RADAR_AZ9871_JB,2,5301</item>
-		<item>西南,德宏,JC_RADAR_AZ9692_JB,2,5331</item>
 		<!--<item>西南,邵通,JC_RADAR_AZ9870_JB,2</item>-->
 		<item>西南,兴义,JC_RADAR_AZ9859_JB,2,5223</item>
 		<item>西南,毕节,JC_RADAR_AZ9857_JB,2,5205</item>

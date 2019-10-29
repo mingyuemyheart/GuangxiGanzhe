@@ -75,8 +75,6 @@ public class ShawnLandActivity extends ShawnBaseActivity implements View.OnClick
         });
     }
 
-
-
     private void initWidget() {
         LinearLayout llBack = findViewById(R.id.llBack);
         llBack.setOnClickListener(this);

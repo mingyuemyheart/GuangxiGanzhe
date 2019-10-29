@@ -97,6 +97,10 @@ public class ShawnProductActivity extends ShawnBaseActivity implements View.OnCl
                         bundle.putParcelable("data", dto);
                         intent.putExtras(bundle);
                         startActivity(intent);
+                    }else if (TextUtils.equals(dto.id, "304")) {//农场上传
+                        intent = new Intent(mContext, ShawnFarmPostActivity.class);
+                        intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
+                        startActivity(intent);
                     }
                 }
             }

@@ -6,11 +6,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.os.Parcelable;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -43,7 +46,9 @@ import com.cxwl.shawn.guangxi.ganzhe.adapter.ShawnMainAdapter;
 import com.cxwl.shawn.guangxi.ganzhe.common.CONST;
 import com.cxwl.shawn.guangxi.ganzhe.common.MyApplication;
 import com.cxwl.shawn.guangxi.ganzhe.dto.ColumnData;
+import com.cxwl.shawn.guangxi.ganzhe.dto.WarningDto;
 import com.cxwl.shawn.guangxi.ganzhe.dto.WeatherDto;
+import com.cxwl.shawn.guangxi.ganzhe.manager.DBManager;
 import com.cxwl.shawn.guangxi.ganzhe.manager.DataCleanManager;
 import com.cxwl.shawn.guangxi.ganzhe.util.AuthorityUtil;
 import com.cxwl.shawn.guangxi.ganzhe.util.AutoUpdateUtil;
@@ -78,7 +83,7 @@ import okhttp3.Callback;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListener, AMapLocationListener, MyApplication.NavigationListener{
+public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListener, AMapLocationListener {
 
     private Context mContext = null;
     private TextView tvLocation,tvTime,tvPhe,tvTemperature,tvHumidity,tvRain,tvWind,tvForeTime1,tvForeTime2;
@@ -86,7 +91,6 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
     private RelativeLayout reTitle;
     private LinearLayout llContent,llContainer1,llContainer2,llContainer3;
     private long mExitTime;//记录点击完返回按钮后的long型时间
-    private GridView gridView;
     private ShawnMainAdapter mAdapter;
     private List<ColumnData> dataList = new ArrayList<>();
     private String cityId = "101300101",cityName = "南宁市青秀区";
@@ -95,9 +99,10 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
     private SimpleDateFormat sdf2 = new SimpleDateFormat("HH", Locale.CHINA);
     private SimpleDateFormat sdf3 = new SimpleDateFormat("MM月dd日", Locale.CHINA);
     private SimpleDateFormat sdf4 = new SimpleDateFormat("MM月dd日 HH:mm", Locale.CHINA);
-    private int width, height, gridViewHeight;
+    private int width, height;
     private float density;
     private SwipeRefreshLayout refreshLayout;//下拉刷新布局
+    private List<WarningDto> warningList = new ArrayList<>();//预警列表
 
     //侧拉页面
     private DrawerLayout drawerlayout;
@@ -113,7 +118,6 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
         initWidget();
         initGridView();
         checkAuthority();
-        MyApplication.setNavigationListener(this);
     }
 
     /**
@@ -172,6 +176,10 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
         reTitle = findViewById(R.id.reTitle);
         MyHorizontalScrollView hScrollView1 = findViewById(R.id.hScrollView1);
         hScrollView1.setScrollListener(scrollListener);
+        ImageView ivPrompt = findViewById(R.id.ivPrompt);
+        ivPrompt.setOnClickListener(this);
+        ImageView ivWarning = findViewById(R.id.ivWarning);
+        ivWarning.setOnClickListener(this);
 
         //侧拉页面
         drawerlayout = findViewById(R.id.drawerlayout);
@@ -192,21 +200,17 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
         llFeedBack.setOnClickListener(this);
         reLeft = findViewById(R.id.reLeft);
 
-        getDeviceWidthHeight();
+        DisplayMetrics dm = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(dm);
+        width = dm.widthPixels;
+        height = dm.heightPixels;
+        density = dm.density;
 
         LayoutParams params = reLeft.getLayoutParams();
         params.width = width-(int) CommonUtil.dip2px(mContext, 50);
         reLeft.setLayoutParams(params);
 
         getCache();
-    }
-
-    private void getDeviceWidthHeight() {
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        width = dm.widthPixels;
-        height = dm.heightPixels;
-        density = dm.density;
     }
 
     /**
@@ -421,6 +425,12 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
                                 refreshLayout.setRefreshing(false);
                                 llContent.setVisibility(View.VISIBLE);
 
+                                //获取预警信息
+                                String warningId = queryWarningIdByCityId(cityId);
+                                if (!TextUtils.isEmpty(warningId)) {
+                                    OkHttpWarning(warningId);
+                                }
+
                             }
                         });
                     }
@@ -431,6 +441,95 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
                     }
                 });
 
+            }
+        }).start();
+    }
+
+    /**
+     * 获取预警id
+     */
+    private String queryWarningIdByCityId(String cityId) {
+        DBManager dbManager = new DBManager(mContext);
+        dbManager.openDateBase();
+        dbManager.closeDatabase();
+        SQLiteDatabase database = SQLiteDatabase.openOrCreateDatabase(DBManager.DB_PATH + "/" + DBManager.DB_NAME, null);
+        Cursor cursor = database.rawQuery("select * from " + DBManager.TABLE_NAME3 + " where cid = " + "\"" + cityId + "\"",null);
+        String warningId = null;
+        for (int i = 0; i < cursor.getCount(); i++) {
+            cursor.moveToPosition(i);
+            warningId = cursor.getString(cursor.getColumnIndex("wid"));
+        }
+        cursor.close();
+        return warningId;
+    }
+
+    private void OkHttpWarning(final String warningId) {
+        if (TextUtils.isEmpty(warningId)) {
+            return;
+        }
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                final String url = "http://decision-admin.tianqi.cn/Home/extra/getwarns?order=0&areaid="+warningId.substring(0,2);
+                OkHttpUtil.enqueue(new Request.Builder().url(url).build(), new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                    }
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        if (!response.isSuccessful()) {
+                            return;
+                        }
+                        final String result = response.body().string();
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (!TextUtils.isEmpty(result)) {
+                                    try {
+                                        List<WarningDto> dis = new ArrayList<>();
+                                        List<WarningDto> city = new ArrayList<>();
+                                        List<WarningDto> pro = new ArrayList<>();
+                                        JSONObject object = new JSONObject(result);
+                                        if (!object.isNull("data")) {
+                                            warningList.clear();
+                                            JSONArray jsonArray = object.getJSONArray("data");
+                                            for (int i = 0; i < jsonArray.length(); i++) {
+                                                JSONArray tempArray = jsonArray.getJSONArray(i);
+                                                WarningDto dto = new WarningDto();
+                                                dto.html = tempArray.optString(1);
+                                                String[] array = dto.html.split("-");
+                                                String item0 = array[0];
+                                                String item1 = array[1];
+                                                String item2 = array[2];
+
+                                                dto.provinceId = item0.substring(0, 2);
+                                                dto.type = item2.substring(0, 5);
+                                                dto.color = item2.substring(5, 7);
+                                                dto.time = item1;
+                                                dto.lng = tempArray.optString(2);
+                                                dto.lat = tempArray.optString(3);
+                                                dto.name = tempArray.optString(0);
+
+                                                if (!dto.name.contains("解除")) {
+                                                    if (TextUtils.equals(warningId, item0)) {
+                                                        dis.add(dto);
+                                                    } else if (TextUtils.equals(warningId.substring(0, 4)+"00", item0)) {
+                                                        city.add(dto);
+                                                    } else if (TextUtils.equals(warningId.substring(0, 2)+"0000", item0)) {
+                                                        pro.add(dto);
+                                                    }
+                                                }
+                                            }
+                                            warningList.addAll(dis.size() == 0 ? (city.size() == 0 ? pro : city) : dis);
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
             }
         }).start();
     }
@@ -482,10 +581,14 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
     private void initGridView() {
         dataList.clear();
         dataList.addAll(getIntent().getExtras().<ColumnData>getParcelableArrayList("dataList"));
-        gridView = findViewById(R.id.gridView);
+        GridView gridView = findViewById(R.id.gridView);
         mAdapter = new ShawnMainAdapter(mContext, dataList);
         gridView.setAdapter(mAdapter);
-        onLayoutMeasure();
+        reTitle.measure(0, 0);
+        int height1 = reTitle.getMeasuredHeight();
+        llContent.measure(0, 0);
+        int height2 = llContent.getMeasuredHeight();
+        mAdapter.height = height-height1-height2;
         gridView.setOnItemClickListener(new OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
@@ -515,6 +618,26 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
                         startActivity(intent);
                     }
                 }
+            }
+        });
+    }
+
+    /**
+     * 8~15预报提示
+     */
+    private void dialogPrompt() {
+        LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.shawn_dialog_prompt, null);
+        ImageView ivClose = view.findViewById(R.id.ivClose);
+
+        final Dialog dialog = new Dialog(this, R.style.CustomProgressDialog);
+        dialog.setContentView(view);
+        dialog.show();
+
+        ivClose.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
             }
         });
     }
@@ -633,6 +756,16 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
 //                intentLo.putExtra("lat", lat);
 //                startActivity(intentLo);
                 break;
+            case R.id.ivPrompt:
+                dialogPrompt();
+                break;
+            case R.id.ivWarning:
+                Intent intent = new Intent(this, ShawnWarningActivity.class);
+                Bundle bundle = new Bundle();
+                bundle.putParcelableArrayList("warningList", (ArrayList<? extends Parcelable>) warningList);
+                intent.putExtras(bundle);
+                startActivity(intent);
+                break;
 
                 //侧拉页面
             case R.id.llClearCache:
@@ -720,81 +853,6 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
     @Override
     protected void onResume() {
         super.onResume();
-        onLayoutMeasure();
-    }
-
-    @Override
-    public void showNavigation(boolean show) {
-        if (show) {
-            narrowAnimation(gridView);
-        }else {
-            enlargeAnimation(gridView);
-        }
-        onLayoutMeasure();
-    }
-
-    /**
-     * 缩小动画
-     */
-    private void narrowAnimation(View view) {
-        if (view == null) {
-            return;
-        }
-
-        android.view.animation.ScaleAnimation animation = new android.view.animation.ScaleAnimation(
-                1.0f, 1.0f, 1.0f, 1.0f,
-                android.view.animation.Animation.RELATIVE_TO_SELF, 0.5f,
-                android.view.animation.Animation.RELATIVE_TO_SELF, 0.5f
-        );
-        animation.setDuration(500);
-        animation.setFillAfter(true);
-        view.startAnimation(animation);
-    }
-
-    /**
-     * 放大动画
-     */
-    private void enlargeAnimation(View view) {
-        if (view == null) {
-            return;
-        }
-        float fromY = 1.0f-1.0f* CommonUtil.navigationBarHeight(mContext)/gridViewHeight;
-        android.view.animation.ScaleAnimation animation = new android.view.animation.ScaleAnimation(
-                1.0f, 1.0f, fromY, 1.0f,
-                android.view.animation.Animation.RELATIVE_TO_SELF, 0.5f,
-                android.view.animation.Animation.RELATIVE_TO_SELF, 0.5f
-        );
-        animation.setDuration(500);
-        animation.setFillAfter(true);
-        view.startAnimation(animation);
-    }
-
-    /**
-     * 判断navigation是否显示，重新计算页面布局
-     */
-    private void onLayoutMeasure() {
-        getDeviceWidthHeight();
-
-        int statusBarHeight = -1;//状态栏高度
-        //获取status_bar_height资源的ID
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
-        if (resourceId > 0) {
-            //根据资源ID获取响应的尺寸值
-            statusBarHeight = getResources().getDimensionPixelSize(resourceId);
-        }
-
-        reTitle.measure(0, 0);
-        int height1 = reTitle.getMeasuredHeight();
-        llContent.measure(0, 0);
-        int height2 = llContent.getMeasuredHeight();
-
-        gridViewHeight = height-statusBarHeight-height1-height2;
-
-        if (mAdapter != null) {
-            mAdapter.height = gridViewHeight;
-            mAdapter.notifyDataSetChanged();
-        }
-
     }
 
     //需要申请的所有权限

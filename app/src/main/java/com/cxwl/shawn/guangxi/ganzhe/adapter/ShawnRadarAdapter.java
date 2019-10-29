@@ -51,7 +51,7 @@ public class ShawnRadarAdapter extends BaseAdapter implements StickyGridHeadersS
 		}
 
 		RadarDto dto = mArrayList.get(position);
-		mHeaderHolder.tvName.setText(dto.radarName);
+		mHeaderHolder.tvName.setText(dto.sectionName);
 
 		return convertView;
 	}

@@ -84,6 +84,18 @@
             android:textColor="@color/colorPrimary"
             android:textSize="@dimen/level_2"/>
 
+        <TextView
+            android:id="@+id/tvRegister"
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_marginTop="15dp"
+            android:background="@drawable/shawn_selector_login"
+            android:gravity="center_vertical|center"
+            android:orientation="horizontal"
+            android:text="注  册"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/level_2"/>
+
     </LinearLayout>
 
     <TextView
@@ -91,7 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="60dp"
         android:textSize="@dimen/level_5"
         android:textColor="@color/white"
         android:text="广西壮族自治区气象减灾研究所©copyright"/>

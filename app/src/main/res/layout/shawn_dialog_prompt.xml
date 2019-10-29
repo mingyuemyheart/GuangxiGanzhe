@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/shawn_bg_corner_white"
+    android:gravity="center"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/tvTitle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="小提示"
+        android:lineSpacingExtra="3dp"
+        android:minWidth="260dp"
+        android:padding="10dp"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_2" />
+
+    <TextView
+        android:layout_below="@+id/tvTitle"
+        android:id="@+id/tvContent"
+        android:text="8~15天为数值预报，通过大型计算机运行大气运动模型取得，大气系统瞬息万变仅供参考"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="3dp"
+        android:minWidth="260dp"
+        android:padding="10dp"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_3" />
+
+    <ImageView
+        android:id="@+id/ivClose"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/shawn_icon_close"/>
+
+</RelativeLayout>
+

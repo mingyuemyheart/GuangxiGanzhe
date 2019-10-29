@@ -24,7 +24,11 @@
         android:roundIcon="@drawable/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        tools:ignore="GoogleAppIndexingWarning">
+        tools:ignore="GoogleAppIndexingWarning"
+        android:networkSecurityConfig="@xml/network_security_config">
+
+        <!--解决android28以后无法使用apache http协议-->
+        <uses-library android:name="org.apache.http.legacy" android:required="false"/>
 
         <!-- 自动更新下载完成广播 -->
         <receiver android:name="com.cxwl.shawn.guangxi.ganzhe.util.AutoUpdateBroadcastReceiver" >
@@ -33,6 +37,15 @@
                 <action android:name="android.intent.action.PACKAGE_INSTALL" />
             </intent-filter>
         </receiver>
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="${applicationId}.fileprovider"
+            android:grantUriPermissions="true"
+            android:exported="false">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
 
         <!--高德地图-->
         <meta-data
@@ -53,6 +66,9 @@
 
         <activity android:name=".ShawnLoginActivity"
                   android:screenOrientation="portrait"/>
+
+        <activity android:name=".ShawnRegisterActivity"
+            android:screenOrientation="portrait"/>
 
         <activity android:name=".ShawnMainActivity"
                   android:screenOrientation="portrait" />
@@ -104,6 +120,15 @@
 
         <activity android:name=".ShawnExpertQuestionDetailActivity"
                   android:screenOrientation="portrait"/>
+
+        <activity android:name=".ShawnWarningActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ShawnWarningDetailActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ShawnFarmPostActivity"
+            android:screenOrientation="portrait"/>
 
     </application>
 
