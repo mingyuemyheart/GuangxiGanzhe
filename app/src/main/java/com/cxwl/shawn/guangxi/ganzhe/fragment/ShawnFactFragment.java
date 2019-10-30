@@ -265,6 +265,9 @@ public class ShawnFactFragment extends Fragment {
         data = new ColumnData();
         data.name = "相关数据查询";
         columnList.add(data);
+        data = new ColumnData();
+        data.name = "站点查询";
+        columnList.add(data);
 
         int columnSize = columnList.size();
         for (int i = 0; i < columnSize; i++) {
@@ -293,8 +296,10 @@ public class ShawnFactFragment extends Fragment {
                 params.width = width;
             }else if (columnSize == 2) {
                 params.width = width/2;
-            }else {
+            }else if (columnSize == 3) {
                 params.width = width/3;
+            }else {
+                params.width = width/4;
             }
             tvName.setLayoutParams(params);
             llContainer.addView(tvName, i);
@@ -306,6 +311,8 @@ public class ShawnFactFragment extends Fragment {
                 fragment = new ShawnFactClimateFragment();
             }else if (TextUtils.equals(dto.name, "相关数据查询")) {//相关数据查询
                 fragment = new ShawnFactDataFragment();
+            }else if (TextUtils.equals(dto.name, "站点查询")) {//站点查询
+                fragment = new ShawnFactStationFragment();
             }
             if (fragment != null) {
                 Bundle bundle = new Bundle();
