@@ -20,11 +20,13 @@ import android.widget.TextView;
 
 import com.cxwl.shawn.guangxi.ganzhe.R;
 import com.cxwl.shawn.guangxi.ganzhe.adapter.ShawnRadarAdapter;
+import com.cxwl.shawn.guangxi.ganzhe.adapter.ShawnRadarHeaderAdapter;
 import com.cxwl.shawn.guangxi.ganzhe.common.CONST;
 import com.cxwl.shawn.guangxi.ganzhe.dto.RadarDto;
 import com.cxwl.shawn.guangxi.ganzhe.manager.RadarManager;
 import com.cxwl.shawn.guangxi.ganzhe.util.OkHttpUtil;
 import com.cxwl.shawn.guangxi.ganzhe.util.SecretUrlUtil;
+import com.cxwl.shawn.guangxi.ganzhe.view.ScrollviewGridview;
 import com.cxwl.shawn.guangxi.ganzhe.view.stickygridheaders.StickyGridHeadersGridView;
 import com.squareup.picasso.Picasso;
 import com.wang.avi.AVLoadingIndicatorView;
@@ -38,8 +40,10 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -62,17 +66,20 @@ public class ShawnRadarFragment extends Fragment implements View.OnClickListener
     private SimpleDateFormat sdf1 = new SimpleDateFormat("HH:mm", Locale.CHINA);
     private SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
     private ShawnRadarAdapter mAdapter;
-    private List<RadarDto> dataList = new ArrayList<>();
+//    private List<RadarDto> dataList = new ArrayList<>();
     private int section = 1;
-    private HashMap<String, Integer> sectionMap = new HashMap<>();
+    private HashMap<String, List<RadarDto>> dataMap = new LinkedHashMap<>();
     private AVLoadingIndicatorView loadingView;
     private ScrollView scrollView;
+    private ShawnRadarHeaderAdapter mAdapter2;
+//    private List<RadarDto> dataList2 = new ArrayList<>();
+    private ShawnRadarAdapter mAdapter3;
+//    private List<RadarDto> dataList3 = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.shawn_fragment_radar, null);
-        return view;
+        return inflater.inflate(R.layout.shawn_fragment_radar, null);
     }
 
     @Override
@@ -135,7 +142,8 @@ public class ShawnRadarFragment extends Fragment implements View.OnClickListener
      * 初始化gridview
      */
     private void initGridView(View view) {
-        dataList.clear();
+        dataMap.clear();
+        List<RadarDto> list;
         String radarCode = "JC_RADAR_AZ9771_JB";//默认为南宁雷达站
         String[] stations = getResources().getStringArray(R.array.radars_station);
         for (int i = 0; i < stations.length; i++) {
@@ -148,25 +156,20 @@ public class ShawnRadarFragment extends Fragment implements View.OnClickListener
             if (CONST.ADCODE.startsWith(dto.adcode)) {
                 dto.isSelected = true;
                 radarCode = dto.radarCode;
-            }else {
+            } else {
                 dto.isSelected = false;
             }
-            dataList.add(dto);
-        }
-
-        for (int i = 0; i < dataList.size(); i++) {
-            RadarDto sectionDto = dataList.get(i);
-            if (!sectionMap.containsKey(sectionDto.sectionName)) {
-                sectionDto.section = section;
-                sectionMap.put(sectionDto.sectionName, section);
-                section++;
-            }else {
-                sectionDto.section = sectionMap.get(sectionDto.sectionName);
+            if (dataMap.containsKey(dto.sectionName)) {
+                dataMap.get(dto.sectionName).add(dto);
+            } else {
+                list = new ArrayList<>();
+                list.add(dto);
+                dataMap.put(dto.sectionName, list);
             }
-            dataList.set(i, sectionDto);
         }
 
-        StickyGridHeadersGridView gridView = view.findViewById(R.id.gridView);
+        final List<RadarDto> dataList = dataMap.get("甘蔗种植区");
+        ScrollviewGridview gridView = view.findViewById(R.id.gridView);
         mAdapter = new ShawnRadarAdapter(getActivity(), dataList);
         gridView.setAdapter(mAdapter);
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -190,6 +193,69 @@ public class ShawnRadarFragment extends Fragment implements View.OnClickListener
         });
 
         OkHttpRadarInfo(radarCode);
+        initGridView2(view);
+    }
+
+    private void initGridView2(final View view) {
+        final List<RadarDto> dataList = new ArrayList<>();
+        for (Map.Entry<String, List<RadarDto>> entry : dataMap.entrySet()) {
+            if (TextUtils.equals("甘蔗种植区", entry.getKey())) {
+                continue;
+            }
+            RadarDto dto = new RadarDto();
+            dto.sectionName = entry.getKey();
+            dto.isSelected = false;
+            dataList.add(dto);
+        }
+
+        ScrollviewGridview gridView = view.findViewById(R.id.gridView2);
+        mAdapter2 = new ShawnRadarHeaderAdapter(getActivity(), dataList);
+        gridView.setAdapter(mAdapter2);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
+                for (int i = 0; i < dataList.size(); i++) {
+                    RadarDto dto = dataList.get(i);
+                    if (i == arg2) {
+                        dto.isSelected = true;
+                    }else {
+                        dto.isSelected = false;
+                    }
+                }
+                if (mAdapter2 != null) {
+                    mAdapter2.notifyDataSetChanged();
+                }
+
+                RadarDto dto = dataList.get(arg2);
+                initGridView3(view, dto.sectionName);
+            }
+        });
+    }
+
+    private void initGridView3(View view, String sectionName) {
+        final List<RadarDto> dataList = dataMap.get(sectionName);
+        ScrollviewGridview gridView = view.findViewById(R.id.gridView3);
+        mAdapter3 = new ShawnRadarAdapter(getActivity(), dataList);
+        gridView.setAdapter(mAdapter3);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
+                for (int i = 0; i < dataList.size(); i++) {
+                    RadarDto dto = dataList.get(i);
+                    if (i == arg2) {
+                        dto.isSelected = true;
+                    }else {
+                        dto.isSelected = false;
+                    }
+                }
+                if (mAdapter3 != null) {
+                    mAdapter3.notifyDataSetChanged();
+                }
+
+                RadarDto dto = dataList.get(arg2);
+                OkHttpRadarInfo(dto.radarCode);
+            }
+        });
     }
 
     /**

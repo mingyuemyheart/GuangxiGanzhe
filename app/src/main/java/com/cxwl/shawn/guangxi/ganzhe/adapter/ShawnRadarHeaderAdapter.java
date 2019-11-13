@@ -16,20 +16,20 @@ import java.util.List;
 /**
  * 天气雷达
  */
-public class ShawnRadarAdapter extends BaseAdapter {
+public class ShawnRadarHeaderAdapter extends BaseAdapter {
 
 	private Context mContext;
 	private List<RadarDto> mArrayList;
 	private LayoutInflater mInflater;
 
-	public ShawnRadarAdapter(Context context, List<RadarDto> mArrayList) {
+	public ShawnRadarHeaderAdapter(Context context, List<RadarDto> mArrayList) {
 		this.mContext = context;
 		this.mArrayList = mArrayList;
 		mInflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
 
 	private class ContentViewHolder {
-		TextView tvCityName;
+		TextView tvName;
 	}
 
 	@Override
@@ -52,8 +52,8 @@ public class ShawnRadarAdapter extends BaseAdapter {
 		ContentViewHolder mHolder;
 		if (convertView == null) {
 			mHolder = new ContentViewHolder();
-			convertView = mInflater.inflate(R.layout.shawn_adapter_radar_content, null);
-			mHolder.tvCityName = convertView.findViewById(R.id.tvCityName);
+			convertView = mInflater.inflate(R.layout.shawn_adapter_radar_header, null);
+			mHolder.tvName = convertView.findViewById(R.id.tvName);
 			convertView.setTag(mHolder);
 		} else {
 			mHolder = (ContentViewHolder) convertView.getTag();
@@ -61,13 +61,13 @@ public class ShawnRadarAdapter extends BaseAdapter {
 
 		RadarDto dto = mArrayList.get(position);
 		if (dto.isSelected) {
-			mHolder.tvCityName.setBackgroundResource(R.drawable.shawn_bg_corner_item_press);
-			mHolder.tvCityName.setTextColor(Color.WHITE);
+			mHolder.tvName.setBackgroundResource(R.drawable.shawn_bg_corner_item_press);
+			mHolder.tvName.setTextColor(Color.WHITE);
 		}else {
-			mHolder.tvCityName.setBackgroundResource(R.drawable.shawn_bg_corner_item);
-			mHolder.tvCityName.setTextColor(mContext.getResources().getColor(R.color.text_color4));
+			mHolder.tvName.setBackgroundResource(R.drawable.shawn_bg_corner_item_transparent);
+			mHolder.tvName.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
 		}
-		mHolder.tvCityName.setText(dto.radarName);
+		mHolder.tvName.setText(dto.sectionName);
 
 		return convertView;
 	}
