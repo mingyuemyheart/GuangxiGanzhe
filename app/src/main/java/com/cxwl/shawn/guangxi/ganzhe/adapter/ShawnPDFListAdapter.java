@@ -22,7 +22,7 @@ public class ShawnPDFListAdapter extends BaseAdapter {
 	private List<ColumnData> mArrayList;
 
 	private final class ViewHolder{
-		TextView tvTitle;
+		TextView tvTitle,tvTime;
 	}
 
 	public ShawnPDFListAdapter(Context context, List<ColumnData> mArrayList) {
@@ -52,6 +52,7 @@ public class ShawnPDFListAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.shawn_adapter_pdf_list, null);
 			mHolder = new ViewHolder();
 			mHolder.tvTitle = convertView.findViewById(R.id.tvTitle);
+			mHolder.tvTime = convertView.findViewById(R.id.tvTime);
 			convertView.setTag(mHolder);
 		}else {
 			mHolder = (ViewHolder) convertView.getTag();
@@ -61,6 +62,13 @@ public class ShawnPDFListAdapter extends BaseAdapter {
 
 		if (!TextUtils.isEmpty(dto.title)) {
 			mHolder.tvTitle.setText(dto.title);
+		}
+
+		if (!TextUtils.isEmpty(dto.time)) {
+			mHolder.tvTime.setText(dto.time);
+			mHolder.tvTime.setVisibility(View.VISIBLE);
+		} else {
+			mHolder.tvTime.setVisibility(View.GONE);
 		}
 
 		return convertView;

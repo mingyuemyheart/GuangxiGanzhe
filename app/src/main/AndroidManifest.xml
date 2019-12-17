@@ -130,6 +130,12 @@
         <activity android:name=".ShawnFarmPostActivity"
             android:screenOrientation="portrait"/>
 
+        <activity android:name=".ShawnAnaylsisListActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ShawnWebviewActivity"
+            android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

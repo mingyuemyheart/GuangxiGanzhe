@@ -74,7 +74,10 @@ public class ShawnProductActivity extends ShawnBaseActivity implements View.OnCl
                         intent.putExtra(CONST.WEB_URL, dto.dataUrl);
                         startActivity(intent);
                     }else if (TextUtils.equals(dto.id, "203")) {//适宜性分析
-                        Toast.makeText(mContext, "研发中，敬请期待！！！", Toast.LENGTH_SHORT).show();
+                        intent = new Intent(mContext, ShawnAnaylsisListActivity.class);
+                        intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
+                        intent.putExtra(CONST.WEB_URL, dto.dataUrl);
+                        startActivity(intent);
                     }else if (TextUtils.equals(dto.id, "301")) {//我的农场
                         intent = new Intent(mContext, ShawnMyFarmActivity.class);
                         intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
