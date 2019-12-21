@@ -29,5 +29,6 @@ public class CONST {
 	public static final String WEB_URL = "web_Url";//网页地址的标示
 	public static final String ACTIVITY_NAME = "activity_name";//界面名称
 	public static final String LOCAL_ID = "local_id";//local_id
+	public static final String COLUMN_ID = "column_id";//column_id
 
 }

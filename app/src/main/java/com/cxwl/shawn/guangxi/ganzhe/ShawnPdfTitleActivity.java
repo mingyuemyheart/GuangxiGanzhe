@@ -147,6 +147,7 @@ public class ShawnPdfTitleActivity extends FragmentActivity implements OnClickLi
 
 					ShawnPdfListFragment fragment = new ShawnPdfListFragment();
 					Bundle bundle = new Bundle();
+					bundle.putString(CONST.COLUMN_ID, dto.columnId);
 					bundle.putString(CONST.LOCAL_ID, dto.id);
 					bundle.putString(CONST.WEB_URL, dto.dataUrl);
 					fragment.setArguments(bundle);

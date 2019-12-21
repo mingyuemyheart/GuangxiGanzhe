@@ -119,7 +119,7 @@ public class ShawnPdfListFragment extends Fragment {
 			tvPrompt.setVisibility(View.VISIBLE);
 			return;
 		}
-		final String localViewId = getArguments().getString(CONST.LOCAL_ID);
+		final String columnId = getArguments().getString(CONST.COLUMN_ID);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -138,7 +138,7 @@ public class ShawnPdfListFragment extends Fragment {
 							public void run() {
 								if (!TextUtils.isEmpty(result)) {
 									try {
-										if (TextUtils.equals(localViewId, "203")) {
+										if (TextUtils.equals(columnId, "609") || TextUtils.equals(columnId, "570")) {
 											JSONArray array = new JSONArray(result);
 											for (int i = 0; i < array.length(); i++) {
 												JSONObject itemObj = array.getJSONObject(i);
