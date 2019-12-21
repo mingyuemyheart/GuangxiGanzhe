@@ -1,11 +1,12 @@
 package com.cxwl.shawn.guangxi.ganzhe;
 
-import android.app.Fragment;
-import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -13,7 +14,6 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.ViewGroup;
 import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
@@ -30,7 +30,7 @@ import java.util.List;
 /**
  * 带有标签页的pdf文档界面
  */
-public class ShawnPdfTitleActivity extends ShawnBaseActivity implements OnClickListener {
+public class ShawnPdfTitleActivity extends FragmentActivity implements OnClickListener {
 
 	private Context mContext;
 	private LinearLayout llContainer,llContainer1;
@@ -76,7 +76,13 @@ public class ShawnPdfTitleActivity extends ShawnBaseActivity implements OnClickL
 		if (getIntent().hasExtra("data")) {
 			ColumnData data = getIntent().getParcelableExtra("data");
 			if (data != null) {
-				List<ColumnData> columnList = new ArrayList<>(data.child);
+				List<ColumnData> columnList;
+				if (data.child.size() > 0) {
+					columnList = new ArrayList<>(data.child);
+				} else {
+					columnList = new ArrayList<>();
+					columnList.add(data);
+				}
 				int columnSize = columnList.size();
 				if (columnSize <= 1) {
 					llContainer.setVisibility(View.GONE);
@@ -141,6 +147,7 @@ public class ShawnPdfTitleActivity extends ShawnBaseActivity implements OnClickL
 
 					ShawnPdfListFragment fragment = new ShawnPdfListFragment();
 					Bundle bundle = new Bundle();
+					bundle.putString(CONST.LOCAL_ID, dto.id);
 					bundle.putString(CONST.WEB_URL, dto.dataUrl);
 					fragment.setArguments(bundle);
 					fragments.add(fragment);
@@ -150,7 +157,7 @@ public class ShawnPdfTitleActivity extends ShawnBaseActivity implements OnClickL
 				viewPager.setSlipping(true);//设置ViewPager是否可以滑动
 				viewPager.setOffscreenPageLimit(fragments.size());
 				viewPager.setOnPageChangeListener(new MyOnPageChangeListener());
-				viewPager.setAdapter(new MyPagerAdapter());
+				viewPager.setAdapter(new MyPagerAdapter(getSupportFragmentManager()));
 			}
 		}
 	}
@@ -222,10 +229,11 @@ public class ShawnPdfTitleActivity extends ShawnBaseActivity implements OnClickL
 	 * @date 2013 2013年11月6日 下午2:37:47
 	 *
 	 */
-	private class MyPagerAdapter extends PagerAdapter {
-		@Override
-		public boolean isViewFromObject(View arg0, Object arg1) {
-			return arg0 == arg1;
+	private class MyPagerAdapter extends FragmentStatePagerAdapter {
+
+		private MyPagerAdapter(FragmentManager fm) {
+			super(fm);
+			notifyDataSetChanged();
 		}
 
 		@Override
@@ -234,30 +242,13 @@ public class ShawnPdfTitleActivity extends ShawnBaseActivity implements OnClickL
 		}
 
 		@Override
-		public void destroyItem(View container, int position, Object object) {
-			((ViewPager) container).removeView(fragments.get(position).getView());
+		public Fragment getItem(int arg0) {
+			return fragments.get(arg0);
 		}
 
 		@Override
-		public Object instantiateItem(ViewGroup container, int position) {
-			Fragment fragment = fragments.get(position);
-			if (!fragment.isAdded()) { // 如果fragment还没有added
-				FragmentTransaction ft = getFragmentManager().beginTransaction();
-				ft.add(fragment, fragment.getClass().getSimpleName());
-				ft.commit();
-				/**
-				 * 在用FragmentTransaction.commit()方法提交FragmentTransaction对象后
-				 * 会在进程的主线程中,用异步的方式来执行。
-				 * 如果想要立即执行这个等待中的操作,就要调用这个方法(只能在主线程中调用)。
-				 * 要注意的是,所有的回调和相关的行为都会在这个调用中被执行完成,因此要仔细确认这个方法的调用位置。
-				 */
-				getFragmentManager().executePendingTransactions();
-			}
-
-			if (fragment.getView().getParent() == null) {
-				container.addView(fragment.getView()); // 为viewpager增加布局
-			}
-			return fragment.getView();
+		public int getItemPosition(Object object) {
+			return PagerAdapter.POSITION_NONE;
 		}
 	}
 	

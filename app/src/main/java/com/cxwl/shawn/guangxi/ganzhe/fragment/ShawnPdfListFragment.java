@@ -1,8 +1,8 @@
 package com.cxwl.shawn.guangxi.ganzhe.fragment;
 
-import android.app.Fragment;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.cxwl.shawn.guangxi.ganzhe.R;
 import com.cxwl.shawn.guangxi.ganzhe.ShawnPDFActivity;
+import com.cxwl.shawn.guangxi.ganzhe.ShawnWebviewActivity;
 import com.cxwl.shawn.guangxi.ganzhe.adapter.ShawnPDFListAdapter;
 import com.cxwl.shawn.guangxi.ganzhe.common.CONST;
 import com.cxwl.shawn.guangxi.ganzhe.dto.ColumnData;
@@ -45,8 +46,7 @@ public class ShawnPdfListFragment extends Fragment {
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View view = inflater.inflate(R.layout.shawn_fragment_pdf_list, null);
-		return view;
+		return inflater.inflate(R.layout.shawn_fragment_pdf_list, null);
 	}
 	
 	@Override
@@ -100,7 +100,12 @@ public class ShawnPdfListFragment extends Fragment {
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
 				ColumnData dto = dataList.get(arg2);
-				Intent intent = new Intent(getActivity(), ShawnPDFActivity.class);
+				Intent intent;
+				if (dto.detailUrl.endsWith(".pdf") || dto.detailUrl.endsWith(".PDF")) {
+					intent = new Intent(getActivity(), ShawnPDFActivity.class);
+				} else {
+					intent = new Intent(getActivity(), ShawnWebviewActivity.class);
+				}
 				intent.putExtra(CONST.ACTIVITY_NAME, dto.title);
 				intent.putExtra(CONST.WEB_URL, dto.detailUrl);
 				startActivity(intent);
@@ -114,6 +119,7 @@ public class ShawnPdfListFragment extends Fragment {
 			tvPrompt.setVisibility(View.VISIBLE);
 			return;
 		}
+		final String localViewId = getArguments().getString(CONST.LOCAL_ID);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -132,66 +138,84 @@ public class ShawnPdfListFragment extends Fragment {
 							public void run() {
 								if (!TextUtils.isEmpty(result)) {
 									try {
-										JSONObject obj = new JSONObject(result);
-										if (!obj.isNull("XYB")) {
-											JSONArray array = obj.getJSONArray("XYB");
+										if (TextUtils.equals(localViewId, "203")) {
+											JSONArray array = new JSONArray(result);
 											for (int i = 0; i < array.length(); i++) {
+												JSONObject itemObj = array.getJSONObject(i);
 												ColumnData dto = new ColumnData();
-												dto.detailUrl = array.getString(i);
-												dto.title = dto.detailUrl;
-												String sub = "http://113.16.174.77:8076/gzwd/XYB\\";
-												if (!TextUtils.isEmpty(dto.detailUrl) && dto.detailUrl.contains(sub)) {
-													dto.title = dto.detailUrl.substring(sub.length(), dto.detailUrl.length()-4);
+												if (!itemObj.isNull("Url")) {
+													dto.detailUrl = itemObj.getString("Url");
+												}
+												if (!itemObj.isNull("Title")) {
+													dto.title = itemObj.getString("Title");
+												}
+												if (!itemObj.isNull("DT")) {
+													dto.time = itemObj.getString("DT");
 												}
 												dataList.add(dto);
 											}
-										}else if (!obj.isNull("ZTFW")) {
-											JSONArray array = obj.getJSONArray("ZTFW");
-											for (int i = 0; i < array.length(); i++) {
-												ColumnData dto = new ColumnData();
-												dto.detailUrl = array.getString(i);
-												dto.title = dto.detailUrl;
-												String sub = "http://113.16.174.77:8076/gzwd/ZTFW\\";
-												if (!TextUtils.isEmpty(dto.detailUrl) && dto.detailUrl.contains(sub)) {
-													dto.title = dto.detailUrl.substring(sub.length(), dto.detailUrl.length()-4);
+										} else {
+											JSONObject obj = new JSONObject(result);
+											if (!obj.isNull("XYB")) {
+												JSONArray array = obj.getJSONArray("XYB");
+												for (int i = 0; i < array.length(); i++) {
+													ColumnData dto = new ColumnData();
+													dto.detailUrl = array.getString(i);
+													dto.title = dto.detailUrl;
+													String sub = "http://113.16.174.77:8076/gzwd/XYB\\";
+													if (!TextUtils.isEmpty(dto.detailUrl) && dto.detailUrl.contains(sub)) {
+														dto.title = dto.detailUrl.substring(sub.length(), dto.detailUrl.length()-4);
+													}
+													dataList.add(dto);
 												}
-												dataList.add(dto);
-											}
-										}else if (!obj.isNull("ZSJC")) {
-											JSONArray array = obj.getJSONArray("ZSJC");
-											for (int i = 0; i < array.length(); i++) {
-												ColumnData dto = new ColumnData();
-												dto.detailUrl = array.getString(i);
-												dto.title = dto.detailUrl;
-												String sub = "http://113.16.174.77:8076/gzwd/ZSJC\\";
-												if (!TextUtils.isEmpty(dto.detailUrl) && dto.detailUrl.contains(sub)) {
-													dto.title = dto.detailUrl.substring(sub.length(), dto.detailUrl.length()-4);
+											}else if (!obj.isNull("ZTFW")) {
+												JSONArray array = obj.getJSONArray("ZTFW");
+												for (int i = 0; i < array.length(); i++) {
+													ColumnData dto = new ColumnData();
+													dto.detailUrl = array.getString(i);
+													dto.title = dto.detailUrl;
+													String sub = "http://113.16.174.77:8076/gzwd/ZTFW\\";
+													if (!TextUtils.isEmpty(dto.detailUrl) && dto.detailUrl.contains(sub)) {
+														dto.title = dto.detailUrl.substring(sub.length(), dto.detailUrl.length()-4);
+													}
+													dataList.add(dto);
 												}
-												dataList.add(dto);
-											}
-										}else if (!obj.isNull("ZTS")) {
-											JSONArray array = obj.getJSONArray("ZTS");
-											for (int i = 0; i < array.length(); i++) {
-												ColumnData dto = new ColumnData();
-												dto.detailUrl = array.getString(i);
-												dto.title = dto.detailUrl;
-												String sub = "http://113.16.174.77:8076/gzwd/ZTS\\";
-												if (!TextUtils.isEmpty(dto.detailUrl) && dto.detailUrl.contains(sub)) {
-													dto.title = dto.detailUrl.substring(sub.length(), dto.detailUrl.length()-4);
+											}else if (!obj.isNull("ZSJC")) {
+												JSONArray array = obj.getJSONArray("ZSJC");
+												for (int i = 0; i < array.length(); i++) {
+													ColumnData dto = new ColumnData();
+													dto.detailUrl = array.getString(i);
+													dto.title = dto.detailUrl;
+													String sub = "http://113.16.174.77:8076/gzwd/ZSJC\\";
+													if (!TextUtils.isEmpty(dto.detailUrl) && dto.detailUrl.contains(sub)) {
+														dto.title = dto.detailUrl.substring(sub.length(), dto.detailUrl.length()-4);
+													}
+													dataList.add(dto);
 												}
-												dataList.add(dto);
-											}
-										}else if (!obj.isNull("CLYB")) {
-											JSONArray array = obj.getJSONArray("CLYB");
-											for (int i = 0; i < array.length(); i++) {
-												ColumnData dto = new ColumnData();
-												dto.detailUrl = array.getString(i);
-												dto.title = dto.detailUrl;
-												String sub = "http://113.16.174.77:8076/gzwd/CLYB\\";
-												if (!TextUtils.isEmpty(dto.detailUrl) && dto.detailUrl.contains(sub)) {
-													dto.title = dto.detailUrl.substring(sub.length(), dto.detailUrl.length()-4);
+											}else if (!obj.isNull("ZTS")) {
+												JSONArray array = obj.getJSONArray("ZTS");
+												for (int i = 0; i < array.length(); i++) {
+													ColumnData dto = new ColumnData();
+													dto.detailUrl = array.getString(i);
+													dto.title = dto.detailUrl;
+													String sub = "http://113.16.174.77:8076/gzwd/ZTS\\";
+													if (!TextUtils.isEmpty(dto.detailUrl) && dto.detailUrl.contains(sub)) {
+														dto.title = dto.detailUrl.substring(sub.length(), dto.detailUrl.length()-4);
+													}
+													dataList.add(dto);
 												}
-												dataList.add(dto);
+											}else if (!obj.isNull("CLYB")) {
+												JSONArray array = obj.getJSONArray("CLYB");
+												for (int i = 0; i < array.length(); i++) {
+													ColumnData dto = new ColumnData();
+													dto.detailUrl = array.getString(i);
+													dto.title = dto.detailUrl;
+													String sub = "http://113.16.174.77:8076/gzwd/CLYB\\";
+													if (!TextUtils.isEmpty(dto.detailUrl) && dto.detailUrl.contains(sub)) {
+														dto.title = dto.detailUrl.substring(sub.length(), dto.detailUrl.length()-4);
+													}
+													dataList.add(dto);
+												}
 											}
 										}
 

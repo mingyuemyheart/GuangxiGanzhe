@@ -106,9 +106,6 @@
         <activity android:name=".ShawnMyFarmDetailActivity"
                   android:screenOrientation="portrait"/>
 
-        <activity android:name=".ShawnPdfListActivity"
-                  android:screenOrientation="portrait"/>
-
         <activity android:name=".ShawnExpertActivity"
                   android:screenOrientation="portrait"/>
 
@@ -128,9 +125,6 @@
             android:screenOrientation="portrait"/>
 
         <activity android:name=".ShawnFarmPostActivity"
-            android:screenOrientation="portrait"/>
-
-        <activity android:name=".ShawnAnaylsisListActivity"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".ShawnWebviewActivity"

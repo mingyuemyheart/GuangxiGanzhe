@@ -68,37 +68,23 @@ public class ShawnProductActivity extends ShawnBaseActivity implements View.OnCl
                         bundle.putParcelable("data", dto);
                         intent.putExtras(bundle);
                         startActivity(intent);
-                    }else if (TextUtils.equals(dto.id, "202")) {//涨势监测
-                        intent = new Intent(mContext, ShawnPdfListActivity.class);
+                    }else if (TextUtils.equals(dto.id, "202") || TextUtils.equals(dto.id, "203") || TextUtils.equals(dto.id, "303")) {//涨势监测、适宜性分析、服务材料
+                        intent = new Intent(mContext, ShawnPdfTitleActivity.class);
                         intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
                         intent.putExtra(CONST.WEB_URL, dto.dataUrl);
-                        startActivity(intent);
-                    }else if (TextUtils.equals(dto.id, "203")) {//适宜性分析
-                        intent = new Intent(mContext, ShawnAnaylsisListActivity.class);
-                        intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
-                        intent.putExtra(CONST.WEB_URL, dto.dataUrl);
+                        intent.putExtra(CONST.LOCAL_ID, dto.id);
+                        Bundle bundle = new Bundle();
+                        bundle.putParcelable("data", dto);
+                        intent.putExtras(bundle);
                         startActivity(intent);
                     }else if (TextUtils.equals(dto.id, "301")) {//我的农场
                         intent = new Intent(mContext, ShawnMyFarmActivity.class);
                         intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
-//                        Bundle bundle = new Bundle();
-//                        bundle.putParcelable("data", dto);
-//                        intent.putExtras(bundle);
                         startActivity(intent);
                     }else if (TextUtils.equals(dto.id, "302")) {//专家联盟
                         intent = new Intent(mContext, ShawnExpertActivity.class);
                         intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
                         intent.putExtra(CONST.WEB_URL, dto.dataUrl);
-//                        Bundle bundle = new Bundle();
-//                        bundle.putParcelable("data", dto);
-//                        intent.putExtras(bundle);
-                        startActivity(intent);
-                    }else if (TextUtils.equals(dto.id, "303")) {//服务材料
-                        intent = new Intent(mContext, ShawnPdfTitleActivity.class);
-                        intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable("data", dto);
-                        intent.putExtras(bundle);
                         startActivity(intent);
                     }else if (TextUtils.equals(dto.id, "304")) {//农场上传
                         intent = new Intent(mContext, ShawnFarmPostActivity.class);

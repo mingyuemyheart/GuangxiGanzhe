@@ -9,45 +9,136 @@
 
     <TextView
         android:id="@+id/tvStationName"
-        android:layout_width="0dp"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:gravity="center"
         android:textColor="@color/text_color3"
         android:textSize="@dimen/level_5"/>
 
     <TextView
-        android:id="@+id/tvTemp30"
-        android:layout_width="0dp"
+        android:id="@+id/tvTEMP"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:gravity="center"
         android:textColor="@color/text_color3"
         android:textSize="@dimen/level_5"/>
 
     <TextView
-        android:id="@+id/tvTemp50"
-        android:layout_width="0dp"
+        android:id="@+id/tvRELA_HUMI"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:gravity="center"
         android:textColor="@color/text_color3"
         android:textSize="@dimen/level_5"/>
 
     <TextView
-        android:id="@+id/tvHumidity20"
-        android:layout_width="0dp"
+        android:id="@+id/tvMOST_WS"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
         android:gravity="center"
         android:textColor="@color/text_color3"
         android:textSize="@dimen/level_5"/>
 
     <TextView
-        android:id="@+id/tvHumidity40"
-        android:layout_width="0dp"
+        android:id="@+id/tvMOST_WD"
+        android:layout_width="60dp"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvMAX_WS"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvMAX_WD"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvSMVP_5CM_AVE"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvSMVP_10CM_AVE"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvSMVP_20CM_AVE"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvSMVP_30CM_AVE"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvSMVP_40CM_AVE"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvLAND_10CM_TEMP"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvLAND_15CM_TEMP"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvLAND_20CM_TEMP"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvLAND_30CM_TEMP"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvLAND_40CM_TEMP"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
         android:gravity="center"
         android:textColor="@color/text_color3"
         android:textSize="@dimen/level_5"/>

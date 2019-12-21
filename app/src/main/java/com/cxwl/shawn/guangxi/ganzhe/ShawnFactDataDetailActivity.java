@@ -10,9 +10,6 @@ import android.widget.TextView;
 
 import com.cxwl.shawn.guangxi.ganzhe.dto.FactDto;
 import com.cxwl.shawn.guangxi.ganzhe.util.OkHttpUtil;
-import com.cxwl.shawn.guangxi.ganzhe.view.FactHumidity150View;
-import com.cxwl.shawn.guangxi.ganzhe.view.FactHumidity300View;
-import com.cxwl.shawn.guangxi.ganzhe.view.FactHumidity60View;
 import com.cxwl.shawn.guangxi.ganzhe.view.FactHumidityGro20View;
 import com.cxwl.shawn.guangxi.ganzhe.view.FactHumidityGro40View;
 import com.cxwl.shawn.guangxi.ganzhe.view.FactTempGro30View;

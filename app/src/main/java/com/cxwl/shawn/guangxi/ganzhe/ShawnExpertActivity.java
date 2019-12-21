@@ -64,7 +64,6 @@ public class ShawnExpertActivity extends ShawnBaseActivity implements OnClickLis
 		}
 
 		OkHttpList();
-		
 	}
 
 	private void initListView() {

@@ -22,6 +22,24 @@ public class FactDto implements Parcelable {
     public String TEMPL,RELA_HUMIL,BUCKET_ACC_RAIN_COUNTL,SMVP_5CM_AVEL,AVE_WS_2MINL,LAND_PT_TEMPL;//上一年
     public String TEMP,RELA_HUMI,BUCKET_ACC_RAIN_COUNT,SMVP_5CM_AVE,AVE_WS_2MIN,LAND_PT_TEMP;//当前年
 
+    //相关数据查询
+//    public String TEMP;//气温
+//    public String RELA_HUMI;//相对湿度
+    public String MOST_WD;//最大风速
+    public String MOST_WS;//最大风向
+    public String MAX_WD;//极大风速
+    public String MAX_WS;//极大风向
+//    public String SMVP_5CM_AVE;//5cm土壤体积含水量(%)
+    public String SMVP_10CM_AVE;//10cm土壤体积含水量(%)
+    public String SMVP_20CM_AVE;//20cm土壤体积含水量(%)
+    public String SMVP_30CM_AVE;//30cm土壤体积含水量(%)
+    public String SMVP_40CM_AVE;//40cm土壤体积含水量(%)
+    public String LAND_10CM_TEMP;//10cm地温(℃)
+    public String LAND_15CM_TEMP;//15cm地温(℃)
+    public String LAND_20CM_TEMP;//20cm地温(℃)
+    public String LAND_30CM_TEMP;//30cm地温(℃)
+    public String LAND_40CM_TEMP;//40cm地温(℃)
+
     public FactDto() {
     }
 
@@ -68,6 +86,19 @@ public class FactDto implements Parcelable {
         dest.writeString(this.SMVP_5CM_AVE);
         dest.writeString(this.AVE_WS_2MIN);
         dest.writeString(this.LAND_PT_TEMP);
+        dest.writeString(this.MOST_WD);
+        dest.writeString(this.MOST_WS);
+        dest.writeString(this.MAX_WD);
+        dest.writeString(this.MAX_WS);
+        dest.writeString(this.SMVP_10CM_AVE);
+        dest.writeString(this.SMVP_20CM_AVE);
+        dest.writeString(this.SMVP_30CM_AVE);
+        dest.writeString(this.SMVP_40CM_AVE);
+        dest.writeString(this.LAND_10CM_TEMP);
+        dest.writeString(this.LAND_15CM_TEMP);
+        dest.writeString(this.LAND_20CM_TEMP);
+        dest.writeString(this.LAND_30CM_TEMP);
+        dest.writeString(this.LAND_40CM_TEMP);
     }
 
     protected FactDto(Parcel in) {
@@ -107,6 +138,19 @@ public class FactDto implements Parcelable {
         this.SMVP_5CM_AVE = in.readString();
         this.AVE_WS_2MIN = in.readString();
         this.LAND_PT_TEMP = in.readString();
+        this.MOST_WD = in.readString();
+        this.MOST_WS = in.readString();
+        this.MAX_WD = in.readString();
+        this.MAX_WS = in.readString();
+        this.SMVP_10CM_AVE = in.readString();
+        this.SMVP_20CM_AVE = in.readString();
+        this.SMVP_30CM_AVE = in.readString();
+        this.SMVP_40CM_AVE = in.readString();
+        this.LAND_10CM_TEMP = in.readString();
+        this.LAND_15CM_TEMP = in.readString();
+        this.LAND_20CM_TEMP = in.readString();
+        this.LAND_30CM_TEMP = in.readString();
+        this.LAND_40CM_TEMP = in.readString();
     }
 
     public static final Creator<FactDto> CREATOR = new Creator<FactDto>() {

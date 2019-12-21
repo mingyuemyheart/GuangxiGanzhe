@@ -50,7 +50,7 @@ import okhttp3.Response;
 public class ShawnFarmPostActivity extends ShawnBaseActivity implements OnClickListener {
 	
 	private Context mContext = null;
-	private EditText etName, etAddr, etType, etArea, etPeriod, etOutput, etManager, etDisInfo;
+	private EditText etName, etAddr, etLng, etLat, etType, etArea, etPeriod, etOutput, etManager, etDisInfo;
 	private ImageView imageView;
 	private LinearLayout llAdd;
 	private AVLoadingIndicatorView loadingView;
@@ -73,6 +73,8 @@ public class ShawnFarmPostActivity extends ShawnBaseActivity implements OnClickL
 		TextView tvTitle = findViewById(R.id.tvTitle);
 		etName = findViewById(R.id.etName);
 		etAddr = findViewById(R.id.etAddr);
+		etLng = findViewById(R.id.etLng);
+		etLat = findViewById(R.id.etLat);
 		etType = findViewById(R.id.etType);
 		etArea = findViewById(R.id.etArea);
 		etPeriod = findViewById(R.id.etPeriod);
@@ -114,6 +116,14 @@ public class ShawnFarmPostActivity extends ShawnBaseActivity implements OnClickL
 			Toast.makeText(mContext, "请输入地址", Toast.LENGTH_SHORT).show();
 			return false;
 		}
+		if (TextUtils.isEmpty(etLng.getText().toString())) {
+			Toast.makeText(mContext, "请输入经度", Toast.LENGTH_SHORT).show();
+			return false;
+		}
+		if (TextUtils.isEmpty(etLat.getText().toString())) {
+			Toast.makeText(mContext, "请输入纬度", Toast.LENGTH_SHORT).show();
+			return false;
+		}
 		if (TextUtils.isEmpty(etType.getText().toString())) {
 			Toast.makeText(mContext, "请输入种植品种", Toast.LENGTH_SHORT).show();
 			return false;
@@ -143,6 +153,7 @@ public class ShawnFarmPostActivity extends ShawnBaseActivity implements OnClickL
 		builder.addFormDataPart("uid", MyApplication.UID);
 		builder.addFormDataPart("name", etName.getText().toString());
 		builder.addFormDataPart("addr", etAddr.getText().toString());
+		builder.addFormDataPart("lonlat", etLng.getText().toString()+","+etLat.getText().toString());
 		builder.addFormDataPart("farm_type", etType.getText().toString());
 		builder.addFormDataPart("farm_area", etArea.getText().toString());
 		builder.addFormDataPart("farm_manager", etManager.getText().toString());

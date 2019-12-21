@@ -35,6 +35,7 @@ public class ShawnMyFarmDetailActivity extends ShawnBaseActivity implements View
         imageView.requestFocus();
         TextView tvName = findViewById(R.id.tvName);
         TextView tvAddr = findViewById(R.id.tvAddr);
+        TextView tvLatlng = findViewById(R.id.tvLatlng);
         TextView tvType = findViewById(R.id.tvType);
         TextView tvArea = findViewById(R.id.tvArea);
         TextView tvPeriod = findViewById(R.id.tvPeriod);
@@ -66,6 +67,9 @@ public class ShawnMyFarmDetailActivity extends ShawnBaseActivity implements View
             }
             if (!TextUtils.isEmpty(data.addr)) {
                 tvAddr.setText("地址："+data.addr);
+            }
+            if (!TextUtils.isEmpty(data.latLng)) {
+                tvLatlng.setText("经纬度："+data.latLng);
             }
             if (!TextUtils.isEmpty(data.type)) {
                 tvType.setText("种植类型："+data.type);

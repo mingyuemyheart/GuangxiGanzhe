@@ -22,7 +22,9 @@ public class ShawnFactDataAdapter extends BaseAdapter {
 	private List<FactDto> mArrayList;
 
 	private final class ViewHolder{
-		TextView tvStationName,tvTemp30,tvTemp50,tvHumidity20,tvHumidity40;
+		TextView tvStationName,tvTEMP,tvRELA_HUMI,tvMOST_WD,tvMOST_WS,tvMAX_WD,tvMAX_WS,
+				tvSMVP_5CM_AVE,tvSMVP_10CM_AVE,tvSMVP_20CM_AVE,tvSMVP_30CM_AVE,tvSMVP_40CM_AVE,
+				tvLAND_10CM_TEMP,tvLAND_15CM_TEMP,tvLAND_20CM_TEMP,tvLAND_30CM_TEMP,tvLAND_40CM_TEMP;
 	}
 
 	public ShawnFactDataAdapter(Context context, List<FactDto> mArrayList) {
@@ -52,10 +54,22 @@ public class ShawnFactDataAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.shawn_adapter_fact_data, null);
 			mHolder = new ViewHolder();
 			mHolder.tvStationName = convertView.findViewById(R.id.tvStationName);
-			mHolder.tvTemp30 = convertView.findViewById(R.id.tvTemp30);
-			mHolder.tvTemp50 = convertView.findViewById(R.id.tvTemp50);
-			mHolder.tvHumidity20 = convertView.findViewById(R.id.tvHumidity20);
-			mHolder.tvHumidity40 = convertView.findViewById(R.id.tvHumidity40);
+			mHolder.tvTEMP = convertView.findViewById(R.id.tvTEMP);
+			mHolder.tvRELA_HUMI = convertView.findViewById(R.id.tvRELA_HUMI);
+			mHolder.tvMOST_WD = convertView.findViewById(R.id.tvMOST_WD);
+			mHolder.tvMOST_WS = convertView.findViewById(R.id.tvMOST_WS);
+			mHolder.tvMAX_WD = convertView.findViewById(R.id.tvMAX_WD);
+			mHolder.tvMAX_WS = convertView.findViewById(R.id.tvMAX_WS);
+			mHolder.tvSMVP_5CM_AVE = convertView.findViewById(R.id.tvSMVP_5CM_AVE);
+			mHolder.tvSMVP_10CM_AVE = convertView.findViewById(R.id.tvSMVP_10CM_AVE);
+			mHolder.tvSMVP_20CM_AVE = convertView.findViewById(R.id.tvSMVP_20CM_AVE);
+			mHolder.tvSMVP_30CM_AVE = convertView.findViewById(R.id.tvSMVP_30CM_AVE);
+			mHolder.tvSMVP_40CM_AVE = convertView.findViewById(R.id.tvSMVP_40CM_AVE);
+			mHolder.tvLAND_10CM_TEMP = convertView.findViewById(R.id.tvLAND_10CM_TEMP);
+			mHolder.tvLAND_15CM_TEMP = convertView.findViewById(R.id.tvLAND_15CM_TEMP);
+			mHolder.tvLAND_20CM_TEMP = convertView.findViewById(R.id.tvLAND_20CM_TEMP);
+			mHolder.tvLAND_30CM_TEMP = convertView.findViewById(R.id.tvLAND_30CM_TEMP);
+			mHolder.tvLAND_40CM_TEMP = convertView.findViewById(R.id.tvLAND_40CM_TEMP);
 			convertView.setTag(mHolder);
 		}else {
 			mHolder = (ViewHolder) convertView.getTag();
@@ -66,21 +80,53 @@ public class ShawnFactDataAdapter extends BaseAdapter {
 		if (!TextUtils.isEmpty(dto.stationName)) {
 			mHolder.tvStationName.setText(dto.stationName);
 		}
-
-		if (!TextUtils.isEmpty(dto.grotemp30)) {
-			mHolder.tvTemp30.setText(dto.grotemp30);
+		if (!TextUtils.isEmpty(dto.TEMP)) {
+			mHolder.tvTEMP.setText(dto.TEMP);
 		}
-
-		if (!TextUtils.isEmpty(dto.grotemp50)) {
-			mHolder.tvTemp50.setText(dto.grotemp50);
+		if (!TextUtils.isEmpty(dto.RELA_HUMI)) {
+			mHolder.tvRELA_HUMI.setText(dto.RELA_HUMI);
 		}
-
-		if (!TextUtils.isEmpty(dto.grohumidity20)) {
-			mHolder.tvHumidity20.setText(dto.grohumidity20);
+		if (!TextUtils.isEmpty(dto.MOST_WD)) {
+			mHolder.tvMOST_WD.setText(dto.MOST_WD);
 		}
-
-		if (!TextUtils.isEmpty(dto.grohumidity40)) {
-			mHolder.tvHumidity40.setText(dto.grohumidity40);
+		if (!TextUtils.isEmpty(dto.MOST_WS)) {
+			mHolder.tvMOST_WS.setText(dto.MOST_WS);
+		}
+		if (!TextUtils.isEmpty(dto.MAX_WD)) {
+			mHolder.tvMAX_WD.setText(dto.MAX_WD);
+		}
+		if (!TextUtils.isEmpty(dto.MAX_WS)) {
+			mHolder.tvMAX_WS.setText(dto.MAX_WS);
+		}
+		if (!TextUtils.isEmpty(dto.SMVP_5CM_AVE)) {
+			mHolder.tvSMVP_5CM_AVE.setText(dto.SMVP_5CM_AVE);
+		}
+		if (!TextUtils.isEmpty(dto.SMVP_10CM_AVE)) {
+			mHolder.tvSMVP_10CM_AVE.setText(dto.SMVP_10CM_AVE);
+		}
+		if (!TextUtils.isEmpty(dto.SMVP_20CM_AVE)) {
+			mHolder.tvSMVP_20CM_AVE.setText(dto.SMVP_20CM_AVE);
+		}
+		if (!TextUtils.isEmpty(dto.SMVP_30CM_AVE)) {
+			mHolder.tvSMVP_30CM_AVE.setText(dto.SMVP_30CM_AVE);
+		}
+		if (!TextUtils.isEmpty(dto.SMVP_40CM_AVE)) {
+			mHolder.tvSMVP_40CM_AVE.setText(dto.SMVP_40CM_AVE);
+		}
+		if (!TextUtils.isEmpty(dto.LAND_10CM_TEMP)) {
+			mHolder.tvLAND_10CM_TEMP.setText(dto.LAND_10CM_TEMP);
+		}
+		if (!TextUtils.isEmpty(dto.LAND_15CM_TEMP)) {
+			mHolder.tvLAND_15CM_TEMP.setText(dto.LAND_15CM_TEMP);
+		}
+		if (!TextUtils.isEmpty(dto.LAND_20CM_TEMP)) {
+			mHolder.tvLAND_20CM_TEMP.setText(dto.LAND_20CM_TEMP);
+		}
+		if (!TextUtils.isEmpty(dto.LAND_30CM_TEMP)) {
+			mHolder.tvLAND_30CM_TEMP.setText(dto.LAND_30CM_TEMP);
+		}
+		if (!TextUtils.isEmpty(dto.LAND_40CM_TEMP)) {
+			mHolder.tvLAND_40CM_TEMP.setText(dto.LAND_40CM_TEMP);
 		}
 
 		return convertView;

@@ -1,82 +1,198 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <com.cxwl.shawn.guangxi.ganzhe.view.MyHorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:id="@+id/llTitle"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:background="@color/white"
-                android:orientation="vertical">
+                android:layout_height="wrap_content"
+                android:background="@color/light_gray"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="5dp">
 
-    <LinearLayout
-        android:id="@+id/llTitle"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:background="@color/light_gray"
-        android:gravity="center_vertical"
-        android:orientation="horizontal"
-        android:padding="5dp">
+                <TextView
+                    android:id="@+id/tvStationName"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="站名"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5" />
 
-        <TextView
-            android:id="@+id/tvStationName"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="站名"
-            android:gravity="center"
-            android:textColor="@color/text_color3"
-            android:textSize="@dimen/level_5"/>
+                <TextView
+                    android:id="@+id/tvTEMP"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="气温"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5" />
 
-        <TextView
-            android:id="@+id/tvTemp30"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="土壤温度\n20cm"
-            android:textColor="@color/text_color3"
-            android:textSize="@dimen/level_5"/>
+                <TextView
+                    android:id="@+id/tvRELA_HUMI"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="相对\n湿度"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5" />
 
-        <TextView
-            android:id="@+id/tvTemp50"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="土壤温度\n40cm"
-            android:textColor="@color/text_color3"
-            android:textSize="@dimen/level_5"/>
+                <TextView
+                    android:id="@+id/tvMOST_WS"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="最大\n风速"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5" />
 
-        <TextView
-            android:id="@+id/tvHumidity20"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="含水率\n20cm"
-            android:textColor="@color/text_color3"
-            android:textSize="@dimen/level_5"/>
+                <TextView
+                    android:id="@+id/tvMOST_WD"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="最大\n风向"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5" />
 
-        <TextView
-            android:id="@+id/tvHumidity40"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:gravity="center"
-            android:text="含水率\n40cm"
-            android:textColor="@color/text_color3"
-            android:textSize="@dimen/level_5"/>
+                <TextView
+                    android:id="@+id/tvMAX_WS"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="极大\n风速"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5" />
 
-    </LinearLayout>
+                <TextView
+                    android:id="@+id/tvMAX_WD"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="极大\n风向"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5" />
 
-    <ListView
-        android:layout_below="@+id/llTitle"
-        android:id="@+id/listView"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:cacheColorHint="@color/transparent"
-        android:divider="@color/light_gray"
-        android:dividerHeight="0.5dip"
-        android:listSelector="@color/transparent"
-        android:overScrollMode="never"
-        android:scrollbars="none"/>
+                <TextView
+                    android:id="@+id/tvSMVP_5CM_AVE"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="含水量\n(5cm)"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5" />
+
+                <TextView
+                    android:id="@+id/tvSMVP_10CM_AVE"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="含水量\n(10cm)"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5" />
+
+                <TextView
+                    android:id="@+id/tvSMVP_20CM_AVE"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="含水量\n(20cm)"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5" />
+
+                <TextView
+                    android:id="@+id/tvSMVP_30CM_AVE"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="含水量\n(30cm)"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5" />
+
+                <TextView
+                    android:id="@+id/tvSMVP_40CM_AVE"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="含水量\n(40cm)"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5" />
+
+                <TextView
+                    android:id="@+id/tvLAND_10CM_TEMP"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="低温\n(10cm)"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5" />
+
+                <TextView
+                    android:id="@+id/tvLAND_15CM_TEMP"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="低温\n(15cm)"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5" />
+
+                <TextView
+                    android:id="@+id/tvLAND_20CM_TEMP"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="低温\n(20cm)"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5" />
+
+                <TextView
+                    android:id="@+id/tvLAND_30CM_TEMP"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="低温\n(30cm)"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5" />
+
+                <TextView
+                    android:id="@+id/tvLAND_40CM_TEMP"
+                    android:layout_width="60dp"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="低温\n(40cm)"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5" />
+
+            </LinearLayout>
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cacheColorHint="@color/transparent"
+                android:divider="@color/light_gray"
+                android:dividerHeight="0.5dip"
+                android:listSelector="@color/transparent"
+                android:overScrollMode="never"
+                android:scrollbars="none" />
+
+        </LinearLayout>
+
+    </com.cxwl.shawn.guangxi.ganzhe.view.MyHorizontalScrollView>
 
     <TextView
         android:id="@+id/tvPrompt"
@@ -86,6 +202,15 @@
         android:text="暂无数据~~~"
         android:textColor="@color/text_color4"
         android:textSize="@dimen/level_4"
-        android:visibility="gone"/>
+        android:visibility="gone" />
+
+    <com.wang.avi.AVLoadingIndicatorView xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:id="@+id/loadingView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:visibility="visible"
+        app:indicator="LineScalePulseOutRapid"
+        app:indicator_color="@color/colorPrimary" />
 
 </RelativeLayout>

@@ -125,6 +125,7 @@ public class ShawnMyFarmActivity extends ShawnBaseActivity implements View.OnCli
                                             dto.name = itemObj.getString("name");
                                             dto.imgUrl = itemObj.getString("img_url");
                                             dto.addr = itemObj.getString("addr");
+                                            dto.latLng = itemObj.getString("lonlat");
                                             dto.type = itemObj.getString("farm_type");
                                             dto.area = itemObj.getString("farm_area");
                                             dto.period = itemObj.getString("growth_period");

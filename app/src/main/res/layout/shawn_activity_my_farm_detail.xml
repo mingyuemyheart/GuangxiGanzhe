@@ -41,6 +41,15 @@
         android:textSize="@dimen/level_4" />
 
     <TextView
+        android:id="@+id/tvLatlng"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="35dp"
+        android:layout_marginTop="10dp"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_4" />
+
+    <TextView
         android:id="@+id/tvType"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

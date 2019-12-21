@@ -4,6 +4,7 @@ import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
@@ -19,7 +20,6 @@ import android.widget.TextView;
 import com.cxwl.shawn.guangxi.ganzhe.common.CONST;
 import com.cxwl.shawn.guangxi.ganzhe.dto.ColumnData;
 import com.cxwl.shawn.guangxi.ganzhe.fragment.ShawnFactFragment;
-import com.cxwl.shawn.guangxi.ganzhe.fragment.ShawnFactImageFragment;
 import com.cxwl.shawn.guangxi.ganzhe.fragment.ShawnGuangaiFragment;
 import com.cxwl.shawn.guangxi.ganzhe.fragment.ShawnPDFFragment;
 import com.cxwl.shawn.guangxi.ganzhe.fragment.ShawnRadarFragment;
@@ -33,7 +33,7 @@ import java.util.List;
  * 多个标签页
  * 蔗田监测
  */
-public class ShawnColumnsActivity extends ShawnBaseActivity implements View.OnClickListener {
+public class ShawnColumnsActivity extends FragmentActivity implements View.OnClickListener {
 
     private Context mContext;
     private LinearLayout llContainer;

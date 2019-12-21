@@ -602,14 +602,7 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
                         bundle.putParcelable("data", dto);
                         intent.putExtras(bundle);
                         startActivity(intent);
-                    }else if (TextUtils.equals(dto.id, "2")) {//智慧服务
-                        intent = new Intent(mContext, ShawnProductActivity.class);
-                        intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
-                        Bundle bundle = new Bundle();
-                        bundle.putParcelable("data", dto);
-                        intent.putExtras(bundle);
-                        startActivity(intent);
-                    }else if (TextUtils.equals(dto.id, "3")) {//交流互动
+                    }else if (TextUtils.equals(dto.id, "2") || TextUtils.equals(dto.id, "3")) {//智慧服务、交流互动
                         intent = new Intent(mContext, ShawnProductActivity.class);
                         intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
                         Bundle bundle = new Bundle();
