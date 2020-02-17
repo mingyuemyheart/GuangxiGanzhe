@@ -144,15 +144,15 @@ public class ShawnFactDataDetailActivity extends ShawnBaseActivity implements Vi
                                                 dataList.add(dto);
                                             }
 
-                                            FactTempGro30View factTempGro30View = new FactTempGro30View(mContext);
-                                            factTempGro30View.setData(dataList);
-                                            llContainer1.removeAllViews();
-                                            llContainer1.addView(factTempGro30View, width*4, width/2);
-
-                                            FactTempGro50View factTempGro50View = new FactTempGro50View(mContext);
-                                            factTempGro50View.setData(dataList);
-                                            llContainer2.removeAllViews();
-                                            llContainer2.addView(factTempGro50View, width*4, width/2);
+//                                            FactTempGro30View factTempGro30View = new FactTempGro30View(mContext);
+//                                            factTempGro30View.setData(dataList);
+//                                            llContainer1.removeAllViews();
+//                                            llContainer1.addView(factTempGro30View, width*4, width/2);
+//
+//                                            FactTempGro50View factTempGro50View = new FactTempGro50View(mContext);
+//                                            factTempGro50View.setData(dataList);
+//                                            llContainer2.removeAllViews();
+//                                            llContainer2.addView(factTempGro50View, width*4, width/2);
 
                                             FactHumidityGro20View factHumidityGro20View = new FactHumidityGro20View(mContext);
                                             factHumidityGro20View.setData(dataList);
