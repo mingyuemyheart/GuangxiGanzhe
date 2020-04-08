@@ -12,8 +12,6 @@ import com.cxwl.shawn.guangxi.ganzhe.dto.FactDto;
 import com.cxwl.shawn.guangxi.ganzhe.util.OkHttpUtil;
 import com.cxwl.shawn.guangxi.ganzhe.view.FactHumidityGro20View;
 import com.cxwl.shawn.guangxi.ganzhe.view.FactHumidityGro40View;
-import com.cxwl.shawn.guangxi.ganzhe.view.FactTempGro30View;
-import com.cxwl.shawn.guangxi.ganzhe.view.FactTempGro50View;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;

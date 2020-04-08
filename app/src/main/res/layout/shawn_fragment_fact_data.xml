@@ -5,9 +5,76 @@
     android:background="@color/white"
     android:orientation="vertical">
 
+    <LinearLayout
+        android:id="@+id/llTime"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_vertical|center"
+        android:orientation="horizontal" >
+
+        <TextView
+            android:layout_width="60dp"
+            android:layout_height="wrap_content"
+            android:text="选择时间"
+            android:textColor="@color/text_color3"
+            android:textSize="@dimen/level_4" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/bg_select_time"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" >
+
+            <TextView
+                android:id="@+id/tvDay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_5" />
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="3dp"
+                android:src="@drawable/skzl_pic_more" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/bg_select_time"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp" >
+
+            <TextView
+                android:id="@+id/tvHour"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_5" />
+
+            <ImageView
+                android:layout_width="10dp"
+                android:layout_height="10dp"
+                android:layout_marginStart="3dp"
+                android:src="@drawable/skzl_pic_more" />
+        </LinearLayout>
+
+    </LinearLayout>
+
     <com.cxwl.shawn.guangxi.ganzhe.view.MyHorizontalScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@+id/llTime"
         android:scrollbars="none">
 
         <LinearLayout
@@ -212,5 +279,13 @@
         android:visibility="visible"
         app:indicator="LineScalePulseOutRapid"
         app:indicator_color="@color/colorPrimary" />
+
+    <include
+        android:id="@+id/layoutDate"
+        android:visibility="gone"
+        layout="@layout/layout_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"/>
 
 </RelativeLayout>
