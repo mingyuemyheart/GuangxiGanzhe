@@ -398,7 +398,6 @@ public class ShawnFactStationFragment extends Fragment implements View.OnClickLi
 										factStationLandView.setData(lastStations, currentStations);
 										llContainer6.removeAllViews();
 										llContainer6.addView(factStationLandView, width*3, width/2);
-
 									} catch (JSONException e) {
 										e.printStackTrace();
 									}

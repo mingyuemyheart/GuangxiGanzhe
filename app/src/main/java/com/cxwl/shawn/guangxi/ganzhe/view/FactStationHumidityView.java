@@ -215,31 +215,33 @@ public class FactStationHumidityView extends View {
 		lineP.setColor(0xffadadad);
 		lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 1.5f));
 		lineP.setAntiAlias(true);
-		for (int i = 0; i < lastStations.size()-1; i++) {
-			FactDto dto = lastStations.get(i);
-			FactDto dto2 = lastStations.get(i+1);
+		if (lastStations.size() > 0) {
+			for (int i = 0; i < lastStations.size()-1; i++) {
+				FactDto dto = lastStations.get(i);
+				FactDto dto2 = lastStations.get(i+1);
 
-			float x1 = dto.x;
-			float y1 = dto.y;
-			float x2 = dto2.x;
-			float y2 = dto2.y;
+				float x1 = dto.x;
+				float y1 = dto.y;
+				float x2 = dto2.x;
+				float y2 = dto2.y;
 
-			float wt = (x1 + x2) / 2;
+				float wt = (x1 + x2) / 2;
 
-			float x3 = wt;
-			float y3 = y1;
-			float x4 = wt;
-			float y4 = y2;
+				float x3 = wt;
+				float y3 = y1;
+				float x4 = wt;
+				float y4 = y2;
 
-			Path linePath = new Path();
-			linePath.moveTo(x1, y1);
-			linePath.cubicTo(x3, y3, x4, y4, x2, y2);
-			canvas.drawPath(linePath, lineP);
+				Path linePath = new Path();
+				linePath.moveTo(x1, y1);
+				linePath.cubicTo(x3, y3, x4, y4, x2, y2);
+				canvas.drawPath(linePath, lineP);
+			}
 		}
 
 		textP.setColor(0xffadadad);
 		textP.setTextSize(CommonUtil.dip2px(mContext, 10));
-		for (int i = 0; i < size; i++) {
+		for (int i = 0; i < lastStations.size(); i++) {
 			FactDto dto = lastStations.get(i);
 
 			//绘制曲线上每个点的数据值

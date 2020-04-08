@@ -262,9 +262,9 @@ public class ShawnFactFragment extends Fragment {
         data = new ColumnData();
         data.name = "相关数据查询";
         columnList.add(data);
-//        data = new ColumnData();
-//        data.name = "站点查询";
-//        columnList.add(data);
+        data = new ColumnData();
+        data.name = "站点查询";
+        columnList.add(data);
 
         int columnSize = columnList.size();
         for (int i = 0; i < columnSize; i++) {
