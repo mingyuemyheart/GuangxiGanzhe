@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:background="@drawable/shawn_selector_item"
+              android:gravity="center_vertical"
+              android:orientation="horizontal"
+              android:padding="5dp">
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="日期"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5" />
+
+    <TextView
+        android:id="@+id/tvSoilRH"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="目标土壤\n湿度%"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5" />
+
+    <TextView
+        android:id="@+id/tvRH"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="实际土壤\n湿度%"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5" />
+
+    <TextView
+        android:id="@+id/tvFc"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="田间持\n水量%"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5" />
+
+    <TextView
+        android:id="@+id/tvFi"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="土壤容量\ng/cm2"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5" />
+
+    <TextView
+        android:id="@+id/tvP"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="降水量\nmm"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5" />
+
+    <TextView
+        android:id="@+id/tvET0"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="蒸散量\nmm"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5" />
+
+    <TextView
+        android:id="@+id/tvKc"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="作物系数\n%"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5" />
+
+    <TextView
+        android:id="@+id/tvForecastDays"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="预报日数"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5" />
+
+    <TextView
+        android:id="@+id/tvI"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="预报灌溉\n量mm"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5" />
+
+    <TextView
+        android:id="@+id/tvI2"
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="预报灌溉\n量m³"
+        android:textColor="@color/text_color3"
+        android:textSize="@dimen/level_5" />
+
+</LinearLayout>

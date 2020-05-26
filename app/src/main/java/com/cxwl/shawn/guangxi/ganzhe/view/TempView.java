@@ -1,19 +1,15 @@
 package com.cxwl.shawn.guangxi.ganzhe.view;
 
 import android.content.Context;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Paint.Style;
 import android.graphics.Path;
-import android.media.ThumbnailUtils;
 import android.text.TextUtils;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.cxwl.shawn.guangxi.ganzhe.R;
 import com.cxwl.shawn.guangxi.ganzhe.dto.FactDto;
 import com.cxwl.shawn.guangxi.ganzhe.util.CommonUtil;
 
@@ -24,31 +20,30 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * 预报灌溉量
+ * 温度
  */
-public class ForeGuangaiView extends View {
+public class TempView extends View {
 
 	private Context mContext;
 	private List<FactDto> tempList = new ArrayList<>();
 	private float maxValue = 0, minValue = 0;
 	private Paint lineP,textP;//画线画笔
-	private SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
-	private SimpleDateFormat sdf2 = new SimpleDateFormat("MM/dd", Locale.CHINA);
-	private Bitmap bitmap;
+	private SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.0", Locale.CHINA);
+	private SimpleDateFormat sdf2 = new SimpleDateFormat("HH", Locale.CHINA);
 
-	public ForeGuangaiView(Context context) {
+	public TempView(Context context) {
 		super(context);
 		mContext = context;
 		init();
 	}
 
-	public ForeGuangaiView(Context context, AttributeSet attrs) {
+	public TempView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mContext = context;
 		init();
 	}
 
-	public ForeGuangaiView(Context context, AttributeSet attrs, int defStyleAttr) {
+	public TempView(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		mContext = context;
 		init();
@@ -62,9 +57,6 @@ public class ForeGuangaiView extends View {
 		
 		textP = new Paint();
 		textP.setAntiAlias(true);
-		
-		bitmap = ThumbnailUtils.extractThumbnail(BitmapFactory.decodeResource(getResources(), R.drawable.shawn_icon_marker_rain),
-				(int)(CommonUtil.dip2px(mContext, 25)), (int)(CommonUtil.dip2px(mContext, 25)));
 	}
 	
 	/**
@@ -77,21 +69,8 @@ public class ForeGuangaiView extends View {
 			if (tempList.isEmpty()) {
 				return;
 			}
-
-			maxValue = tempList.get(0).foreGuangai;
-			for (int i = 0; i < tempList.size(); i++) {
-				FactDto dto = tempList.get(i);
-				if (maxValue <= dto.foreGuangai) {
-					maxValue = dto.foreGuangai;
-				}
-			}
-
-			if (maxValue == 0 && minValue == 0) {
-				maxValue = 100;
-			}else {
-				int itemDivider = 20;
-				maxValue = (float) (Math.ceil(maxValue)+itemDivider*2);
-			}
+			
+			maxValue = 100;
 			minValue = 0;
 		}
 	}
@@ -118,22 +97,31 @@ public class ForeGuangaiView extends View {
 		//获取曲线上每个温度点的坐标
 		for (int i = 0; i < size; i++) {
 			FactDto dto = tempList.get(i);
-			dto.x = columnWidth*i + columnWidth/2 + leftMargin;
-			
-			float value = dto.foreGuangai;
-			dto.y = chartH-chartH*Math.abs(value)/(Math.abs(maxValue)+Math.abs(minValue)) + topMargin;
+			dto.x10 = columnWidth*i + leftMargin;
+			dto.x20 = columnWidth*i + leftMargin;
+			dto.x30 = columnWidth*i + leftMargin;
+
+			float value = Float.valueOf(dto.SMVP_10CM_AVE);
+			dto.y10 = chartH-chartH*Math.abs(value)/(Math.abs(maxValue)+Math.abs(minValue)) + topMargin;
+			value = Float.valueOf(dto.SMVP_20CM_AVE);
+			dto.y20 = chartH-chartH*Math.abs(value)/(Math.abs(maxValue)+Math.abs(minValue)) + topMargin;
+			value = Float.valueOf(dto.SMVP_30CM_AVE);
+			dto.y30 = chartH-chartH*Math.abs(value)/(Math.abs(maxValue)+Math.abs(minValue)) + topMargin;
+
 			tempList.set(i, dto);
 		}
 
-		//绘制区域
+
 		lineP.setStyle(Style.FILL);
 		for (int i = 0; i < size-1; i++) {
 			FactDto dto = tempList.get(i);
+			FactDto dto2 = tempList.get(i+1);
+			//绘制区域
 			Path rectPath = new Path();
-			rectPath.moveTo(dto.x-columnWidth/2, topMargin);
-			rectPath.lineTo(dto.x+columnWidth/2, topMargin);
-			rectPath.lineTo(dto.x+columnWidth/2, h-bottomMargin);
-			rectPath.lineTo(dto.x-columnWidth/2, h-bottomMargin);
+			rectPath.moveTo(dto.x10, topMargin);
+			rectPath.lineTo(dto2.x10, topMargin);
+			rectPath.lineTo(dto2.x10, h-bottomMargin);
+			rectPath.lineTo(dto.x10, h-bottomMargin);
 			rectPath.close();
 			if (i%8 == 0 || i%8 == 1 || i%8 == 2 || i%8 == 3) {
 				lineP.setColor(Color.WHITE);
@@ -147,8 +135,8 @@ public class ForeGuangaiView extends View {
 		for (int i = 0; i < size; i++) {
 			FactDto dto = tempList.get(i);
 			Path linePath = new Path();
-			linePath.moveTo(dto.x-columnWidth/2, topMargin);
-			linePath.lineTo(dto.x-columnWidth/2, h-bottomMargin);
+			linePath.moveTo(dto.x10, topMargin);
+			linePath.lineTo(dto.x10, h-bottomMargin);
 			linePath.close();
 			lineP.setColor(0xfff1f1f1);
 			lineP.setStyle(Style.STROKE);
@@ -168,23 +156,67 @@ public class ForeGuangaiView extends View {
 		}
 
 		//绘制柱形图
-		for (int i = 0; i < size; i++) {
+		lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 1.5f));
+		for (int i = 0; i < size-1; i++) {
 			FactDto dto = tempList.get(i);
+			FactDto dto2 = tempList.get(i+1);
 
-			lineP.setColor(0xff77A8DA);
-			lineP.setStyle(Style.FILL);
-			lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 1));
-			canvas.drawRect(dto.x-columnWidth/4, dto.y, dto.x+columnWidth/4, h-bottomMargin, lineP);
-			
-			//绘制曲线上每个点的数据值
-			if (dto.foreGuangai != 0) {
-				textP.setColor(0xff77A8DA);
-				textP.setTextSize(CommonUtil.dip2px(mContext, 10));
-				float tempWidth = textP.measureText(dto.foreGuangai+"");
-				canvas.drawBitmap(bitmap, dto.x-bitmap.getWidth()/2, dto.y-bitmap.getHeight()-CommonUtil.dip2px(mContext, 2.5f), textP);
-				canvas.drawText(dto.foreGuangai+"", dto.x-tempWidth/2, dto.y-bitmap.getHeight()/2, textP);
-			}
+			lineP.setColor(0xffEE7A57);
+			float x1 = dto.x10;
+			float y1 = dto.y10;
+			float x2 = dto2.x10;
+			float y2 = dto2.y10;
+			float wt = (x1 + x2) / 2;
+			float x3 = wt;
+			float y3 = y1;
+			float x4 = wt;
+			float y4 = y2;
+			Path linePath = new Path();
+			linePath.moveTo(x1, y1);
+			linePath.cubicTo(x3, y3, x4, y4, x2, y2);
+			canvas.drawPath(linePath, lineP);
+
+			lineP.setColor(0xff87C5E8);
+			x1 = dto.x20;
+			y1 = dto.y20;
+			x2 = dto2.x20;
+			y2 = dto2.y20;
+			wt = (x1 + x2) / 2;
+			x3 = wt;
+			y3 = y1;
+			x4 = wt;
+			y4 = y2;
+			linePath = new Path();
+			linePath.moveTo(x1, y1);
+			linePath.cubicTo(x3, y3, x4, y4, x2, y2);
+			canvas.drawPath(linePath, lineP);
+
+			lineP.setColor(0xffD46CC6);
+			x1 = dto.x30;
+			y1 = dto.y30;
+			x2 = dto2.x30;
+			y2 = dto2.y30;
+			wt = (x1 + x2) / 2;
+			x3 = wt;
+			y3 = y1;
+			x4 = wt;
+			y4 = y2;
+			linePath = new Path();
+			linePath.moveTo(x1, y1);
+			linePath.cubicTo(x3, y3, x4, y4, x2, y2);
+			canvas.drawPath(linePath, lineP);
+
 		}
+
+//		textP.setColor(0xff77A8DA);
+//		textP.setTextSize(CommonUtil.dip2px(mContext, 10));
+//		for (int i = 0; i < size; i++) {
+//			FactDto dto = tempList.get(i);
+//
+//			//绘制曲线上每个点的数据值
+//			float tempWidth = textP.measureText(dto.SMVP_10CM_AVE);
+//			canvas.drawText(dto.SMVP_10CM_AVE+"", dto.x10-tempWidth/2, dto.y10-(int)CommonUtil.dip2px(mContext, 5), textP);
+//		}
 
 		//绘制时间
 		textP.setColor(0xff999999);
@@ -203,7 +235,7 @@ public class ForeGuangaiView extends View {
 					}
 					if (!TextUtils.isEmpty(time)) {
 						float text = textP.measureText(time);
-						canvas.drawText(time, dto.x-text/2, h-CommonUtil.dip2px(mContext, 20f), textP);
+						canvas.drawText(time, dto.x10-text/2, h-CommonUtil.dip2px(mContext, 20f), textP);
 					}
 				}
 			} catch (ParseException e) {

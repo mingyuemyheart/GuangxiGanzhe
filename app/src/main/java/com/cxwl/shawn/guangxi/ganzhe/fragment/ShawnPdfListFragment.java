@@ -64,12 +64,7 @@ public class ShawnPdfListFragment extends Fragment {
 		refreshLayout = view.findViewById(R.id.refreshLayout);
 		refreshLayout.setColorSchemeResources(CONST.color1, CONST.color2, CONST.color3, CONST.color4);
 		refreshLayout.setProgressViewEndTarget(true, 400);
-		refreshLayout.post(new Runnable() {
-			@Override
-			public void run() {
-				refreshLayout.setRefreshing(true);
-			}
-		});
+		refreshLayout.setRefreshing(true);
 		refreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
 			@Override
 			public void onRefresh() {
@@ -87,9 +82,7 @@ public class ShawnPdfListFragment extends Fragment {
 	private void refresh() {
 		dataList.clear();
 		String url = getArguments().getString(CONST.WEB_URL);
-		if (!TextUtils.isEmpty(url)) {
-			OkHttpList(url);
-		}
+		OkHttpList(url);
 	}
 
 	private void initListView(View view) {
@@ -119,7 +112,6 @@ public class ShawnPdfListFragment extends Fragment {
 			tvPrompt.setVisibility(View.VISIBLE);
 			return;
 		}
-		final String columnId = getArguments().getString(CONST.COLUMN_ID);
 		new Thread(new Runnable() {
 			@Override
 			public void run() {
@@ -136,9 +128,10 @@ public class ShawnPdfListFragment extends Fragment {
 						getActivity().runOnUiThread(new Runnable() {
 							@Override
 							public void run() {
+								refreshLayout.setRefreshing(false);
 								if (!TextUtils.isEmpty(result)) {
 									try {
-										if (TextUtils.equals(columnId, "609") || TextUtils.equals(columnId, "570")) {
+										if (result.startsWith("[")) {
 											JSONArray array = new JSONArray(result);
 											for (int i = 0; i < array.length(); i++) {
 												JSONObject itemObj = array.getJSONObject(i);
@@ -223,16 +216,13 @@ public class ShawnPdfListFragment extends Fragment {
 											mAdapter.notifyDataSetChanged();
 										}
 
-										if (dataList.size() == 0) {
+										if (dataList.size() <= 0) {
 											tvPrompt.setVisibility(View.VISIBLE);
 										}
 									} catch (JSONException e) {
 										e.printStackTrace();
 									}
 								}
-
-								refreshLayout.setRefreshing(false);
-
 							}
 						});
 					}

@@ -24,30 +24,30 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * 土壤湿度监测
+ * 土壤体积含水量
  */
-public class ForeHumidityView extends View {
+public class WaterView extends View {
 
 	private Context mContext;
 	private List<FactDto> tempList = new ArrayList<>();
 	private float maxValue = 0, minValue = 0;
 	private Paint lineP,textP;//画线画笔
-	private SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
-	private SimpleDateFormat sdf2 = new SimpleDateFormat("MM/dd", Locale.CHINA);
+	private SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.0", Locale.CHINA);
+	private SimpleDateFormat sdf2 = new SimpleDateFormat("HH", Locale.CHINA);
 
-	public ForeHumidityView(Context context) {
+	public WaterView(Context context) {
 		super(context);
 		mContext = context;
 		init();
 	}
 
-	public ForeHumidityView(Context context, AttributeSet attrs) {
+	public WaterView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		mContext = context;
 		init();
 	}
 
-	public ForeHumidityView(Context context, AttributeSet attrs, int defStyleAttr) {
+	public WaterView(Context context, AttributeSet attrs, int defStyleAttr) {
 		super(context, attrs, defStyleAttr);
 		mContext = context;
 		init();
@@ -101,10 +101,23 @@ public class ForeHumidityView extends View {
 		//获取曲线上每个温度点的坐标
 		for (int i = 0; i < size; i++) {
 			FactDto dto = tempList.get(i);
-			dto.x = columnWidth*i + leftMargin;
-			
-			float value = dto.humidity;
-			dto.y = chartH-chartH*Math.abs(value)/(Math.abs(maxValue)+Math.abs(minValue)) + topMargin;
+			dto.x10 = columnWidth*i + leftMargin;
+			dto.x20 = columnWidth*i + leftMargin;
+			dto.x30 = columnWidth*i + leftMargin;
+			dto.x40 = columnWidth*i + leftMargin;
+			dto.x50 = columnWidth*i + leftMargin;
+
+			float value = Float.valueOf(dto.SMVP_10CM_AVE);
+			dto.y10 = chartH-chartH*Math.abs(value)/(Math.abs(maxValue)+Math.abs(minValue)) + topMargin;
+			value = Float.valueOf(dto.SMVP_20CM_AVE);
+			dto.y20 = chartH-chartH*Math.abs(value)/(Math.abs(maxValue)+Math.abs(minValue)) + topMargin;
+			value = Float.valueOf(dto.SMVP_30CM_AVE);
+			dto.y30 = chartH-chartH*Math.abs(value)/(Math.abs(maxValue)+Math.abs(minValue)) + topMargin;
+			value = Float.valueOf(dto.SMVP_40CM_AVE);
+			dto.y40 = chartH-chartH*Math.abs(value)/(Math.abs(maxValue)+Math.abs(minValue)) + topMargin;
+			value = Float.valueOf(dto.SMVP_50CM_AVE);
+			dto.y50 = chartH-chartH*Math.abs(value)/(Math.abs(maxValue)+Math.abs(minValue)) + topMargin;
+
 			tempList.set(i, dto);
 		}
 
@@ -115,10 +128,10 @@ public class ForeHumidityView extends View {
 			FactDto dto2 = tempList.get(i+1);
 			//绘制区域
 			Path rectPath = new Path();
-			rectPath.moveTo(dto.x, topMargin);
-			rectPath.lineTo(dto2.x, topMargin);
-			rectPath.lineTo(dto2.x, h-bottomMargin);
-			rectPath.lineTo(dto.x, h-bottomMargin);
+			rectPath.moveTo(dto.x10, topMargin);
+			rectPath.lineTo(dto2.x10, topMargin);
+			rectPath.lineTo(dto2.x10, h-bottomMargin);
+			rectPath.lineTo(dto.x10, h-bottomMargin);
 			rectPath.close();
 			if (i%8 == 0 || i%8 == 1 || i%8 == 2 || i%8 == 3) {
 				lineP.setColor(Color.WHITE);
@@ -132,8 +145,8 @@ public class ForeHumidityView extends View {
 		for (int i = 0; i < size; i++) {
 			FactDto dto = tempList.get(i);
 			Path linePath = new Path();
-			linePath.moveTo(dto.x, topMargin);
-			linePath.lineTo(dto.x, h-bottomMargin);
+			linePath.moveTo(dto.x10, topMargin);
+			linePath.lineTo(dto.x10, h-bottomMargin);
 			linePath.close();
 			lineP.setColor(0xfff1f1f1);
 			lineP.setStyle(Style.STROKE);
@@ -153,41 +166,96 @@ public class ForeHumidityView extends View {
 		}
 
 		//绘制柱形图
-		lineP.setColor(0xff77A8DA);
 		lineP.setStrokeWidth(CommonUtil.dip2px(mContext, 1.5f));
 		for (int i = 0; i < size-1; i++) {
 			FactDto dto = tempList.get(i);
 			FactDto dto2 = tempList.get(i+1);
 
-			float x1 = dto.x;
-			float y1 = dto.y;
-			float x2 = dto2.x;
-			float y2 = dto2.y;
-
+			lineP.setColor(0xffEE7A57);
+			float x1 = dto.x10;
+			float y1 = dto.y10;
+			float x2 = dto2.x10;
+			float y2 = dto2.y10;
 			float wt = (x1 + x2) / 2;
-
 			float x3 = wt;
 			float y3 = y1;
 			float x4 = wt;
 			float y4 = y2;
-
 			Path linePath = new Path();
+			linePath.moveTo(x1, y1);
+			linePath.cubicTo(x3, y3, x4, y4, x2, y2);
+			canvas.drawPath(linePath, lineP);
+
+			lineP.setColor(0xff83C5F2);
+			x1 = dto.x20;
+			y1 = dto.y20;
+			x2 = dto2.x20;
+			y2 = dto2.y20;
+			wt = (x1 + x2) / 2;
+			x3 = wt;
+			y3 = y1;
+			x4 = wt;
+			y4 = y2;
+			linePath = new Path();
+			linePath.moveTo(x1, y1);
+			linePath.cubicTo(x3, y3, x4, y4, x2, y2);
+			canvas.drawPath(linePath, lineP);
+
+			lineP.setColor(0xffCF6FC7);
+			x1 = dto.x30;
+			y1 = dto.y30;
+			x2 = dto2.x30;
+			y2 = dto2.y30;
+			wt = (x1 + x2) / 2;
+			x3 = wt;
+			y3 = y1;
+			x4 = wt;
+			y4 = y2;
+			linePath = new Path();
+			linePath.moveTo(x1, y1);
+			linePath.cubicTo(x3, y3, x4, y4, x2, y2);
+			canvas.drawPath(linePath, lineP);
+
+			lineP.setColor(0xff58C053);
+			x1 = dto.x40;
+			y1 = dto.y40;
+			x2 = dto2.x40;
+			y2 = dto2.y40;
+			wt = (x1 + x2) / 2;
+			x3 = wt;
+			y3 = y1;
+			x4 = wt;
+			y4 = y2;
+			linePath = new Path();
+			linePath.moveTo(x1, y1);
+			linePath.cubicTo(x3, y3, x4, y4, x2, y2);
+			canvas.drawPath(linePath, lineP);
+
+			lineP.setColor(0xff6288DF);
+			x1 = dto.x50;
+			y1 = dto.y50;
+			x2 = dto2.x50;
+			y2 = dto2.y50;
+			wt = (x1 + x2) / 2;
+			x3 = wt;
+			y3 = y1;
+			x4 = wt;
+			y4 = y2;
+			linePath = new Path();
 			linePath.moveTo(x1, y1);
 			linePath.cubicTo(x3, y3, x4, y4, x2, y2);
 			canvas.drawPath(linePath, lineP);
 		}
 
-		textP.setColor(0xff77A8DA);
-		textP.setTextSize(CommonUtil.dip2px(mContext, 10));
-		for (int i = 0; i < size; i++) {
-			FactDto dto = tempList.get(i);
-
-			//绘制曲线上每个点的数据值
-			if (dto.humidity != 0) {
-				float tempWidth = textP.measureText(dto.humidity+"");
-				canvas.drawText(dto.humidity+"", dto.x-tempWidth/2, dto.y-(int)CommonUtil.dip2px(mContext, 5), textP);
-			}
-		}
+//		textP.setColor(0xff77A8DA);
+//		textP.setTextSize(CommonUtil.dip2px(mContext, 10));
+//		for (int i = 0; i < size; i++) {
+//			FactDto dto = tempList.get(i);
+//
+//			//绘制曲线上每个点的数据值
+//			float tempWidth = textP.measureText(dto.SMVP_10CM_AVE);
+//			canvas.drawText(dto.SMVP_10CM_AVE+"", dto.x10-tempWidth/2, dto.y10-(int)CommonUtil.dip2px(mContext, 5), textP);
+//		}
 
 		//绘制时间
 		textP.setColor(0xff999999);
@@ -206,7 +274,7 @@ public class ForeHumidityView extends View {
 					}
 					if (!TextUtils.isEmpty(time)) {
 						float text = textP.measureText(time);
-						canvas.drawText(time, dto.x-text/2, h-CommonUtil.dip2px(mContext, 20f), textP);
+						canvas.drawText(time, dto.x10-text/2, h-CommonUtil.dip2px(mContext, 20f), textP);
 					}
 				}
 			} catch (ParseException e) {

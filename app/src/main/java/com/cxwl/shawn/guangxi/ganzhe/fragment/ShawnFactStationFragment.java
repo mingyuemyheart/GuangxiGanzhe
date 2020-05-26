@@ -240,6 +240,30 @@ public class ShawnFactStationFragment extends Fragment implements View.OnClickLi
 											}else {
 												dto.SMVP_5CM_AVEL = "--";
 											}
+											if (!itemObj.isNull("SMVP_10CM_AVE")) {
+												dto.SMVP_10CM_AVEL = itemObj.getString("SMVP_10CM_AVE");
+												if (dto.SMVP_10CM_AVEL.contains("9999")) {
+													dto.SMVP_10CM_AVEL = "--";
+												}
+											}else {
+												dto.SMVP_10CM_AVEL = "--";
+											}
+											if (!itemObj.isNull("SMVP_20CM_AVE")) {
+												dto.SMVP_20CM_AVEL = itemObj.getString("SMVP_20CM_AVE");
+												if (dto.SMVP_20CM_AVEL.contains("9999")) {
+													dto.SMVP_20CM_AVEL = "--";
+												}
+											}else {
+												dto.SMVP_20CM_AVEL = "--";
+											}
+											if (!itemObj.isNull("SMVP_40CM_AVE")) {
+												dto.SMVP_40CM_AVEL = itemObj.getString("SMVP_40CM_AVE");
+												if (dto.SMVP_40CM_AVEL.contains("9999")) {
+													dto.SMVP_40CM_AVEL = "--";
+												}
+											}else {
+												dto.SMVP_40CM_AVEL = "--";
+											}
 
 											if (!itemObj.isNull("AVE_WS_2MIN")) {
 												dto.AVE_WS_2MINL = itemObj.getString("AVE_WS_2MIN");
@@ -346,6 +370,30 @@ public class ShawnFactStationFragment extends Fragment implements View.OnClickLi
 												}
 											}else {
 												dto.SMVP_5CM_AVE = "--";
+											}
+											if (!itemObj.isNull("SMVP_10CM_AVE")) {
+												dto.SMVP_10CM_AVE = itemObj.getString("SMVP_10CM_AVE");
+												if (dto.SMVP_10CM_AVE.contains("9999")) {
+													dto.SMVP_10CM_AVE = "--";
+												}
+											}else {
+												dto.SMVP_10CM_AVE = "--";
+											}
+											if (!itemObj.isNull("SMVP_20CM_AVE")) {
+												dto.SMVP_20CM_AVE = itemObj.getString("SMVP_20CM_AVE");
+												if (dto.SMVP_20CM_AVE.contains("9999")) {
+													dto.SMVP_20CM_AVE = "--";
+												}
+											}else {
+												dto.SMVP_20CM_AVE = "--";
+											}
+											if (!itemObj.isNull("SMVP_40CM_AVE")) {
+												dto.SMVP_40CM_AVE = itemObj.getString("SMVP_40CM_AVE");
+												if (dto.SMVP_40CM_AVE.contains("9999")) {
+													dto.SMVP_40CM_AVE = "--";
+												}
+											}else {
+												dto.SMVP_40CM_AVE = "--";
 											}
 
 											if (!itemObj.isNull("AVE_WS_2MIN")) {

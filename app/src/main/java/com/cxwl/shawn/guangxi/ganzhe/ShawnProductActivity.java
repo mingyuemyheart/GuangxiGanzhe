@@ -81,8 +81,8 @@ public class ShawnProductActivity extends ShawnBaseActivity implements View.OnCl
                         intent = new Intent(mContext, ShawnMyFarmActivity.class);
                         intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
                         startActivity(intent);
-                    }else if (TextUtils.equals(dto.id, "302")) {//专家联盟
-                        intent = new Intent(mContext, ShawnExpertActivity.class);
+                    }else if (TextUtils.equals(dto.id, "302")) {//农情灾情
+                        intent = new Intent(mContext, ShawnMyDisasterActivity.class);
                         intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
                         intent.putExtra(CONST.WEB_URL, dto.dataUrl);
                         startActivity(intent);

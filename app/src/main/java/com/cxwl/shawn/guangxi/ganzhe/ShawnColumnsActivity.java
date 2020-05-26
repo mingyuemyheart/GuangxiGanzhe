@@ -101,6 +101,11 @@ public class ShawnColumnsActivity extends FragmentActivity implements View.OnCli
                     }
                     if (!TextUtils.isEmpty(dto.name)) {
                         tvName.setText(dto.name);
+                        if (TextUtils.equals(dto.name, "阀门A")) {
+                            tvName.setText("A区轮灌组");
+                        } else if (TextUtils.equals(dto.name, "阀门B")) {
+                            tvName.setText("B区轮灌组");
+                        }
                     }
                     LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
                     params.weight = 1.0f;
@@ -132,13 +137,13 @@ public class ShawnColumnsActivity extends FragmentActivity implements View.OnCli
                             fragment = new ShawnGuangaiFragment();
                             Bundle bundle = new Bundle();
                             bundle.putString(CONST.WEB_URL, dto.dataUrl);
-                            bundle.putString("valve_id", "3881");
+                            bundle.putString("valve_id", "3880");
                             fragment.setArguments(bundle);
                         }else if (TextUtils.equals(dto.id, "2002")) {//智能灌溉-阀门2
                             fragment = new ShawnGuangaiFragment();
                             Bundle bundle = new Bundle();
                             bundle.putString(CONST.WEB_URL, dto.dataUrl);
-                            bundle.putString("valve_id", "3882");
+                            bundle.putString("valve_id", "3881");
                             fragment.setArguments(bundle);
                         }
                     }

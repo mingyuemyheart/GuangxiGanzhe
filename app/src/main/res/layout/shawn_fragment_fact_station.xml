@@ -195,7 +195,7 @@
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/divider3"
                 android:padding="10dp"
-                android:text="5cm土壤体积含水量 单位：%"
+                android:text="土壤体积含水量 单位：%"
                 android:textColor="@color/text_color3"
                 android:textSize="@dimen/level_4" />
 

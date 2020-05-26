@@ -2,26 +2,25 @@ package com.cxwl.shawn.guangxi.ganzhe.fragment;
 
 import android.app.Fragment;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.cxwl.shawn.guangxi.ganzhe.R;
-import com.cxwl.shawn.guangxi.ganzhe.ShawnLandActivity;
-import com.cxwl.shawn.guangxi.ganzhe.common.CONST;
+import com.cxwl.shawn.guangxi.ganzhe.ShawnForeActivity;
 import com.cxwl.shawn.guangxi.ganzhe.dto.FactDto;
-import com.cxwl.shawn.guangxi.ganzhe.util.CommonUtil;
 import com.cxwl.shawn.guangxi.ganzhe.util.OkHttpUtil;
-import com.cxwl.shawn.guangxi.ganzhe.view.ForeGuangaiView;
-import com.cxwl.shawn.guangxi.ganzhe.view.ForeHumidityView;
+import com.cxwl.shawn.guangxi.ganzhe.view.TempView;
+import com.cxwl.shawn.guangxi.ganzhe.view.WaterView;
 import com.wang.avi.AVLoadingIndicatorView;
 
 import org.json.JSONArray;
@@ -37,9 +36,7 @@ import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Callback;
-import okhttp3.FormBody;
 import okhttp3.Request;
-import okhttp3.RequestBody;
 import okhttp3.Response;
 
 /**
@@ -47,19 +44,21 @@ import okhttp3.Response;
  */
 public class ShawnGuangaiFragment extends Fragment implements View.OnClickListener {
 
-    private TextView tvState,tvSwitch,tvLog;
-    private List<FactDto> dataList = new ArrayList<>();
+    private ImageView ivOpen,ivClose,ivRefresh;
+    private TextView tvOpen,tvClose,tvRefresh,tvForeGuangai,tvParkName,tvDeviceName,tvDeviceState,tvSpeed,tvStationId,tvWaterId,tvClass,tvType,tvBorn,tvCover,tvAddr,tvWater,tvTemp,tvChartName;
+    private List<FactDto> waterList = new ArrayList<>();
+    private List<FactDto> tempList = new ArrayList<>();
     private int width;
     private LinearLayout llContainer1,llContainer2;
     private AVLoadingIndicatorView loadingView;
-    private String valve_id = "3881";//阀门id
-    private SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMdd", Locale.CHINA);
+    private String valve_id = "3880";//阀门id
+    private SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINA);
+    private LinearLayout llBar1,llBar2;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.shawn_fragment_guangai, null);
-        return view;
+        return inflater.inflate(R.layout.shawn_fragment_guangai, null);
     }
 
     @Override
@@ -72,42 +71,59 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
         loadingView = view.findViewById(R.id.loadingView);
         llContainer1 = view.findViewById(R.id.llContainer1);
         llContainer2 = view.findViewById(R.id.llContainer2);
-        tvState = view.findViewById(R.id.tvState);
-        tvSwitch = view.findViewById(R.id.tvSwitch);
-        tvSwitch.setOnClickListener(this);
-        tvLog = view.findViewById(R.id.tvLog);
-        tvLog.setOnClickListener(this);
-        TextView tvLand = view.findViewById(R.id.tvLand);
-        tvLand.setOnClickListener(this);
+        tvOpen = view.findViewById(R.id.tvOpen);
+        tvOpen.setOnClickListener(this);
+        tvParkName = view.findViewById(R.id.tvParkName);
+        tvDeviceName = view.findViewById(R.id.tvDeviceName);
+        tvDeviceState = view.findViewById(R.id.tvDeviceState);
+        tvSpeed = view.findViewById(R.id.tvSpeed);
+        tvStationId = view.findViewById(R.id.tvStationId);
+        tvWaterId = view.findViewById(R.id.tvWaterId);
+        tvClass = view.findViewById(R.id.tvClass);
+        tvType = view.findViewById(R.id.tvType);
+        tvBorn = view.findViewById(R.id.tvBorn);
+        tvCover = view.findViewById(R.id.tvCover);
+        tvAddr = view.findViewById(R.id.tvAddr);
+        tvWater = view.findViewById(R.id.tvWater);
+        tvWater.setOnClickListener(this);
+        tvTemp = view.findViewById(R.id.tvTemp);
+        tvTemp.setOnClickListener(this);
+        tvChartName = view.findViewById(R.id.tvChartName);
+        llBar1 = view.findViewById(R.id.llBar1);
+        llBar2 = view.findViewById(R.id.llBar2);
+        ivOpen = view.findViewById(R.id.ivOpen);
+        ivOpen.setOnClickListener(this);
+        ivRefresh = view.findViewById(R.id.ivRefresh);
+        ivRefresh.setOnClickListener(this);
+        tvRefresh = view.findViewById(R.id.tvRefresh);
+        tvRefresh.setOnClickListener(this);
+        ivClose = view.findViewById(R.id.ivClose);
+        ivClose.setOnClickListener(this);
+        tvClose = view.findViewById(R.id.tvClose);
+        tvClose.setOnClickListener(this);
+        tvForeGuangai = view.findViewById(R.id.tvForeGuangai);
+        tvForeGuangai.setOnClickListener(this);
 
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
         width = dm.widthPixels;
 
         valve_id = getArguments().getString("valve_id");
+        tvChartName.setText(sdf2.format(new Date())+"逐小时土壤体积含水量曲线图");
 
-        OkHttpCheck();
-        OkHttpList();
+        okHttpBase();
     }
 
     /**
-     * 检查阀门状态
+     * 操作阀门开关
      */
-    private void OkHttpCheck() {
-        final String url = "http://www.jjr.vip/?r=api/post_check";
-        FormBody.Builder builder = new FormBody.Builder();
-        builder.add("user_id", "8888889031");
-        builder.add("user_token", CommonUtil.toMD5("weather888"+sdf1.format(new Date())+"asdcsfdf~!%h"));
-        String a = CommonUtil.toMD5("weather888"+sdf1.format(new Date())+"asdcsfdf~!%h");
-        Log.e("a", a);
-        builder.add("device_id", "2222222320");
-        builder.add("valve_id", valve_id);
-        builder.add("timestamp", new Date().getTime()/1000+"");
-        final RequestBody body = builder.build();
+    private void okHttpSwitch(final String isOpen) {
+        loadingView.setVisibility(View.VISIBLE);
+        final String url = String.format("http://113.16.174.77:8076/gzqx/dates/getkg?ValveID=%s&operate=%s", valve_id, isOpen);
         new Thread(new Runnable() {
             @Override
             public void run() {
-                OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+                OkHttpUtil.enqueue(new Request.Builder().url(url).build(), new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                     }
@@ -127,34 +143,14 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
                                     JSONObject obj = new JSONObject(result);
                                     if (!obj.isNull("status")) {
                                         String status = obj.getString("status");
-                                        if (TextUtils.equals(status, "1")) {//成功
-                                            if (!obj.isNull("is_open")) {
-                                                String is_open = obj.getString("is_open");
-                                                if (TextUtils.equals(is_open, "1")) {//开启
-                                                    tvState.setText("阀门状态：开启");
-                                                    tvState.setTag(status);
-                                                    tvSwitch.setText("关闭阀门");
-                                                    tvSwitch.setTag(is_open);
-                                                    tvSwitch.setBackgroundResource(R.drawable.shawn_bg_corner_red);
-                                                }else {
-                                                    tvState.setText("阀门状态：关闭");
-                                                    tvState.setTag(status);
-                                                    tvSwitch.setText("开启阀门");
-                                                    tvSwitch.setTag(is_open);
-                                                    tvSwitch.setBackgroundResource(R.drawable.shawn_selector_logout);
-                                                }
-                                                tvLog.setBackgroundResource(R.drawable.shawn_selector_logout);
-                                            }
-                                        }else {
-                                            if (!obj.isNull("msg")) {
-                                                String msg = obj.getString("msg");
-                                                if (!TextUtils.isEmpty(msg)) {
-                                                    tvState.setText("阀门状态："+msg);
-                                                    tvState.setTag(status);
-                                                    tvSwitch.setBackgroundResource(R.drawable.shawn_bg_corner_gray);
-                                                    tvLog.setBackgroundResource(R.drawable.shawn_bg_corner_gray);
-                                                }
-                                            }
+                                        if (TextUtils.equals(status, "200")) {
+                                            okHttpBase();
+                                        }
+                                    }
+                                    if (!obj.isNull("msg")) {
+                                        String msg = obj.getString("msg");
+                                        if (!TextUtils.isEmpty(msg)) {
+                                            Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
                                         }
                                     }
                                 } catch (JSONException e) {
@@ -169,23 +165,14 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
     }
 
     /**
-     * 操作阀门开关
+     * 获取基本信息
      */
-    private void OkHttpSwitch(String status) {
-        loadingView.setVisibility(View.VISIBLE);
-        final String url = "http://www.jjr.vip/?r=api/post_switch";
-        FormBody.Builder builder = new FormBody.Builder();
-        builder.add("user_id", "8888889031");
-        builder.add("user_token", CommonUtil.toMD5("weather888"+sdf1.format(new Date())+"asdcsfdf~!%h"));
-        builder.add("device_id", "2222222320");
-        builder.add("valve_id", valve_id);
-        builder.add("timestamp", new Date().getTime()/1000+"");
-        builder.add("operate",status);
-        final RequestBody body = builder.build();
+    private void okHttpBase() {
+        final String url = "http://113.16.174.77:8076/gzqx/dates/getjbxx";
         new Thread(new Runnable() {
             @Override
             public void run() {
-                OkHttpUtil.enqueue(new Request.Builder().post(body).url(url).build(), new Callback() {
+                OkHttpUtil.enqueue(new Request.Builder().url(url).build(), new Callback() {
                     @Override
                     public void onFailure(Call call, IOException e) {
                     }
@@ -202,12 +189,27 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
                             @Override
                             public void run() {
                                 try {
-                                    JSONObject obj = new JSONObject(result);
-                                    if (!obj.isNull("msg")) {
-                                        String msg = obj.getString("msg");
-                                        if (!TextUtils.isEmpty(msg)) {
-                                            Toast.makeText(getActivity(), msg, Toast.LENGTH_SHORT).show();
-                                            OkHttpCheck();
+                                    JSONArray array = new JSONArray(result);
+                                    if (array.length() > 1) {
+                                        for (int i = 0; i < array.length(); i++) {
+                                            JSONObject itemObj = array.getJSONObject(i);
+                                            if (TextUtils.equals(valve_id, itemObj.getString("ValveID"))) {
+                                                tvParkName.setText(itemObj.getString("AreaName"));
+                                                tvDeviceName.setText(itemObj.getString("DeviceName"));
+                                                tvSpeed.setText(itemObj.getString("WaterSpeed"));
+                                                tvStationId.setText(itemObj.getString("Bind_Stat"));
+                                                tvWaterId.setText(itemObj.getString("Bind_Soil_Stat"));
+                                                tvClass.setText(itemObj.getString("CropTYpe"));
+                                                tvType.setText(itemObj.getString("SoilType"));
+
+                                                tvCover.setText(itemObj.getString("FGD"));
+                                                tvAddr.setText(itemObj.getString("Place"));
+
+                                                okHttpState(itemObj.getString("ValveID"));
+                                                okHttpWater(itemObj.getString("Bind_Soil_Stat"));
+                                                okHttpTemp(itemObj.getString("Bind_Stat"));
+                                                break;
+                                            }
                                         }
                                     }
                                 } catch (JSONException e) {
@@ -222,14 +224,62 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
     }
 
     /**
-     * 获取30预报灌溉量数据
+     * 检查阀门状态
      */
-    private void OkHttpList() {
-        final String url = getArguments().getString(CONST.WEB_URL);
-        if (TextUtils.isEmpty(url)) {
-            loadingView.setVisibility(View.GONE);
-            return;
-        }
+    private void okHttpState(String valveId) {
+        ivRefresh.setImageResource(R.drawable.icon_refresh_press);
+        tvRefresh.setVisibility(View.VISIBLE);
+        final String url = "http://113.16.174.77:8076/gzqx/dates/getzt?ValveID="+valveId;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                OkHttpUtil.enqueue(new Request.Builder().url(url).build(), new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                    }
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        if (!response.isSuccessful()) {
+                            return;
+                        }
+                        final String result = response.body().string();
+                        if (!isAdded() || TextUtils.isEmpty(result)) {
+                            return;
+                        }
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                ivRefresh.setImageResource(R.drawable.icon_refresh);
+                                try {
+                                    JSONObject obj = new JSONObject(result);
+                                    if (!obj.isNull("is_open")) {
+                                        String status = obj.getString("is_open");
+                                        if (TextUtils.equals(status, "1")) {
+                                            ivOpen.setImageResource(R.drawable.icon_open);
+                                            ivClose.setImageResource(R.drawable.icon_close);
+                                            tvDeviceState.setText("开启");
+                                        } else {
+                                            ivOpen.setImageResource(R.drawable.icon_close);
+                                            ivClose.setImageResource(R.drawable.icon_open);
+                                            tvDeviceState.setText("关闭");
+                                        }
+                                    }
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        }).start();
+    }
+
+    /**
+     * 获取土壤体积含水量数据
+     */
+    private void okHttpWater(String waterId) {
+        final String url = "http://113.16.174.77:8076/gzqx/dates/gethsl?Bind_Soil_Stat="+waterId;
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -249,53 +299,123 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
                         getActivity().runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
+                                loadingView.setVisibility(View.GONE);
+                                waterList.clear();
                                 if (!TextUtils.isEmpty(result)) {
                                     try {
-                                        JSONObject obj = new JSONObject(result);
-                                        if (!obj.isNull("DS")) {
-                                            dataList.clear();
-                                            JSONArray array = obj.getJSONArray("DS");
-                                            for (int i = 0; i < array.length(); i++) {
-                                                FactDto dto = new FactDto();
-                                                JSONObject itemObj = array.getJSONObject(i);
-                                                if (!itemObj.isNull("DT")) {
-                                                    dto.time = itemObj.getString("DT");
-                                                }
-                                                if (!itemObj.isNull("I")) {
-                                                    String value = itemObj.getString("I");
-                                                    if (TextUtils.equals(value, "null")) {
-                                                        dto.foreGuangai = 0;
-                                                    }else {
-                                                        dto.foreGuangai = Float.valueOf(value);
-                                                    }
-                                                }
-                                                if (!itemObj.isNull("RH")) {
-                                                    String value = itemObj.getString("RH");
-                                                    if (TextUtils.equals(value, "null")) {
-                                                        dto.humidity = 0;
-                                                    }else {
-                                                        dto.humidity = Float.valueOf(value);
-                                                    }
-                                                }
-                                                dataList.add(dto);
+                                        JSONArray array = new JSONArray(result);
+                                        for (int i = 0; i < array.length(); i++) {
+                                            JSONObject obj = array.getJSONObject(i);
+                                            FactDto dto = new FactDto();
+                                            if (!obj.isNull("SMVP_10CM_AVE")) {
+                                                dto.SMVP_10CM_AVE = obj.getString("SMVP_10CM_AVE");
+                                            } else {
+                                                dto.SMVP_10CM_AVE = "0.0";
                                             }
-
-                                            ForeHumidityView foreHumidityView = new ForeHumidityView(getActivity());
-                                            foreHumidityView.setData(dataList);
-                                            llContainer1.removeAllViews();
-                                            llContainer1.addView(foreHumidityView, width*2, width/2);
-
-                                            ForeGuangaiView foreGuangaiView = new ForeGuangaiView(getActivity());
-                                            foreGuangaiView.setData(dataList);
-                                            llContainer2.removeAllViews();
-                                            llContainer2.addView(foreGuangaiView, width*2, width/2);
+                                            if (!obj.isNull("SMVP_20CM_AVE")) {
+                                                dto.SMVP_20CM_AVE = obj.getString("SMVP_20CM_AVE");
+                                            }else {
+                                                dto.SMVP_20CM_AVE = "0.0";
+                                            }
+                                            if (!obj.isNull("SMVP_30CM_AVE")) {
+                                                dto.SMVP_30CM_AVE = obj.getString("SMVP_30CM_AVE");
+                                            }else {
+                                                dto.SMVP_30CM_AVE = "0.0";
+                                            }
+                                            if (!obj.isNull("SMVP_40CM_AVE")) {
+                                                dto.SMVP_40CM_AVE = obj.getString("SMVP_40CM_AVE");
+                                            }else {
+                                                dto.SMVP_40CM_AVE = "0.0";
+                                            }
+                                            if (!obj.isNull("SMVP_50CM_AVE")) {
+                                                dto.SMVP_50CM_AVE = obj.getString("SMVP_50CM_AVE");
+                                            }else {
+                                                dto.SMVP_50CM_AVE = "0.0";
+                                            }
+                                            if (!obj.isNull("OBSERVATION_DATA_DATE")) {
+                                                dto.time = obj.getString("OBSERVATION_DATA_DATE");
+                                            }
+                                            waterList.add(dto);
                                         }
+
+                                        WaterView waterView = new WaterView(getActivity());
+                                        waterView.setData(waterList);
+                                        llContainer1.removeAllViews();
+                                        llContainer1.addView(waterView, width, width/2);
+                                        llBar1.setVisibility(View.VISIBLE);
                                     } catch (JSONException e) {
                                         e.printStackTrace();
                                     }
                                 }
+                            }
+                        });
+                    }
+                });
+            }
+        }).start();
+    }
 
+    /**
+     * 获取温度数据
+     */
+    private void okHttpTemp(String stationId) {
+        final String url = "http://113.16.174.77:8076/gzqx/dates/getwdd?Bind_Stat="+stationId;
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                OkHttpUtil.enqueue(new Request.Builder().url(url).build(), new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                    }
+                    @Override
+                    public void onResponse(Call call, Response response) throws IOException {
+                        if (!response.isSuccessful()) {
+                            return;
+                        }
+                        final String result = response.body().string();
+                        if (!isAdded()) {
+                            return;
+                        }
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
                                 loadingView.setVisibility(View.GONE);
+                                tempList.clear();
+                                if (!TextUtils.isEmpty(result)) {
+                                    try {
+                                        JSONArray array = new JSONArray(result);
+                                        for (int i = 0; i < array.length(); i++) {
+                                            JSONObject obj = array.getJSONObject(i);
+                                            FactDto dto = new FactDto();
+                                            if (!obj.isNull("V12001")) {
+                                                dto.SMVP_10CM_AVE = (Float.valueOf(obj.getString("V12001"))/10)+"";
+                                            } else {
+                                                dto.SMVP_10CM_AVE = "0.0";
+                                            }
+                                            if (!obj.isNull("V12052")) {
+                                                dto.SMVP_20CM_AVE = (Float.valueOf(obj.getString("V12052"))/10)+"";
+                                            }else {
+                                                dto.SMVP_20CM_AVE = "0.0";
+                                            }
+                                            if (!obj.isNull("V12053")) {
+                                                dto.SMVP_30CM_AVE = (Float.valueOf(obj.getString("V12053"))/10)+"";
+                                            }else {
+                                                dto.SMVP_30CM_AVE = "0.0";
+                                            }
+                                            if (!obj.isNull("VDATE")) {
+                                                dto.time = obj.getString("VDATE");
+                                            }
+                                            tempList.add(dto);
+                                        }
+
+                                        TempView tempView = new TempView(getActivity());
+                                        tempView.setData(tempList);
+                                        llContainer2.removeAllViews();
+                                        llContainer2.addView(tempView, width, width/2);
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
                             }
                         });
                     }
@@ -307,30 +427,44 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-            case R.id.tvSwitch:
-                String tag = tvState.getTag()+"";
-                if (!TextUtils.equals(tag, "1")) {//设备尚未在线
-                    Toast.makeText(getActivity(), "设备尚未在线", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-
-                String switchTag = tvSwitch.getTag()+"";
-                if (TextUtils.equals(switchTag, "1")) {//开启状态
-                    tvSwitch.setBackgroundResource(R.drawable.shawn_bg_corner_red);
-                    tvSwitch.setTag("0");
-                    tvSwitch.setText("关闭阀门");
-                }else {//关闭状态
-                    tvSwitch.setBackgroundResource(R.drawable.shawn_selector_logout);
-                    tvSwitch.setTag("1");
-                    tvSwitch.setText("开启阀门");
-                }
-                OkHttpSwitch(tvSwitch.getTag()+"");
+            case R.id.ivOpen:
+            case R.id.tvOpen:
+                okHttpSwitch("1");
                 break;
-            case R.id.tvLog:
-                Toast.makeText(getActivity(), "设备尚未在线，暂无日志", Toast.LENGTH_SHORT).show();
+            case R.id.ivClose:
+            case R.id.tvClose:
+                okHttpSwitch("0");
                 break;
-            case R.id.tvLand:
-                startActivity(new Intent(getActivity(), ShawnLandActivity.class));
+            case R.id.ivRefresh:
+            case R.id.tvRefresh:
+                okHttpBase();
+                break;
+            case R.id.tvWater:
+                tvWater.setTextColor(Color.WHITE);
+                tvTemp.setTextColor(getResources().getColor(R.color.colorPrimary));
+                tvWater.setBackgroundResource(R.drawable.shawn_bg_corner_left_blue);
+                tvTemp.setBackgroundResource(R.drawable.shawn_bg_corner_right_white);
+                tvChartName.setText(sdf2.format(new Date())+"逐小时土壤体积含水量曲线图");
+                llContainer1.setVisibility(View.VISIBLE);
+                llBar1.setVisibility(View.VISIBLE);
+                llContainer2.setVisibility(View.GONE);
+                llBar2.setVisibility(View.GONE);
+                break;
+            case R.id.tvTemp:
+                tvWater.setTextColor(getResources().getColor(R.color.colorPrimary));
+                tvTemp.setTextColor(Color.WHITE);
+                tvWater.setBackgroundResource(R.drawable.shawn_bg_corner_left_white);
+                tvTemp.setBackgroundResource(R.drawable.shawn_bg_corner_right_blue);
+                tvChartName.setText(sdf2.format(new Date())+"逐小时温度曲线图");
+                llContainer1.setVisibility(View.GONE);
+                llBar1.setVisibility(View.GONE);
+                llContainer2.setVisibility(View.VISIBLE);
+                llBar2.setVisibility(View.VISIBLE);
+                break;
+            case R.id.tvForeGuangai:
+                Intent intent = new Intent(getActivity(), ShawnForeActivity.class);
+                intent.putExtra("valve_id", valve_id);
+                startActivity(intent);
                 break;
             default:
                 break;

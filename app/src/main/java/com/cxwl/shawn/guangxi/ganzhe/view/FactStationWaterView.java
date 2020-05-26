@@ -105,25 +105,51 @@ public class FactStationWaterView extends View {
 		//获取曲线上每个温度点的坐标
 		for (int i = 0; i < size; i++) {
 			FactDto dto = currentStations.get(i);
-			dto.x = columnWidth*i + leftMargin;
+			dto.x10 = columnWidth*i + leftMargin;
+			dto.x20 = columnWidth*i + leftMargin;
+			dto.x40 = columnWidth*i + leftMargin;
 			
 			float value = minValue;
-			if (!TextUtils.isEmpty(dto.SMVP_5CM_AVE) && !TextUtils.equals(dto.SMVP_5CM_AVE, "--")) {
-				value = Float.valueOf(dto.SMVP_5CM_AVE);
+			if (!TextUtils.isEmpty(dto.SMVP_10CM_AVE) && !TextUtils.equals(dto.SMVP_10CM_AVE, "--")) {
+				value = Float.valueOf(dto.SMVP_10CM_AVE);
 			}
-			dto.y = chartH-chartH*Math.abs(value)/(Math.abs(maxValue)+Math.abs(minValue)) + topMargin;
+			dto.y10 = chartH-chartH*Math.abs(value)/(Math.abs(maxValue)+Math.abs(minValue)) + topMargin;
+
+			if (!TextUtils.isEmpty(dto.SMVP_20CM_AVE) && !TextUtils.equals(dto.SMVP_20CM_AVE, "--")) {
+				value = Float.valueOf(dto.SMVP_20CM_AVE);
+			}
+			dto.y20 = chartH-chartH*Math.abs(value)/(Math.abs(maxValue)+Math.abs(minValue)) + topMargin;
+
+			if (!TextUtils.isEmpty(dto.SMVP_40CM_AVE) && !TextUtils.equals(dto.SMVP_40CM_AVE, "--")) {
+				value = Float.valueOf(dto.SMVP_40CM_AVE);
+			}
+			dto.y40 = chartH-chartH*Math.abs(value)/(Math.abs(maxValue)+Math.abs(minValue)) + topMargin;
+
 			currentStations.set(i, dto);
 		}
 
 		for (int i = 0; i < lastStations.size(); i++) {
 			FactDto dto = lastStations.get(i);
-			dto.x = columnWidth*i + leftMargin;
+			dto.x10 = columnWidth*i + leftMargin;
+			dto.x20 = columnWidth*i + leftMargin;
+			dto.x40 = columnWidth*i + leftMargin;
 
 			float value = minValue;
-			if (!TextUtils.isEmpty(dto.SMVP_5CM_AVEL) && !TextUtils.equals(dto.SMVP_5CM_AVEL, "--")) {
-				value = Float.valueOf(dto.SMVP_5CM_AVEL);
+			if (!TextUtils.isEmpty(dto.SMVP_10CM_AVEL) && !TextUtils.equals(dto.SMVP_10CM_AVEL, "--")) {
+				value = Float.valueOf(dto.SMVP_10CM_AVEL);
 			}
-			dto.y = chartH-chartH*Math.abs(value)/(Math.abs(maxValue)+Math.abs(minValue)) + topMargin;
+			dto.y10 = chartH-chartH*Math.abs(value)/(Math.abs(maxValue)+Math.abs(minValue)) + topMargin;
+
+			if (!TextUtils.isEmpty(dto.SMVP_20CM_AVEL) && !TextUtils.equals(dto.SMVP_20CM_AVEL, "--")) {
+				value = Float.valueOf(dto.SMVP_20CM_AVEL);
+			}
+			dto.y20 = chartH-chartH*Math.abs(value)/(Math.abs(maxValue)+Math.abs(minValue)) + topMargin;
+
+			if (!TextUtils.isEmpty(dto.SMVP_40CM_AVEL) && !TextUtils.equals(dto.SMVP_40CM_AVEL, "--")) {
+				value = Float.valueOf(dto.SMVP_40CM_AVEL);
+			}
+			dto.y40 = chartH-chartH*Math.abs(value)/(Math.abs(maxValue)+Math.abs(minValue)) + topMargin;
+
 			lastStations.set(i, dto);
 		}
 
@@ -134,10 +160,10 @@ public class FactStationWaterView extends View {
 			FactDto dto2 = currentStations.get(i+1);
 			//绘制区域
 			Path rectPath = new Path();
-			rectPath.moveTo(dto.x, topMargin);
-			rectPath.lineTo(dto2.x, topMargin);
-			rectPath.lineTo(dto2.x, h-bottomMargin);
-			rectPath.lineTo(dto.x, h-bottomMargin);
+			rectPath.moveTo(dto.x10, topMargin);
+			rectPath.lineTo(dto2.x10, topMargin);
+			rectPath.lineTo(dto2.x10, h-bottomMargin);
+			rectPath.lineTo(dto.x10, h-bottomMargin);
 			rectPath.close();
 			if (i%8 == 0 || i%8 == 1 || i%8 == 2 || i%8 == 3) {
 				lineP.setColor(Color.WHITE);
@@ -151,8 +177,8 @@ public class FactStationWaterView extends View {
 		for (int i = 0; i < size; i++) {
 			FactDto dto = currentStations.get(i);
 			Path linePath = new Path();
-			linePath.moveTo(dto.x, topMargin);
-			linePath.lineTo(dto.x, h-bottomMargin);
+			linePath.moveTo(dto.x10, topMargin);
+			linePath.lineTo(dto.x10, h-bottomMargin);
 			linePath.close();
 			lineP.setColor(0xfff1f1f1);
 			lineP.setStyle(Style.STROKE);
@@ -178,22 +204,33 @@ public class FactStationWaterView extends View {
 			FactDto dto = currentStations.get(i);
 			FactDto dto2 = currentStations.get(i+1);
 
-			float x1 = dto.x;
-			float y1 = dto.y;
-			float x2 = dto2.x;
-			float y2 = dto2.y;
-
-			float wt = (x1 + x2) / 2;
-
-			float x3 = wt;
-			float y3 = y1;
-			float x4 = wt;
-			float y4 = y2;
-
+			float x3 = (dto.x10 + dto2.x10) / 2;
+			float y3 = dto.y10;
+			float x4 = (dto.x10 + dto2.x10) / 2;
+			float y4 = dto2.y10;
 			Path linePath = new Path();
-			linePath.moveTo(x1, y1);
-			linePath.cubicTo(x3, y3, x4, y4, x2, y2);
+			linePath.moveTo(dto.x10, dto.y10);
+			linePath.cubicTo(x3, y3, x4, y4, dto2.x10, dto2.y10);
 			canvas.drawPath(linePath, lineP);
+
+			x3 = (dto.x20 + dto2.x20) / 2;
+			y3 = dto.y20;
+			x4 = (dto.x20 + dto2.x20) / 2;
+			y4 = dto2.y20;
+			linePath = new Path();
+			linePath.moveTo(dto.x20, dto.y20);
+			linePath.cubicTo(x3, y3, x4, y4, dto2.x20, dto2.y20);
+			canvas.drawPath(linePath, lineP);
+
+			x3 = (dto.x40 + dto2.x40) / 2;
+			y3 = dto.y40;
+			x4 = (dto.x40 + dto2.x40) / 2;
+			y4 = dto2.y40;
+			linePath = new Path();
+			linePath.moveTo(dto.x40, dto.y40);
+			linePath.cubicTo(x3, y3, x4, y4, dto2.x40, dto2.y40);
+			canvas.drawPath(linePath, lineP);
+
 		}
 
 		textP.setColor(0xff77A8DA);
@@ -202,11 +239,25 @@ public class FactStationWaterView extends View {
 			FactDto dto = currentStations.get(i);
 
 			//绘制曲线上每个点的数据值
-			if (!TextUtils.isEmpty(dto.SMVP_5CM_AVE) && !TextUtils.equals(dto.SMVP_5CM_AVE, "--")) {
-				float value = Float.valueOf(dto.SMVP_5CM_AVE);
+			if (!TextUtils.isEmpty(dto.SMVP_10CM_AVE) && !TextUtils.equals(dto.SMVP_10CM_AVE, "--")) {
+				float value = Float.valueOf(dto.SMVP_10CM_AVE);
 				if (value != 0) {
-					float SMVP_5CM_AVEWidth = textP.measureText(dto.SMVP_5CM_AVE+"");
-					canvas.drawText(dto.SMVP_5CM_AVE+"", dto.x-SMVP_5CM_AVEWidth/2, dto.y-(int)CommonUtil.dip2px(mContext, 5), textP);
+					float SMVP_10CM_AVEWidth = textP.measureText(dto.SMVP_10CM_AVE+"");
+					canvas.drawText(dto.SMVP_10CM_AVE+"", dto.x10-SMVP_10CM_AVEWidth/2, dto.y10-(int)CommonUtil.dip2px(mContext, 5), textP);
+				}
+			}
+			if (!TextUtils.isEmpty(dto.SMVP_20CM_AVE) && !TextUtils.equals(dto.SMVP_20CM_AVE, "--")) {
+				float value = Float.valueOf(dto.SMVP_20CM_AVE);
+				if (value != 0) {
+					float SMVP_10CM_AVEWidth = textP.measureText(dto.SMVP_20CM_AVE+"");
+					canvas.drawText(dto.SMVP_20CM_AVE+"", dto.x20-SMVP_10CM_AVEWidth/2, dto.y20-(int)CommonUtil.dip2px(mContext, 5), textP);
+				}
+			}
+			if (!TextUtils.isEmpty(dto.SMVP_40CM_AVE) && !TextUtils.equals(dto.SMVP_40CM_AVE, "--")) {
+				float value = Float.valueOf(dto.SMVP_40CM_AVE);
+				if (value != 0) {
+					float SMVP_10CM_AVEWidth = textP.measureText(dto.SMVP_40CM_AVE+"");
+					canvas.drawText(dto.SMVP_40CM_AVE+"", dto.x40-SMVP_10CM_AVEWidth/2, dto.y40-(int)CommonUtil.dip2px(mContext, 5), textP);
 				}
 			}
 		}
@@ -220,19 +271,44 @@ public class FactStationWaterView extends View {
 				FactDto dto = lastStations.get(i);
 				FactDto dto2 = lastStations.get(i+1);
 
-				float x1 = dto.x;
-				float y1 = dto.y;
-				float x2 = dto2.x;
-				float y2 = dto2.y;
-
+				float x1 = dto.x10;
+				float y1 = dto.y10;
+				float x2 = dto2.x10;
+				float y2 = dto2.y10;
 				float wt = (x1 + x2) / 2;
-
 				float x3 = wt;
 				float y3 = y1;
 				float x4 = wt;
 				float y4 = y2;
-
 				Path linePath = new Path();
+				linePath.moveTo(x1, y1);
+				linePath.cubicTo(x3, y3, x4, y4, x2, y2);
+				canvas.drawPath(linePath, lineP);
+
+				x1 = dto.x20;
+				y1 = dto.y20;
+				x2 = dto2.x20;
+				y2 = dto2.y20;
+				wt = (x1 + x2) / 2;
+				x3 = wt;
+				y3 = y1;
+				x4 = wt;
+				y4 = y2;
+				linePath = new Path();
+				linePath.moveTo(x1, y1);
+				linePath.cubicTo(x3, y3, x4, y4, x2, y2);
+				canvas.drawPath(linePath, lineP);
+
+				x1 = dto.x40;
+				y1 = dto.y40;
+				x2 = dto2.x40;
+				y2 = dto2.y40;
+				wt = (x1 + x2) / 2;
+				x3 = wt;
+				y3 = y1;
+				x4 = wt;
+				y4 = y2;
+				linePath = new Path();
 				linePath.moveTo(x1, y1);
 				linePath.cubicTo(x3, y3, x4, y4, x2, y2);
 				canvas.drawPath(linePath, lineP);
@@ -245,11 +321,25 @@ public class FactStationWaterView extends View {
 			FactDto dto = lastStations.get(i);
 
 			//绘制曲线上每个点的数据值
-			if (!TextUtils.isEmpty(dto.SMVP_5CM_AVEL) && !TextUtils.equals(dto.SMVP_5CM_AVEL, "--")) {
-				float value = Float.valueOf(dto.SMVP_5CM_AVEL);
+			if (!TextUtils.isEmpty(dto.SMVP_10CM_AVEL) && !TextUtils.equals(dto.SMVP_10CM_AVEL, "--")) {
+				float value = Float.valueOf(dto.SMVP_10CM_AVEL);
 				if (value != 0) {
-					float SMVP_5CM_AVEWidth = textP.measureText(dto.SMVP_5CM_AVEL+"");
-					canvas.drawText(dto.SMVP_5CM_AVEL+"", dto.x-SMVP_5CM_AVEWidth/2, dto.y+(int)CommonUtil.dip2px(mContext, 10), textP);
+					float SMVP_10CM_AVEWidth = textP.measureText(dto.SMVP_10CM_AVEL+"");
+					canvas.drawText(dto.SMVP_10CM_AVEL+"", dto.x10-SMVP_10CM_AVEWidth/2, dto.y10+(int)CommonUtil.dip2px(mContext, 10), textP);
+				}
+			}
+			if (!TextUtils.isEmpty(dto.SMVP_20CM_AVEL) && !TextUtils.equals(dto.SMVP_20CM_AVEL, "--")) {
+				float value = Float.valueOf(dto.SMVP_20CM_AVEL);
+				if (value != 0) {
+					float SMVP_10CM_AVEWidth = textP.measureText(dto.SMVP_20CM_AVEL+"");
+					canvas.drawText(dto.SMVP_20CM_AVEL+"", dto.x20-SMVP_10CM_AVEWidth/2, dto.y20+(int)CommonUtil.dip2px(mContext, 10), textP);
+				}
+			}
+			if (!TextUtils.isEmpty(dto.SMVP_40CM_AVEL) && !TextUtils.equals(dto.SMVP_40CM_AVEL, "--")) {
+				float value = Float.valueOf(dto.SMVP_40CM_AVEL);
+				if (value != 0) {
+					float SMVP_10CM_AVEWidth = textP.measureText(dto.SMVP_40CM_AVEL+"");
+					canvas.drawText(dto.SMVP_40CM_AVEL+"", dto.x40-SMVP_10CM_AVEWidth/2, dto.y40+(int)CommonUtil.dip2px(mContext, 10), textP);
 				}
 			}
 		}
@@ -277,9 +367,9 @@ public class FactStationWaterView extends View {
 					}
 					if (!TextUtils.isEmpty(time)) {
 						float text = textP.measureText(time);
-						canvas.drawText(time, dto.x-text/2, h-CommonUtil.dip2px(mContext, 20f), textP);
+						canvas.drawText(time, dto.x10-text/2, h-CommonUtil.dip2px(mContext, 20f), textP);
 						if (i == 0) {
-                            canvas.drawText(time2, dto.x-text/2, h-CommonUtil.dip2px(mContext, 5f), textP);
+                            canvas.drawText(time2, dto.x10-text/2, h-CommonUtil.dip2px(mContext, 5f), textP);
                         }
 					}
 				}
