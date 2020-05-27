@@ -25,7 +25,7 @@ public class ShawnMyDisasterAdapter extends BaseAdapter {
 
 	private final class ViewHolder{
 		ImageView imageView;
-		TextView tvContent,tvType,tvAddr,tvTime;
+		TextView tvTitle,tvType,tvAddr,tvTime;
 	}
 
 	public ShawnMyDisasterAdapter(Context context, List<DisasterDto> mArrayList) {
@@ -55,7 +55,7 @@ public class ShawnMyDisasterAdapter extends BaseAdapter {
 			convertView = mInflater.inflate(R.layout.shawn_adapter_my_disaster, null);
 			mHolder = new ViewHolder();
 			mHolder.imageView = convertView.findViewById(R.id.imageView);
-			mHolder.tvContent = convertView.findViewById(R.id.tvContent);
+			mHolder.tvTitle = convertView.findViewById(R.id.tvTitle);
 			mHolder.tvType = convertView.findViewById(R.id.tvType);
 			mHolder.tvAddr = convertView.findViewById(R.id.tvAddr);
 			mHolder.tvTime = convertView.findViewById(R.id.tvTime);
@@ -73,10 +73,10 @@ public class ShawnMyDisasterAdapter extends BaseAdapter {
 			}
 		}
 
-		if (!TextUtils.isEmpty(dto.content)) {
-			mHolder.tvContent.setText(dto.content);
+		if (!TextUtils.isEmpty(dto.title)) {
+			mHolder.tvTitle.setText(dto.title);
 		} else {
-			mHolder.tvContent.setText("");
+			mHolder.tvTitle.setText("");
 		}
 
 		if (!TextUtils.isEmpty(dto.addr)) {

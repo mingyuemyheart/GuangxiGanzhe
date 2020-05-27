@@ -200,19 +200,20 @@
                 android:textSize="@dimen/level_4" />
 
             <include
+                android:id="@+id/llWater"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="10dp"
                 android:layout_below="@+id/divider3"
                 android:layout_alignParentEnd="true"
-                layout="@layout/shawn_layout_station_title"/>
+                layout="@layout/shawn_layout_station_water_title"/>
 
             <HorizontalScrollView
                 android:id="@+id/hScrollView4"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/tvWater"
+                android:layout_below="@+id/llWater"
                 android:scrollbars="none">
 
                 <LinearLayout

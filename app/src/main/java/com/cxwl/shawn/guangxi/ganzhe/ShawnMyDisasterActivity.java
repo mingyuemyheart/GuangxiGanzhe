@@ -150,6 +150,9 @@ public class ShawnMyDisasterActivity extends ShawnBaseActivity implements OnClic
 											for (int i = 0; i < array.length(); i++) {
 												JSONObject itemObj = array.getJSONObject(i);
 												DisasterDto dto = new DisasterDto();
+												if (!itemObj.isNull("title")) {
+													dto.title = itemObj.getString("title");
+												}
 												if (!itemObj.isNull("content")) {
 													dto.content = itemObj.getString("content");
 												}

@@ -48,6 +48,7 @@ public class ShawnMyDisasterDetailActivity extends ShawnBaseActivity implements 
 		llBack.setOnClickListener(this);
 		TextView tvTitle = findViewById(R.id.tvTitle);
 		tvTitle.setText("灾情详情");
+		TextView tvName = findViewById(R.id.tvName);
 		TextView tvContent = findViewById(R.id.tvContent);
 		TextView tvType = findViewById(R.id.tvType);
 		TextView tvAddr = findViewById(R.id.tvAddr);
@@ -62,6 +63,9 @@ public class ShawnMyDisasterDetailActivity extends ShawnBaseActivity implements 
 
 		final DisasterDto data = getIntent().getParcelableExtra("data");
 		if (data != null) {
+			if (!TextUtils.isEmpty(data.title)) {
+				tvName.setText(data.title);
+			}
 			if (!TextUtils.isEmpty(data.content)) {
 				tvContent.setText(data.content);
 			}

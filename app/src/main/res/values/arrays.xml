@@ -364,7 +364,7 @@
 		<item>西南,拉萨,JC_RADAR_AZ9891_JB,2,5401</item>
 	</string-array>
 
-	<!--预警类型-->
+	<!--灾害类型-->
 	<string-array name="disaster_type">
 		<item>干旱</item>
 		<item>洪涝</item>
@@ -374,6 +374,15 @@
 		<item>虫害</item>
 		<item>低温阴雨</item>
 		<item>其它</item>
+	</string-array>
+
+	<!--苗情-->
+	<string-array name="miao_type">
+		<item>好</item>
+		<item>较好</item>
+		<item>一般</item>
+		<item>差</item>
+		<item>较差</item>
 	</string-array>
 
 </resources>

@@ -93,13 +93,14 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 	
 	private Context mContext;
 	private EditText etTitle,etContent,etPosition;
-	private TextView tvTextCount,tvCount,tvTime,tvDisaster;
+	private TextView tvTextCount,tvCount,tvTime,tvDisaster,tvMiao;
 	private AVLoadingIndicatorView loadingView;
 	private ShawnDisasterUploadAdapter mAdapter;
 	private List<DisasterDto> dataList = new ArrayList<>();
 	private RelativeLayout reViewPager;
 	private RelativeLayout layoutDate;
 	private SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+	private double lat = 0, lng = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -139,6 +140,8 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 		TextView tvPositive = findViewById(R.id.tvPositive);
 		tvPositive.setOnClickListener(this);
 		tvTime.setText(sdf1.format(new Date()));
+		tvMiao = findViewById(R.id.tvMiao);
+		tvMiao.setOnClickListener(this);
 
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -168,6 +171,8 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 	@Override
 	public void onLocationChanged(AMapLocation amapLocation) {
 		if (amapLocation != null && amapLocation.getErrorCode() == 0) {
+			lat = amapLocation.getLatitude();
+			lng = amapLocation.getLongitude();
 			if (amapLocation.getProvince().contains(amapLocation.getCity())) {
 				etPosition.setText(amapLocation.getCity()+amapLocation.getDistrict()+amapLocation.getStreet()+amapLocation.getAoiName());
 			} else {
@@ -231,6 +236,40 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 		});
 	}
 
+	/**
+	 * 选择苗情
+	 */
+	private void selectMiao() {
+		final List<FactDto> stations = new ArrayList<>();
+		String[] array = getResources().getStringArray(R.array.miao_type);
+		for (int i = 0; i < array.length; i++) {
+			FactDto dto = new FactDto();
+			dto.stationName = array[i];
+			stations.add(dto);
+		}
+
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View stationView = inflater.inflate(R.layout.shawn_dialog_select_station, null);
+		ListView listView = stationView.findViewById(R.id.listView);
+		ShawnSelectStationAdapter stationAdapter = new ShawnSelectStationAdapter(mContext, stations);
+		listView.setAdapter(stationAdapter);
+		TextView tvType = stationView.findViewById(R.id.tvType);
+		tvType.setText("苗情");
+
+		final Dialog dialog = new Dialog(mContext, R.style.CustomProgressDialog);
+		dialog.setContentView(stationView);
+		dialog.show();
+
+		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
+				dialog.dismiss();
+				FactDto dto = stations.get(arg2);
+				tvMiao.setText(dto.stationName);
+			}
+		});
+	}
+
 	private void addLastElement() {
 		DisasterDto dto = new DisasterDto();
 		dto.isLastItem = true;
@@ -278,6 +317,7 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 		builder.setType(MultipartBody.FORM);
 		builder.addFormDataPart("uid", MyApplication.UID);
 		builder.addFormDataPart("appid", CONST.APPID);
+		builder.addFormDataPart("latlon", lat+","+lng);
 		if (!TextUtils.isEmpty(etTitle.getText().toString())) {
 			builder.addFormDataPart("title", etTitle.getText().toString());
 		}
@@ -286,6 +326,9 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 		}
 		if (!TextUtils.isEmpty(tvDisaster.getText().toString())) {
 			builder.addFormDataPart("type", tvDisaster.getText().toString());
+		}
+		if (!TextUtils.isEmpty(tvMiao.getText().toString())) {
+			builder.addFormDataPart("other_param1", tvMiao.getText().toString());
 		}
 		if (!TextUtils.isEmpty(etPosition.getText().toString())) {
 			builder.addFormDataPart("location", etPosition.getText().toString());
@@ -354,6 +397,9 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 			case R.id.tvDisaster:
 				selectStation();
 				break;
+			case R.id.tvMiao:
+				selectMiao();
+				break;
 			case R.id.tvTime:
 			case R.id.tvNegtive:
 				bootTimeLayoutAnimation();
@@ -369,6 +415,10 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 				}
 				if (TextUtils.isEmpty(tvDisaster.getText().toString())) {
 					Toast.makeText(mContext, "请选择灾情类型！", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				if (TextUtils.isEmpty(tvMiao.getText().toString())) {
+					Toast.makeText(mContext, "请选择苗情！", Toast.LENGTH_SHORT).show();
 					return;
 				}
 				if (TextUtils.isEmpty(etPosition.getText().toString())) {
