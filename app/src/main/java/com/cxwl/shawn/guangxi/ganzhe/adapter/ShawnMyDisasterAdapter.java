@@ -25,7 +25,7 @@ public class ShawnMyDisasterAdapter extends BaseAdapter {
 
 	private final class ViewHolder{
 		ImageView imageView;
-		TextView tvTitle,tvType,tvAddr,tvTime;
+		TextView tvTitle,tvType,tvAddr,tvLatLng,tvTime;
 	}
 
 	public ShawnMyDisasterAdapter(Context context, List<DisasterDto> mArrayList) {
@@ -58,6 +58,7 @@ public class ShawnMyDisasterAdapter extends BaseAdapter {
 			mHolder.tvTitle = convertView.findViewById(R.id.tvTitle);
 			mHolder.tvType = convertView.findViewById(R.id.tvType);
 			mHolder.tvAddr = convertView.findViewById(R.id.tvAddr);
+			mHolder.tvLatLng = convertView.findViewById(R.id.tvLatLng);
 			mHolder.tvTime = convertView.findViewById(R.id.tvTime);
 			convertView.setTag(mHolder);
 		}else {
@@ -83,12 +84,16 @@ public class ShawnMyDisasterAdapter extends BaseAdapter {
 			mHolder.tvAddr.setText("上传地点："+dto.addr);
 		}
 
+		if (!TextUtils.isEmpty(dto.latlon)) {
+			mHolder.tvAddr.setText("经纬度："+dto.latlon);
+		}
+
 		if (!TextUtils.isEmpty(dto.time)) {
 			mHolder.tvTime.setText("上传时间："+dto.time);
 		}
 
 		if (!TextUtils.isEmpty(dto.disasterType)) {
-			mHolder.tvType.setText("上传类型："+dto.disasterType);
+			mHolder.tvType.setText("灾情类型："+dto.disasterType);
 		}
 
 		return convertView;

@@ -51,7 +51,9 @@ public class ShawnMyDisasterDetailActivity extends ShawnBaseActivity implements 
 		TextView tvName = findViewById(R.id.tvName);
 		TextView tvContent = findViewById(R.id.tvContent);
 		TextView tvType = findViewById(R.id.tvType);
+		TextView tvMiao = findViewById(R.id.tvMiao);
 		TextView tvAddr = findViewById(R.id.tvAddr);
+		TextView tvLatLng = findViewById(R.id.tvLatLng);
 		TextView tvTime = findViewById(R.id.tvTime);
 		tvCount = findViewById(R.id.tvCount);
 		reViewPager = findViewById(R.id.reViewPager);
@@ -69,14 +71,20 @@ public class ShawnMyDisasterDetailActivity extends ShawnBaseActivity implements 
 			if (!TextUtils.isEmpty(data.content)) {
 				tvContent.setText(data.content);
 			}
-			if (!TextUtils.isEmpty(data.disasterName)) {
-				tvType.setText(data.disasterName);
+			if (!TextUtils.isEmpty(data.disasterType)) {
+				tvType.setText("灾情类型："+data.disasterType);
+			}
+			if (!TextUtils.isEmpty(data.miao)) {
+				tvMiao.setText("苗情："+data.miao);
 			}
 			if (!TextUtils.isEmpty(data.addr)) {
-				tvAddr.setText(data.addr);
+				tvAddr.setText("时间地点："+data.addr);
+			}
+			if (!TextUtils.isEmpty(data.latlon)) {
+				tvLatLng.setText("经纬度："+data.latlon);
 			}
 			if (!TextUtils.isEmpty(data.time)) {
-				tvTime.setText(data.time);
+				tvTime.setText("事件时间："+data.time);
 			}
 			if (data.imgList.size() > 0) {
 				llContainer.removeAllViews();

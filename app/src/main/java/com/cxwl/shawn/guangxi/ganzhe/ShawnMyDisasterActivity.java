@@ -162,8 +162,14 @@ public class ShawnMyDisasterActivity extends ShawnBaseActivity implements OnClic
 												if (!itemObj.isNull("location")) {
 													dto.addr = itemObj.getString("location");
 												}
+												if (!itemObj.isNull("latlon")) {
+													dto.latlon = itemObj.getString("latlon");
+												}
 												if (!itemObj.isNull("addtime")) {
 													dto.time = itemObj.getString("addtime");
+												}
+												if (!itemObj.isNull("other_param1")) {
+													dto.miao = itemObj.getString("other_param1");
 												}
 												if (!itemObj.isNull("pic")) {
 													JSONArray imgArray = itemObj.getJSONArray("pic");

@@ -553,12 +553,24 @@
                 android:background="@color/light_gray" />
 
             <TextView
-                android:id="@+id/tvOrder"
+                android:id="@+id/tvOrderStr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/divider2"
-                android:padding="10dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
                 android:text="命令反馈"
+                android:textColor="@color/text_color3"
+                android:textSize="@dimen/level_4" />
+
+            <TextView
+                android:id="@+id/tvOrder"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/tvOrderStr"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginBottom="5dp"
                 android:textColor="@color/text_color3"
                 android:textSize="@dimen/level_4" />
 

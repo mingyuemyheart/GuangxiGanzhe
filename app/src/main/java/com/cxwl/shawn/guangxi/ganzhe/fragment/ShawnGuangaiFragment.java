@@ -1,15 +1,21 @@
 package com.cxwl.shawn.guangxi.ganzhe.fragment;
 
+import android.app.Dialog;
 import android.app.Fragment;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -23,11 +29,13 @@ import com.cxwl.shawn.guangxi.ganzhe.view.TempView;
 import com.cxwl.shawn.guangxi.ganzhe.view.WaterView;
 import com.wang.avi.AVLoadingIndicatorView;
 
+import org.jetbrains.annotations.NotNull;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -44,15 +52,17 @@ import okhttp3.Response;
  */
 public class ShawnGuangaiFragment extends Fragment implements View.OnClickListener {
 
-    private ImageView ivOpen,ivClose,ivRefresh;
-    private TextView tvOpen,tvClose,tvRefresh,tvForeGuangai,tvParkName,tvDeviceName,tvDeviceState,tvSpeed,tvStationId,tvWaterId,tvClass,tvType,tvBorn,tvCover,tvAddr,tvWater,tvTemp,tvChartName;
+    private ImageView ivOpen,ivClose,ivSmart,ivRefresh;
+    private TextView tvOpen,tvClose,tvSmart,tvRefresh,tvOrder,tvForeGuangai,tvParkName,tvDeviceName,tvDeviceState,tvSpeed,tvStationId,tvWaterId,tvClass,tvType,tvBorn,tvCover,tvAddr,tvWater,tvTemp,tvChartName;
     private List<FactDto> waterList = new ArrayList<>();
     private List<FactDto> tempList = new ArrayList<>();
     private int width;
     private LinearLayout llContainer1,llContainer2;
     private AVLoadingIndicatorView loadingView;
     private String valve_id = "3880";//阀门id
+    private SimpleDateFormat sdf1 = new SimpleDateFormat("yyyyMMddHHmmss", Locale.CHINA);
     private SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy年MM月dd日", Locale.CHINA);
+    private SimpleDateFormat sdf3 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
     private LinearLayout llBar1,llBar2;
 
     @Nullable
@@ -97,12 +107,18 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
         ivRefresh.setOnClickListener(this);
         tvRefresh = view.findViewById(R.id.tvRefresh);
         tvRefresh.setOnClickListener(this);
+        tvOrder = view.findViewById(R.id.tvOrder);
+        tvOrder.setOnClickListener(this);
         ivClose = view.findViewById(R.id.ivClose);
         ivClose.setOnClickListener(this);
         tvClose = view.findViewById(R.id.tvClose);
         tvClose.setOnClickListener(this);
         tvForeGuangai = view.findViewById(R.id.tvForeGuangai);
         tvForeGuangai.setOnClickListener(this);
+        ivSmart = view.findViewById(R.id.ivSmart);
+        ivSmart.setOnClickListener(this);
+        tvSmart = view.findViewById(R.id.tvSmart);
+        tvSmart.setOnClickListener(this);
 
         DisplayMetrics dm = new DisplayMetrics();
         getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -258,10 +274,12 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
                                             ivOpen.setImageResource(R.drawable.icon_open);
                                             ivClose.setImageResource(R.drawable.icon_close);
                                             tvDeviceState.setText("开启");
+                                            tvOrder.setText(sdf3.format(new Date())+"获取状态成功，水泵开启状态");
                                         } else {
                                             ivOpen.setImageResource(R.drawable.icon_close);
                                             ivClose.setImageResource(R.drawable.icon_open);
                                             tvDeviceState.setText("关闭");
+                                            tvOrder.setText(sdf3.format(new Date())+"获取状态成功，水泵关闭状态");
                                         }
                                     }
                                 } catch (JSONException e) {
@@ -424,6 +442,370 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
         }).start();
     }
 
+    /**
+     * 浇灌对话框
+     */
+    boolean b4 = true;boolean b5 = true;boolean b6 = true;boolean b7 = true;boolean b8 = true;
+    float a4 = 17.2f;float a5 = 19.6f;float a6 = 1.9f;float a7 = 1.3f;float a8 = 0.8f;
+    float count = a4+a5+a6+a7+a8;
+    float r4 = 15.6f;float r5 = 17.8f;float r6 = 0.8f;float r7 = 1.3f;float r8 = 1.7f;
+    float rate = r4+r5+r6+r7+r8;
+    private void openSmartJiaoguan1() {
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View stationView = inflater.inflate(R.layout.shawn_dialog_jiaoguan1, null);
+        ImageView ivClose = stationView.findViewById(R.id.ivClose);
+        final ImageView iv4 = stationView.findViewById(R.id.iv4);
+        final ImageView iv5 = stationView.findViewById(R.id.iv5);
+        final ImageView iv6 = stationView.findViewById(R.id.iv6);
+        final ImageView iv7 = stationView.findViewById(R.id.iv7);
+        final ImageView iv8 = stationView.findViewById(R.id.iv8);
+        final TextView tvArea = stationView.findViewById(R.id.tvArea);
+        final TextView tvRate = stationView.findViewById(R.id.tvRate);
+        final EditText etCount = stationView.findViewById(R.id.etCount);
+        final EditText etTime = stationView.findViewById(R.id.etTime);
+        TextView tvStart = stationView.findViewById(R.id.tvStart);
+        final AVLoadingIndicatorView loading = stationView.findViewById(R.id.loading);
+
+        tvArea.setText(new BigDecimal(count).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+        tvRate.setText(new BigDecimal(rate).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+
+        final Dialog dialog = new Dialog(getActivity(), R.style.CustomProgressDialog);
+        dialog.setContentView(stationView);
+        dialog.show();
+
+        ivClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        iv4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                b4 = !b4;
+                if (b4) {
+                    iv4.setImageResource(R.drawable.icon_open);
+                    a4 = 17.2f;
+                    r4 = 15.6f;
+                } else {
+                    iv4.setImageResource(R.drawable.icon_close);
+                    a4 = 0f;
+                    r4 = 0f;
+                }
+                count = a4+a5+a6+a7+a8;
+                rate = r4+r5+r6+r7+r8;
+                tvArea.setText(new BigDecimal(count).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+                tvRate.setText(new BigDecimal(rate).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+            }
+        });
+        iv5.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                b5 = !b5;
+                if (b5) {
+                    iv5.setImageResource(R.drawable.icon_open);
+                    a5 = 19.6f;
+                    r5 = 17.8f;
+                } else {
+                    iv5.setImageResource(R.drawable.icon_close);
+                    a5 = 0f;
+                    r5 = 0f;
+                }
+                count = a4+a5+a6+a7+a8;
+                rate = r4+r5+r6+r7+r8;
+                tvArea.setText(new BigDecimal(count).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+                tvRate.setText(new BigDecimal(rate).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+            }
+        });
+        iv6.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                b6 = !b6;
+                if (b6) {
+                    iv6.setImageResource(R.drawable.icon_open);
+                    a6 = 1.9f;
+                    r6 = 0.8f;
+                } else {
+                    iv6.setImageResource(R.drawable.icon_close);
+                    a6 = 0f;
+                    r6 = 0f;
+                }
+                count = a4+a5+a6+a7+a8;
+                rate = r4+r5+r6+r7+r8;
+                tvArea.setText(new BigDecimal(count).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+                tvRate.setText(new BigDecimal(rate).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+            }
+        });
+        iv7.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                b7 = !b7;
+                if (b7) {
+                    iv7.setImageResource(R.drawable.icon_open);
+                    a7 = 1.3f;
+                    r7 = 1.3f;
+                } else {
+                    iv7.setImageResource(R.drawable.icon_close);
+                    a7 = 0f;
+                    r7 = 0f;
+                }
+                count = a4+a5+a6+a7+a8;
+                rate = r4+r5+r6+r7+r8;
+                tvArea.setText(new BigDecimal(count).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+                tvRate.setText(new BigDecimal(rate).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+            }
+        });
+        iv8.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                b8 = !b8;
+                if (b8) {
+                    iv8.setImageResource(R.drawable.icon_open);
+                    a8 = 0.8f;
+                    r8 = 1.7f;
+                } else {
+                    iv8.setImageResource(R.drawable.icon_close);
+                    a8 = 0f;
+                    r8 = 0f;
+                }
+                count = a4+a5+a6+a7+a8;
+                rate = r4+r5+r6+r7+r8;
+                tvArea.setText(new BigDecimal(count).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+                tvRate.setText(new BigDecimal(rate).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+            }
+        });
+
+        etCount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                float value = 0f;
+                if (TextUtils.isEmpty(s.toString())) {
+                    value = 0f;
+                } else {
+                    value = Float.parseFloat(s.toString());
+                }
+                etTime.setText(new BigDecimal(value/count).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+            }
+        });
+
+//        etTime.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            }
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//            }
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                etCount.setText(new BigDecimal((Float.parseFloat(s.toString()))*count).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+//            }
+//        });
+
+        tvStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float value = 0f;
+                if (TextUtils.isEmpty(etTime.getText().toString())) {
+                    value = 0f;
+                } else {
+                    value = Float.parseFloat(etTime.getText().toString());
+                }
+                String time = sdf1.format(value*1000*60*60+new Date().getTime());
+                Log.e("time", time);
+                okHttpStartSmart(time, loading);
+            }
+        });
+    }
+
+    /**
+     * 浇灌对话框
+     */
+    boolean b1 = true;boolean b2 = true;boolean b3 = true;
+    float a1 = 9.8f;float a2 = 16.0f;float a3 = 17.1f;
+    float count2 = a1+a2+a3;
+    float r1 = 9.0f;float r2 = 14.5f;float r3 = 15.6f;
+    float rate2 = r1+r2+r3;
+    private void openSmartJiaoguan2() {
+        LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View stationView = inflater.inflate(R.layout.shawn_dialog_jiaoguan2, null);
+        ImageView ivClose = stationView.findViewById(R.id.ivClose);
+        final ImageView iv1 = stationView.findViewById(R.id.iv1);
+        final ImageView iv2 = stationView.findViewById(R.id.iv2);
+        final ImageView iv3 = stationView.findViewById(R.id.iv3);
+        final TextView tvArea = stationView.findViewById(R.id.tvArea);
+        final TextView tvRate = stationView.findViewById(R.id.tvRate);
+        final EditText etCount = stationView.findViewById(R.id.etCount);
+        final EditText etTime = stationView.findViewById(R.id.etTime);
+        TextView tvStart = stationView.findViewById(R.id.tvStart);
+        final AVLoadingIndicatorView loading = stationView.findViewById(R.id.loading);
+
+        tvArea.setText(new BigDecimal(count2).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+        tvRate.setText(new BigDecimal(rate2).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+
+        final Dialog dialog = new Dialog(getActivity(), R.style.CustomProgressDialog);
+        dialog.setContentView(stationView);
+        dialog.show();
+
+        ivClose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialog.dismiss();
+            }
+        });
+        iv1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                b1 = !b1;
+                if (b1) {
+                    iv1.setImageResource(R.drawable.icon_open);
+                    a1 = 17.2f;
+                    r1 = 15.6f;
+                } else {
+                    iv1.setImageResource(R.drawable.icon_close);
+                    a1 = 0f;
+                    r1 = 0f;
+                }
+                count2 = a1+a2+a3;
+                rate2 = r1+r2+r3;
+                tvArea.setText(new BigDecimal(count2).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+                tvRate.setText(new BigDecimal(rate2).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+            }
+        });
+        iv2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                b2 = !b2;
+                if (b2) {
+                    iv2.setImageResource(R.drawable.icon_open);
+                    a2 = 19.6f;
+                    r2 = 17.8f;
+                } else {
+                    iv2.setImageResource(R.drawable.icon_close);
+                    a2 = 0f;
+                    r2 = 0f;
+                }
+                count2 = a1+a2+a3;
+                rate2 = r1+r2+r3;
+                tvArea.setText(new BigDecimal(count2).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+                tvRate.setText(new BigDecimal(rate2).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+            }
+        });
+        iv3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                b3 = !b3;
+                if (b3) {
+                    iv3.setImageResource(R.drawable.icon_open);
+                    a3 = 1.9f;
+                    r3 = 0.8f;
+                } else {
+                    iv3.setImageResource(R.drawable.icon_close);
+                    a3 = 0f;
+                    r3 = 0f;
+                }
+                count2 = a1+a2+a3;
+                rate2 = r1+r2+r3;
+                tvArea.setText(new BigDecimal(count2).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+                tvRate.setText(new BigDecimal(rate2).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+            }
+        });
+
+        etCount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+            @Override
+            public void afterTextChanged(Editable s) {
+                float value = 0f;
+                if (TextUtils.isEmpty(s.toString())) {
+                    value = 0f;
+                } else {
+                    value = Float.parseFloat(s.toString());
+                }
+                etTime.setText(new BigDecimal(value/count2).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+            }
+        });
+
+//        etTime.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            }
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//            }
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                etCount.setText(new BigDecimal((Float.parseFloat(s.toString()))*count).setScale(1,  BigDecimal.ROUND_HALF_UP).floatValue()+"");
+//            }
+//        });
+
+        tvStart.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                float value = 0f;
+                if (TextUtils.isEmpty(etTime.getText().toString())) {
+                    value = 0f;
+                } else {
+                    value = Float.parseFloat(etTime.getText().toString());
+                }
+                String time = sdf1.format(value*1000*60*60+new Date().getTime());
+                Log.e("time", time);
+                okHttpStartSmart(time, loading);
+            }
+        });
+    }
+
+    /**
+     * 开机智能浇灌
+     * @param time
+     */
+    private void okHttpStartSmart(String time, final AVLoadingIndicatorView loading) {
+        loading.setVisibility(View.VISIBLE);
+        final String url = String.format("http://113.16.174.77:8076/gzqx/dates/getkg?ValveID=%s&operate=1&endtime=%s", valve_id, time);
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                OkHttpUtil.enqueue(new Request.Builder().url(url).build(), new Callback() {
+                    @Override
+                    public void onFailure(@NotNull Call call, @NotNull IOException e) {
+                    }
+                    @Override
+                    public void onResponse(@NotNull Call call, @NotNull Response response) throws IOException {
+                        if (!response.isSuccessful()) {
+                            return;
+                        }
+                        final String result = response.body().string();
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                if (!TextUtils.isEmpty(result)) {
+                                    try {
+                                        JSONObject obj = new JSONObject(result);
+                                        if (!obj.isNull("msg")) {
+                                            Toast.makeText(getActivity(), obj.getString("msg"), Toast.LENGTH_LONG).show();
+                                            loading.setVisibility(View.GONE);
+                                        }
+                                    } catch (JSONException e) {
+                                        e.printStackTrace();
+                                    }
+                                }
+                            }
+                        });
+                    }
+                });
+            }
+        }).start();
+    }
+
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
@@ -434,6 +816,14 @@ public class ShawnGuangaiFragment extends Fragment implements View.OnClickListen
             case R.id.ivClose:
             case R.id.tvClose:
                 okHttpSwitch("0");
+                break;
+            case R.id.ivSmart:
+            case R.id.tvSmart:
+                if (TextUtils.equals(valve_id, "3880")) {
+                    openSmartJiaoguan1();
+                } else {
+                    openSmartJiaoguan2();
+                }
                 break;
             case R.id.ivRefresh:
             case R.id.tvRefresh:

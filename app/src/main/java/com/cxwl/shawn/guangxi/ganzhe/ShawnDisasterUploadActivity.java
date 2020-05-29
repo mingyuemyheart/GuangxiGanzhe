@@ -54,6 +54,7 @@ import com.cxwl.shawn.guangxi.ganzhe.common.CONST;
 import com.cxwl.shawn.guangxi.ganzhe.common.MyApplication;
 import com.cxwl.shawn.guangxi.ganzhe.dto.DisasterDto;
 import com.cxwl.shawn.guangxi.ganzhe.dto.FactDto;
+import com.cxwl.shawn.guangxi.ganzhe.manager.DataCleanManager;
 import com.cxwl.shawn.guangxi.ganzhe.util.AuthorityUtil;
 import com.cxwl.shawn.guangxi.ganzhe.util.CommonUtil;
 import com.cxwl.shawn.guangxi.ganzhe.util.OkHttpUtil;
@@ -93,7 +94,7 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 	
 	private Context mContext;
 	private EditText etTitle,etContent,etPosition;
-	private TextView tvTextCount,tvCount,tvTime,tvDisaster,tvMiao;
+	private TextView tvTextCount,tvCount,tvTime,tvDisaster,tvLatLng,tvMiao;
 	private AVLoadingIndicatorView loadingView;
 	private ShawnDisasterUploadAdapter mAdapter;
 	private List<DisasterDto> dataList = new ArrayList<>();
@@ -142,6 +143,7 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 		tvTime.setText(sdf1.format(new Date()));
 		tvMiao = findViewById(R.id.tvMiao);
 		tvMiao.setOnClickListener(this);
+		tvLatLng = findViewById(R.id.tvLatLng);
 
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -173,6 +175,7 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 		if (amapLocation != null && amapLocation.getErrorCode() == 0) {
 			lat = amapLocation.getLatitude();
 			lng = amapLocation.getLongitude();
+			tvLatLng.setText(lat+","+lng);
 			if (amapLocation.getProvince().contains(amapLocation.getCity())) {
 				etPosition.setText(amapLocation.getCity()+amapLocation.getDistrict()+amapLocation.getStreet()+amapLocation.getAoiName());
 			} else {
@@ -276,10 +279,11 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 		dataList.add(dto);
 	}
 
+	ScrollviewGridview gridView;
 	private void initGridView(int itemWidth) {
 		addLastElement();
 
-		ScrollviewGridview gridView = findViewById(R.id.gridView);
+		gridView = findViewById(R.id.gridView);
 		mAdapter = new ShawnDisasterUploadAdapter(this, dataList, itemWidth);
 		gridView.setAdapter(mAdapter);
 		gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -302,6 +306,47 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 						reViewPager.setVisibility(View.VISIBLE);
 						tvCount.setText((position+1)+"/"+imgList.size());
 					}
+				}
+			}
+		});
+		gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+				dialogCache(position);
+				return true;
+			}
+		});
+	}
+
+	/**
+	 * 清除缓存
+	 */
+	private void dialogCache(final int position) {
+		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		View view = inflater.inflate(R.layout.shawn_dialog_cache, null);
+		TextView tvContent = view.findViewById(R.id.tvContent);
+		TextView tvNegtive = view.findViewById(R.id.tvNegtive);
+		TextView tvPositive = view.findViewById(R.id.tvPositive);
+
+		final Dialog dialog = new Dialog(this, R.style.CustomProgressDialog);
+		dialog.setContentView(view);
+		dialog.show();
+
+		tvContent.setText("确定删除？");
+		tvNegtive.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				dialog.dismiss();
+			}
+		});
+
+		tvPositive.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View arg0) {
+				dialog.dismiss();
+				dataList.remove(position);
+				if (mAdapter != null) {
+					mAdapter.notifyDataSetChanged();
 				}
 			}
 		});

@@ -43,20 +43,43 @@
         android:textSize="@dimen/level_5"/>
 
     <TextView
-        android:id="@+id/tvType"
+        android:id="@+id/tvTime"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvAddr"
+        android:layout_marginEnd="10dp"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:textColor="@color/text_color4"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvType"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvTime"
+        android:layout_marginTop="5dp"
         android:layout_marginStart="10dp"
         android:textColor="@color/text_color4"
         android:textSize="@dimen/level_5"/>
 
     <TextView
-        android:id="@+id/tvTime"
+        android:id="@+id/tvMiao"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvAddr"
-        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/tvType"
+        android:layout_marginTop="5dp"
+        android:layout_marginStart="10dp"
+        android:textColor="@color/text_color4"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvLatLng"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvMiao"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
         android:textColor="@color/text_color4"
         android:textSize="@dimen/level_5"/>
@@ -65,7 +88,7 @@
         android:layout_marginTop="10dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/tvTime"
+        android:layout_below="@+id/tvLatLng"
         android:scrollbarSize="2dp"
         android:scrollbarThumbHorizontal="@color/colorPrimary">
 

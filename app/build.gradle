@@ -13,8 +13,8 @@ android {
         applicationId "com.cxwl.shawn.guangxi.ganzhe"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 21
-        versionName "1.2.0"
+        versionCode 22
+        versionName "1.2.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {
@@ -54,4 +54,5 @@ dependencies {
     implementation files('libs/uk-co-senab-photoview.jar')
     implementation project(':android-pdf-viewer')
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation 'com.android.support.constraint:constraint-layout:1.1.3'
 }
