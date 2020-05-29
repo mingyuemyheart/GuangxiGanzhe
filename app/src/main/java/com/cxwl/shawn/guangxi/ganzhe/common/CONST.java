@@ -1,5 +1,7 @@
 package com.cxwl.shawn.guangxi.ganzhe.common;
 
+import android.os.Environment;
+
 import com.cxwl.shawn.guangxi.ganzhe.R;
 
 public class CONST {
@@ -30,5 +32,8 @@ public class CONST {
 	public static final String ACTIVITY_NAME = "activity_name";//界面名称
 	public static final String LOCAL_ID = "local_id";//local_id
 	public static final String COLUMN_ID = "column_id";//column_id
+
+	//通用
+	public static String SDCARD_PATH = Environment.getExternalStorageDirectory()+"/gxgz";
 
 }

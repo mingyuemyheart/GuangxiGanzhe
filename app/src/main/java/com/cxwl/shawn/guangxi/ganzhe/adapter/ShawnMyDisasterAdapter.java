@@ -70,8 +70,12 @@ public class ShawnMyDisasterAdapter extends BaseAdapter {
 		if (dto.imgList.size() > 0) {
 			String imgUrl = dto.imgList.get(0);
 			if (!TextUtils.isEmpty(imgUrl)) {
-				Picasso.get().load(imgUrl).into(mHolder.imageView);
+				Picasso.get().load(imgUrl).error(R.drawable.shawn_icon_no_pic).into(mHolder.imageView);
+			} else {
+				mHolder.imageView.setImageResource(R.drawable.shawn_icon_no_pic);
 			}
+		} else {
+			mHolder.imageView.setImageResource(R.drawable.shawn_icon_no_pic);
 		}
 
 		if (!TextUtils.isEmpty(dto.title)) {

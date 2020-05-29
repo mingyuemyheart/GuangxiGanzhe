@@ -11,7 +11,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
@@ -54,7 +53,6 @@ import com.cxwl.shawn.guangxi.ganzhe.common.CONST;
 import com.cxwl.shawn.guangxi.ganzhe.common.MyApplication;
 import com.cxwl.shawn.guangxi.ganzhe.dto.DisasterDto;
 import com.cxwl.shawn.guangxi.ganzhe.dto.FactDto;
-import com.cxwl.shawn.guangxi.ganzhe.manager.DataCleanManager;
 import com.cxwl.shawn.guangxi.ganzhe.util.AuthorityUtil;
 import com.cxwl.shawn.guangxi.ganzhe.util.CommonUtil;
 import com.cxwl.shawn.guangxi.ganzhe.util.OkHttpUtil;
@@ -66,6 +64,8 @@ import org.json.JSONObject;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -386,7 +386,7 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 			for (int i = 0; i < dataList.size(); i++) {
 				DisasterDto dto = dataList.get(i);
 				if (!TextUtils.isEmpty(dto.imgUrl)) {
-					File imgFile = new File(dto.imgUrl);
+					File imgFile = new File(compressBitmap(dto.imgUrl));
 					if (imgFile.exists()) {
 						builder.addFormDataPart("pic"+i, imgFile.getName(), RequestBody.create(MediaType.parse("image/*"), imgFile));
 					}
@@ -431,6 +431,59 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 				});
 			}
 		}).start();
+	}
+
+	private String compressBitmap(String imgPath) {
+		String newPath = null;
+		try {
+			File files = new File(CONST.SDCARD_PATH);
+			if (!files.exists()) {
+				files.mkdirs();
+			}
+
+			Bitmap bitmap = getSmallBitmap(imgPath);
+			newPath = files.getAbsolutePath()+"/"+System.currentTimeMillis()+".jpg";
+			FileOutputStream fos = new FileOutputStream(newPath);
+			if (bitmap != null && fos != null) {
+				bitmap.compress(Bitmap.CompressFormat.JPEG, 80, fos);
+
+				if (bitmap != null && !bitmap.isRecycled()) {
+					bitmap.recycle();
+					bitmap = null;
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		return newPath;
+	}
+
+	/**
+	 * 根据路径获得图片信息并按比例压缩，返回bitmap
+	 */
+	public static Bitmap getSmallBitmap(String filePath) {
+		final BitmapFactory.Options options = new BitmapFactory.Options();
+		options.inJustDecodeBounds = true;//只解析图片边沿，获取宽高
+		BitmapFactory.decodeFile(filePath, options);
+		// 计算缩放比
+		options.inSampleSize = calculateInSampleSize(options, 720, 1080);
+		// 完整解析图片返回bitmap
+		options.inJustDecodeBounds = false;
+		return BitmapFactory.decodeFile(filePath, options);
+	}
+
+
+	public static int calculateInSampleSize(BitmapFactory.Options options, int reqWidth, int reqHeight) {
+		final int height = options.outHeight;
+		final int width = options.outWidth;
+		int inSampleSize = 1;
+		if (height > reqHeight || width > reqWidth) {
+			final int heightRatio = Math.round((float) height / (float) reqHeight);
+			final int widthRatio = Math.round((float) width / (float) reqWidth);
+			inSampleSize = heightRatio < widthRatio ? heightRatio : widthRatio;
+		}
+		return inSampleSize;
 	}
 	
 	@Override
@@ -477,7 +530,11 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 
 	private File cameraFile;
 	private void intentCamera() {
-		cameraFile = new File(Environment.getExternalStorageDirectory() + "/camera.jpg");
+		File files = new File(CONST.SDCARD_PATH);
+		if (!files.exists()) {
+			files.mkdirs();
+		}
+		cameraFile = new File(CONST.SDCARD_PATH + "/"+System.currentTimeMillis()+".jpg");
 		Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 		Uri uri;
 		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
