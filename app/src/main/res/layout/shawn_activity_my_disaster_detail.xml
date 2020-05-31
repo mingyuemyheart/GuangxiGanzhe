@@ -17,7 +17,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="10dp"
         android:layout_marginEnd="10dp"
-        android:textColor="@color/text_color3"
+        android:textColor="@color/text_color4"
         android:textSize="@dimen/level_4"/>
 
     <TextView
@@ -28,8 +28,8 @@
         android:layout_marginStart="10dp"
         android:layout_marginTop="5dp"
         android:layout_marginEnd="10dp"
-        android:textColor="@color/text_color3"
-        android:textSize="@dimen/level_4"/>
+        android:textColor="@color/text_color4"
+        android:textSize="@dimen/level_5"/>
 
     <TextView
         android:id="@+id/tvAddr"
@@ -84,11 +84,44 @@
         android:textColor="@color/text_color4"
         android:textSize="@dimen/level_5"/>
 
-    <HorizontalScrollView
-        android:layout_marginTop="10dp"
+    <TextView
+        android:id="@+id/tvUserName"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@+id/tvLatLng"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:textColor="@color/text_color4"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvPhone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvUserName"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:textColor="@color/text_color4"
+        android:textSize="@dimen/level_5"/>
+
+    <TextView
+        android:id="@+id/tvFullName"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvPhone"
+        android:layout_marginStart="10dp"
+        android:layout_marginTop="5dp"
+        android:layout_marginEnd="10dp"
+        android:textColor="@color/text_color4"
+        android:textSize="@dimen/level_5"/>
+
+    <HorizontalScrollView
+        android:layout_margin="10dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tvFullName"
         android:scrollbarSize="2dp"
         android:scrollbarThumbHorizontal="@color/colorPrimary">
 

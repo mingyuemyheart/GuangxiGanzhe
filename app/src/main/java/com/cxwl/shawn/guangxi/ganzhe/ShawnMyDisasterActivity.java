@@ -8,9 +8,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.cxwl.shawn.guangxi.ganzhe.adapter.ShawnMyDisasterAdapter;
 import com.cxwl.shawn.guangxi.ganzhe.common.CONST;
@@ -41,7 +43,8 @@ public class ShawnMyDisasterActivity extends ShawnBaseActivity implements OnClic
 	private ShawnMyDisasterAdapter mAdapter;
 	private List<DisasterDto> dataList = new ArrayList<>();
 	private SwipeRefreshLayout refreshLayout;//下拉刷新布局
-	
+	private EditText etSearch;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -79,8 +82,11 @@ public class ShawnMyDisasterActivity extends ShawnBaseActivity implements OnClic
 		TextView tvTitle = findViewById(R.id.tvTitle);
 		TextView tvControl = findViewById(R.id.tvControl);
 		tvControl.setText("灾情上报");
-		tvControl.setVisibility(View.VISIBLE);
+//		tvControl.setVisibility(View.VISIBLE);
 		tvControl.setOnClickListener(this);
+		etSearch = findViewById(R.id.etSearch);
+		TextView tvSearch = findViewById(R.id.tvSearch);
+		tvSearch.setOnClickListener(this);
 
 		String title = getIntent().getStringExtra(CONST.ACTIVITY_NAME);
 		if (!TextUtils.isEmpty(title)) {
@@ -121,9 +127,11 @@ public class ShawnMyDisasterActivity extends ShawnBaseActivity implements OnClic
 	}
 
 	private void OkHttpList() {
+		refreshLayout.setVisibility(View.VISIBLE);
 		final String url = "http://decision-admin.tianqi.cn/home/work2019/decisionZqfkSelect";
 		FormBody.Builder builder = new FormBody.Builder();
 		builder.add("page", page+"");
+		builder.add("key", etSearch.getText().toString());
         final RequestBody body = builder.build();
 		new Thread(new Runnable() {
 			@Override
@@ -204,6 +212,14 @@ public class ShawnMyDisasterActivity extends ShawnBaseActivity implements OnClic
 				break;
 			case R.id.tvControl:
 				startActivityForResult(new Intent(this, ShawnDisasterUploadActivity.class), 1001);
+				break;
+			case R.id.tvSearch:
+				if (TextUtils.isEmpty(etSearch.getText().toString())) {
+					Toast.makeText(ShawnMyDisasterActivity.this, "请输入关键字搜索", Toast.LENGTH_SHORT).show();
+					return;
+				}
+				dataList.clear();
+				OkHttpList();
 				break;
 
 		}

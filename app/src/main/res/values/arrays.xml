@@ -376,13 +376,4 @@
 		<item>其它</item>
 	</string-array>
 
-	<!--苗情-->
-	<string-array name="miao_type">
-		<item>好</item>
-		<item>较好</item>
-		<item>一般</item>
-		<item>差</item>
-		<item>较差</item>
-	</string-array>
-
 </resources>

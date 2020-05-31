@@ -81,14 +81,18 @@ public class ShawnProductActivity extends ShawnBaseActivity implements View.OnCl
                         intent = new Intent(mContext, ShawnMyFarmActivity.class);
                         intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
                         startActivity(intent);
-                    }else if (TextUtils.equals(dto.id, "302")) {//农情灾情
-                        intent = new Intent(mContext, ShawnMyDisasterActivity.class);
-                        intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
-                        intent.putExtra(CONST.WEB_URL, dto.dataUrl);
-                        startActivity(intent);
                     }else if (TextUtils.equals(dto.id, "304")) {//农场上传
                         intent = new Intent(mContext, ShawnFarmPostActivity.class);
                         intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
+                        startActivity(intent);
+                    }else if (TextUtils.equals(dto.id, "401")) {//农情灾情上报
+                        intent = new Intent(mContext, ShawnDisasterUploadActivity.class);
+                        intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
+                        startActivity(intent);
+                    }else if (TextUtils.equals(dto.id, "402")) {//历史农情查询
+                        intent = new Intent(mContext, ShawnMyDisasterActivity.class);
+                        intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
+                        intent.putExtra(CONST.WEB_URL, dto.dataUrl);
                         startActivity(intent);
                     }
                 }

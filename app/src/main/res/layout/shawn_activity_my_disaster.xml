@@ -1,19 +1,63 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/white"
-              android:orientation="vertical">
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <include
         android:id="@+id/reTitle"
-        layout="@layout/shawn_layout_title"/>
+        layout="@layout/shawn_layout_title" />
+
+    <EditText
+        android:id="@+id/etSearch"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="5dp"
+        android:background="@drawable/shawn_bg_corner_edittext"
+        android:hint="请输入关键字"
+        android:paddingStart="30dp"
+        android:paddingEnd="5dp"
+        android:textColor="@color/text_color3"
+        android:textColorHint="@color/text_color2"
+        android:textSize="@dimen/level_4"
+        app:layout_constraintEnd_toStartOf="@+id/tvSearch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reTitle" />
+
+    <ImageView
+        android:id="@+id/ivSearch"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="10dp"
+        android:src="@drawable/shawn_icon_search_black"
+        app:layout_constraintBottom_toBottomOf="@+id/etSearch"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/etSearch" />
+
+    <TextView
+        android:id="@+id/tvSearch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="搜索"
+        android:gravity="center"
+        android:layout_marginEnd="5dp"
+        android:background="@drawable/shawn_bg_corner_search"
+        app:layout_constraintTop_toTopOf="@+id/etSearch"
+        app:layout_constraintBottom_toBottomOf="@+id/etSearch"
+        app:layout_constraintStart_toEndOf="@+id/etSearch"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/white"
+        android:textSize="@dimen/level_5"/>
 
     <android.support.v4.widget.SwipeRefreshLayout
         android:id="@+id/refreshLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/etSearch">
 
         <ListView
             android:id="@+id/listView"
@@ -25,8 +69,8 @@
             android:listSelector="@color/transparent"
             android:overScrollMode="never"
             android:scrollbarSize="2dp"
-            android:scrollbarThumbVertical="@color/colorPrimary"/>
+            android:scrollbarThumbVertical="@color/colorPrimary" />
 
     </android.support.v4.widget.SwipeRefreshLayout>
 
-</LinearLayout>
+</android.support.constraint.ConstraintLayout>

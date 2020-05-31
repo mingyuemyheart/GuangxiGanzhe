@@ -20,7 +20,9 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.cxwl.shawn.guangxi.ganzhe.common.MyApplication;
 import com.cxwl.shawn.guangxi.ganzhe.dto.DisasterDto;
+import com.cxwl.shawn.guangxi.ganzhe.util.CommonUtil;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -54,6 +56,9 @@ public class ShawnMyDisasterDetailActivity extends ShawnBaseActivity implements 
 		TextView tvMiao = findViewById(R.id.tvMiao);
 		TextView tvAddr = findViewById(R.id.tvAddr);
 		TextView tvLatLng = findViewById(R.id.tvLatLng);
+		TextView tvUserName = findViewById(R.id.tvUserName);
+		TextView tvPhone = findViewById(R.id.tvPhone);
+		TextView tvFullName = findViewById(R.id.tvFullName);
 		TextView tvTime = findViewById(R.id.tvTime);
 		tvCount = findViewById(R.id.tvCount);
 		reViewPager = findViewById(R.id.reViewPager);
@@ -61,7 +66,7 @@ public class ShawnMyDisasterDetailActivity extends ShawnBaseActivity implements 
 
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
-		int width = dm.widthPixels;
+		int width = dm.widthPixels-(int)CommonUtil.dip2px(this, 20);
 
 		final DisasterDto data = getIntent().getParcelableExtra("data");
 		if (data != null) {
@@ -83,6 +88,9 @@ public class ShawnMyDisasterDetailActivity extends ShawnBaseActivity implements 
 			if (!TextUtils.isEmpty(data.latlon)) {
 				tvLatLng.setText("经纬度："+data.latlon);
 			}
+			tvUserName.setText("用户名："+MyApplication.USERNAME);
+			tvPhone.setText("手机号："+MyApplication.MOBILE);
+			tvFullName.setText("姓名："+MyApplication.NAME);
 			if (!TextUtils.isEmpty(data.time)) {
 				tvTime.setText("事件时间："+data.time);
 			}

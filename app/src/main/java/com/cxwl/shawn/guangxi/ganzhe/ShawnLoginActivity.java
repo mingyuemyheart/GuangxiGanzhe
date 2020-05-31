@@ -214,6 +214,12 @@ public class ShawnLoginActivity extends ShawnBaseActivity implements OnClickList
 													MyApplication.UID = obj.getString("id");
 													MyApplication.USERNAME = etUserName.getText().toString();
 													MyApplication.PASSWORD = etPwd.getText().toString();
+													if (!obj.isNull("name")) {
+														MyApplication.NAME = obj.getString("name");
+													}
+													if (!obj.isNull("mobile")) {
+														MyApplication.MOBILE = obj.getString("mobile");
+													}
 													MyApplication.saveUserInfo(mContext);
 
 													Intent intent = new Intent(mContext, ShawnMainActivity.class);

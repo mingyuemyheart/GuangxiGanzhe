@@ -17,6 +17,8 @@ public class MyApplication extends Application{
 	public static String UID = "";//用户id
 	public static String USERNAME = "";
 	public static String PASSWORD = "";
+	public static String NAME = "";//姓名
+	public static String MOBILE = "";
 
 	public static String USERINFO = "userInfo";//userInfo sharedPreferance名称
 	public static class UserInfo {
@@ -24,6 +26,8 @@ public class MyApplication extends Application{
 		private static final String uid = "uid";
 		private static final String userName = "uName";
 		private static final String passWord = "pwd";
+		private static final String name = "name";
+		private static final String mobile = "mobile";
 	}
 
 	/**
@@ -38,6 +42,8 @@ public class MyApplication extends Application{
 		UID = "";
 		USERNAME = "";
 		PASSWORD = "";
+		NAME = "";
+		MOBILE = "";
 	}
 
 	/**
@@ -50,6 +56,8 @@ public class MyApplication extends Application{
 		editor.putString(UserInfo.uid, UID);
 		editor.putString(UserInfo.userName, USERNAME);
 		editor.putString(UserInfo.passWord, PASSWORD);
+		editor.putString(UserInfo.name, NAME);
+		editor.putString(UserInfo.mobile, MOBILE);
 		editor.apply();
 	}
 
@@ -62,6 +70,8 @@ public class MyApplication extends Application{
 		UID = sharedPreferences.getString(UserInfo.uid, "");
 		USERNAME = sharedPreferences.getString(UserInfo.userName, "");
 		PASSWORD = sharedPreferences.getString(UserInfo.passWord, "");
+		NAME = sharedPreferences.getString(UserInfo.name, "");
+		MOBILE = sharedPreferences.getString(UserInfo.mobile, "");
 	}
 
 }

@@ -93,8 +93,8 @@ import wheelview.WheelView;
 public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements OnClickListener, AMapLocationListener {
 	
 	private Context mContext;
-	private EditText etTitle,etContent,etPosition;
-	private TextView tvTextCount,tvCount,tvTime,tvDisaster,tvLatLng,tvMiao;
+	private EditText etTitle,etContent,etPosition,etMiao1,etMiao2,etMiao3,etMiao4,etMiao5;
+	private TextView tvTextCount,tvCount,tvTime,tvDisaster,tvLatLng;
 	private AVLoadingIndicatorView loadingView;
 	private ShawnDisasterUploadAdapter mAdapter;
 	private List<DisasterDto> dataList = new ArrayList<>();
@@ -141,9 +141,12 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 		TextView tvPositive = findViewById(R.id.tvPositive);
 		tvPositive.setOnClickListener(this);
 		tvTime.setText(sdf1.format(new Date()));
-		tvMiao = findViewById(R.id.tvMiao);
-		tvMiao.setOnClickListener(this);
 		tvLatLng = findViewById(R.id.tvLatLng);
+		etMiao1 = findViewById(R.id.etMiao1);
+		etMiao2 = findViewById(R.id.etMiao2);
+		etMiao3 = findViewById(R.id.etMiao3);
+		etMiao4 = findViewById(R.id.etMiao4);
+		etMiao5 = findViewById(R.id.etMiao5);
 
 		DisplayMetrics dm = new DisplayMetrics();
 		getWindowManager().getDefaultDisplay().getMetrics(dm);
@@ -235,40 +238,6 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 				dialog.dismiss();
 				FactDto dto = stations.get(arg2);
 				tvDisaster.setText(dto.stationName);
-			}
-		});
-	}
-
-	/**
-	 * 选择苗情
-	 */
-	private void selectMiao() {
-		final List<FactDto> stations = new ArrayList<>();
-		String[] array = getResources().getStringArray(R.array.miao_type);
-		for (int i = 0; i < array.length; i++) {
-			FactDto dto = new FactDto();
-			dto.stationName = array[i];
-			stations.add(dto);
-		}
-
-		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View stationView = inflater.inflate(R.layout.shawn_dialog_select_station, null);
-		ListView listView = stationView.findViewById(R.id.listView);
-		ShawnSelectStationAdapter stationAdapter = new ShawnSelectStationAdapter(mContext, stations);
-		listView.setAdapter(stationAdapter);
-		TextView tvType = stationView.findViewById(R.id.tvType);
-		tvType.setText("苗情");
-
-		final Dialog dialog = new Dialog(mContext, R.style.CustomProgressDialog);
-		dialog.setContentView(stationView);
-		dialog.show();
-
-		listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-			@Override
-			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {
-				dialog.dismiss();
-				FactDto dto = stations.get(arg2);
-				tvMiao.setText(dto.stationName);
 			}
 		});
 	}
@@ -372,9 +341,17 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 		if (!TextUtils.isEmpty(tvDisaster.getText().toString())) {
 			builder.addFormDataPart("type", tvDisaster.getText().toString());
 		}
-		if (!TextUtils.isEmpty(tvMiao.getText().toString())) {
-			builder.addFormDataPart("other_param1", tvMiao.getText().toString());
-		}
+		etMiao1.setText(TextUtils.isEmpty(etMiao1.getText().toString()) ? "0" : etMiao1.getText().toString());
+		etMiao2.setText(TextUtils.isEmpty(etMiao2.getText().toString()) ? "0" : etMiao2.getText().toString());
+		etMiao3.setText(TextUtils.isEmpty(etMiao3.getText().toString()) ? "0" : etMiao3.getText().toString());
+		etMiao4.setText(TextUtils.isEmpty(etMiao4.getText().toString()) ? "0" : etMiao4.getText().toString());
+		etMiao5.setText(TextUtils.isEmpty(etMiao5.getText().toString()) ? "0" : etMiao5.getText().toString());
+		String other_param1 = "行距："+etMiao1.getText().toString()+"米；10米苗树：总苗树："+etMiao2.getText().toString()+
+				"株、枯心病数"+etMiao3.getText().toString()+
+				"株、黑穗病数"+etMiao4.getText().toString()+
+				"株、其它病虫数"+etMiao5.getText().toString()+"株";
+		Log.e("other_param1", other_param1);
+		builder.addFormDataPart("other_param1", other_param1);
 		if (!TextUtils.isEmpty(etPosition.getText().toString())) {
 			builder.addFormDataPart("location", etPosition.getText().toString());
 		}
@@ -495,9 +472,6 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 			case R.id.tvDisaster:
 				selectStation();
 				break;
-			case R.id.tvMiao:
-				selectMiao();
-				break;
 			case R.id.tvTime:
 			case R.id.tvNegtive:
 				bootTimeLayoutAnimation();
@@ -513,10 +487,6 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 				}
 				if (TextUtils.isEmpty(tvDisaster.getText().toString())) {
 					Toast.makeText(mContext, "请选择灾情类型！", Toast.LENGTH_SHORT).show();
-					return;
-				}
-				if (TextUtils.isEmpty(tvMiao.getText().toString())) {
-					Toast.makeText(mContext, "请选择苗情！", Toast.LENGTH_SHORT).show();
 					return;
 				}
 				if (TextUtils.isEmpty(etPosition.getText().toString())) {

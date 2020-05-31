@@ -95,34 +95,173 @@
                 android:layout_marginEnd="10dp"
                 android:background="@color/light_gray" />
 
-            <LinearLayout
-                android:id="@+id/llMiao"
+            <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:background="@drawable/shawn_selector_item"
                 android:gravity="center_vertical"
                 android:paddingStart="10dp"
-                android:paddingEnd="10dp">
+                android:paddingEnd="10dp"
+                android:paddingTop="5dp">
 
                 <TextView
+                    android:id="@+id/tv1"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="5dp"
                     android:text="苗情："
                     android:textColor="@color/text_color3"
-                    android:textSize="@dimen/level_4" />
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/tvMiao"
-                    android:layout_width="match_parent"
+                    android:id="@+id/tv2"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="10dp"
-                    android:layout_marginEnd="10dp"
-                    android:hint="请选择苗情"
+                    android:text="行距："
                     android:textColor="@color/text_color4"
-                    android:textSize="@dimen/level_4" />
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv1"
+                    app:layout_constraintStart_toEndOf="@+id/tv1"
+                    app:layout_constraintTop_toTopOf="@+id/tv1" />
 
-            </LinearLayout>
+                <EditText
+                    android:id="@+id/etMiao1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text="0"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv2"
+                    app:layout_constraintStart_toEndOf="@+id/tv2"
+                    app:layout_constraintTop_toTopOf="@+id/tv2" />
+
+                <TextView
+                    android:id="@+id/tv3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="米；10米苗树：总苗树："
+                    android:textColor="@color/text_color4"
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintBottom_toBottomOf="@+id/etMiao1"
+                    app:layout_constraintStart_toEndOf="@+id/etMiao1"
+                    app:layout_constraintTop_toTopOf="@+id/etMiao1" />
+
+                <EditText
+                    android:id="@+id/etMiao2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text="0"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv3"
+                    app:layout_constraintStart_toEndOf="@+id/tv3"
+                    app:layout_constraintTop_toTopOf="@+id/tv3" />
+
+                <TextView
+                    android:id="@+id/tv4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="株、"
+                    android:textColor="@color/text_color4"
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintBottom_toBottomOf="@+id/etMiao2"
+                    app:layout_constraintStart_toEndOf="@+id/etMiao2"
+                    app:layout_constraintTop_toTopOf="@+id/etMiao2" />
+
+                <TextView
+                    android:id="@+id/tv8"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="枯心病数"
+                    android:textColor="@color/text_color4"
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintStart_toEndOf="@+id/tv1"
+                    app:layout_constraintTop_toBottomOf="@+id/tv2" />
+
+                <EditText
+                    android:id="@+id/etMiao3"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text="0"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv8"
+                    app:layout_constraintStart_toEndOf="@+id/tv8"
+                    app:layout_constraintTop_toTopOf="@+id/tv8" />
+
+                <TextView
+                    android:id="@+id/tv5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="株、黑穗病数"
+                    android:textColor="@color/text_color4"
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintBottom_toBottomOf="@+id/etMiao3"
+                    app:layout_constraintStart_toEndOf="@+id/etMiao3"
+                    app:layout_constraintTop_toTopOf="@+id/etMiao3" />
+
+                <EditText
+                    android:id="@+id/etMiao4"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text="0"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv5"
+                    app:layout_constraintStart_toEndOf="@+id/tv5"
+                    app:layout_constraintTop_toTopOf="@+id/tv5" />
+
+                <TextView
+                    android:id="@+id/tv6"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="株、"
+                    android:textColor="@color/text_color4"
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintBottom_toBottomOf="@+id/etMiao4"
+                    app:layout_constraintStart_toEndOf="@+id/etMiao4"
+                    app:layout_constraintTop_toTopOf="@+id/etMiao4" />
+
+                <TextView
+                    android:id="@+id/tv9"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="其它病虫数"
+                    android:textColor="@color/text_color4"
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintStart_toEndOf="@+id/tv1"
+                    app:layout_constraintTop_toBottomOf="@+id/tv8" />
+
+                <EditText
+                    android:id="@+id/etMiao5"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text="0"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintBottom_toBottomOf="@+id/tv9"
+                    app:layout_constraintStart_toEndOf="@+id/tv9"
+                    app:layout_constraintTop_toTopOf="@+id/tv9" />
+
+                <TextView
+                    android:id="@+id/tv7"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="株"
+                    android:textColor="@color/text_color4"
+                    android:textSize="@dimen/level_4"
+                    app:layout_constraintBottom_toBottomOf="@+id/etMiao5"
+                    app:layout_constraintStart_toEndOf="@+id/etMiao5"
+                    app:layout_constraintTop_toTopOf="@+id/etMiao5" />
+
+            </android.support.constraint.ConstraintLayout>
 
             <TextView
                 android:layout_width="match_parent"
@@ -318,10 +457,10 @@
 
     <include
         android:id="@+id/layoutDate"
-        android:visibility="gone"
         layout="@layout/layout_date"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"/>
+        android:layout_alignParentBottom="true"
+        android:visibility="gone" />
 
 </RelativeLayout>

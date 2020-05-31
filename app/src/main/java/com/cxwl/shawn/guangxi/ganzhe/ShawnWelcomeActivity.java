@@ -197,6 +197,16 @@ public class ShawnWelcomeActivity extends ShawnBaseActivity {
 												}
 
 												if (!object.isNull("info")) {
+													JSONObject obj = new JSONObject(object.getString("info"));
+													MyApplication.UID = obj.getString("id");
+													if (!obj.isNull("name")) {
+														MyApplication.NAME = obj.getString("name");
+													}
+													if (!obj.isNull("mobile")) {
+														MyApplication.MOBILE = obj.getString("mobile");
+													}
+													MyApplication.saveUserInfo(mContext);
+
 													Intent intent = new Intent(mContext, ShawnMainActivity.class);
 													Bundle bundle = new Bundle();
 													bundle.putParcelableArrayList("dataList", (ArrayList<? extends Parcelable>) dataList);
