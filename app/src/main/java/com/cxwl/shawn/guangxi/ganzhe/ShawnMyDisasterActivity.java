@@ -6,11 +6,15 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.text.TextUtils;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
+import android.view.animation.TranslateAnimation;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -24,8 +28,13 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import okhttp3.Call;
 import okhttp3.Callback;
@@ -33,6 +42,9 @@ import okhttp3.FormBody;
 import okhttp3.Request;
 import okhttp3.RequestBody;
 import okhttp3.Response;
+import wheelview.NumericWheelAdapter;
+import wheelview.OnWheelScrollListener;
+import wheelview.WheelView;
 
 /**
  * 我上传的灾情反馈
@@ -44,6 +56,10 @@ public class ShawnMyDisasterActivity extends ShawnBaseActivity implements OnClic
 	private List<DisasterDto> dataList = new ArrayList<>();
 	private SwipeRefreshLayout refreshLayout;//下拉刷新布局
 	private EditText etSearch;
+	private TextView tvControl,tvStart,tvStartTime,tvEnd,tvEndTime;
+	private RelativeLayout layoutDate;
+	private boolean isStart = true;
+	private SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd", Locale.CHINA);
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +68,7 @@ public class ShawnMyDisasterActivity extends ShawnBaseActivity implements OnClic
 		initRefreshLayout();
 		initWidget();
 		initListView();
+		initWheelView();
 	}
 
 	/**
@@ -80,13 +97,26 @@ public class ShawnMyDisasterActivity extends ShawnBaseActivity implements OnClic
 		LinearLayout llBack = findViewById(R.id.llBack);
 		llBack.setOnClickListener(this);
 		TextView tvTitle = findViewById(R.id.tvTitle);
-		TextView tvControl = findViewById(R.id.tvControl);
-		tvControl.setText("灾情上报");
-//		tvControl.setVisibility(View.VISIBLE);
-		tvControl.setOnClickListener(this);
 		etSearch = findViewById(R.id.etSearch);
 		TextView tvSearch = findViewById(R.id.tvSearch);
 		tvSearch.setOnClickListener(this);
+		tvControl = findViewById(R.id.tvControl);
+		tvControl.setText("时间段");
+		tvControl.setVisibility(View.VISIBLE);
+		tvControl.setOnClickListener(this);
+		tvStart = findViewById(R.id.tvStart);
+		tvStartTime = findViewById(R.id.tvStartTime);
+		tvStartTime.setOnClickListener(this);
+		tvStartTime.setText(sdf1.format(new Date()));
+		tvEnd = findViewById(R.id.tvEnd);
+		tvEndTime = findViewById(R.id.tvEndTime);
+		tvEndTime.setOnClickListener(this);
+		tvEndTime.setText(sdf1.format(new Date()));
+		layoutDate = findViewById(R.id.layoutDate);
+		TextView tvNegtive = findViewById(R.id.tvNegtive);
+		tvNegtive.setOnClickListener(this);
+		TextView tvPositive = findViewById(R.id.tvPositive);
+		tvPositive.setOnClickListener(this);
 
 		String title = getIntent().getStringExtra(CONST.ACTIVITY_NAME);
 		if (!TextUtils.isEmpty(title)) {
@@ -132,6 +162,12 @@ public class ShawnMyDisasterActivity extends ShawnBaseActivity implements OnClic
 		FormBody.Builder builder = new FormBody.Builder();
 		builder.add("page", page+"");
 		builder.add("key", etSearch.getText().toString());
+		if (TextUtils.equals("时间段", tvControl.getText().toString())) {
+			builder.add("sel_time", tvStartTime.getText().toString());
+		} else {
+			builder.add("st", tvStartTime.getText().toString());
+			builder.add("et", tvEndTime.getText().toString());
+		}
         final RequestBody body = builder.build();
 		new Thread(new Runnable() {
 			@Override
@@ -211,29 +247,204 @@ public class ShawnMyDisasterActivity extends ShawnBaseActivity implements OnClic
 				finish();
 				break;
 			case R.id.tvControl:
-				startActivityForResult(new Intent(this, ShawnDisasterUploadActivity.class), 1001);
+				if (TextUtils.equals("时间段", tvControl.getText().toString())) {
+					tvControl.setText("选择时间");
+					tvStart.setText("开始时间：");
+					tvEnd.setVisibility(View.VISIBLE);
+					tvEndTime.setVisibility(View.VISIBLE);
+				} else {
+					tvControl.setText("时间段");
+					tvStart.setText("选择时间：");
+					tvEnd.setVisibility(View.GONE);
+					tvEndTime.setVisibility(View.GONE);
+				}
+				break;
+			case R.id.tvStartTime:
+				isStart = true;
+				bootTimeLayoutAnimation();
+				break;
+			case R.id.tvNegtive:
+				bootTimeLayoutAnimation();
+				break;
+			case R.id.tvPositive:
+				bootTimeLayoutAnimation();
+				if (isStart) {
+					tvStartTime.setText(setTextViewValue());
+				} else {
+					tvEndTime.setText(setTextViewValue());
+				}
+				break;
+			case R.id.tvEndTime:
+				isStart = false;
+				bootTimeLayoutAnimation();
 				break;
 			case R.id.tvSearch:
-				if (TextUtils.isEmpty(etSearch.getText().toString())) {
-					Toast.makeText(ShawnMyDisasterActivity.this, "请输入关键字搜索", Toast.LENGTH_SHORT).show();
-					return;
+				if (TextUtils.equals("时间段", tvControl.getText().toString())) {
+					try {
+						long start = sdf1.parse(tvStartTime.getText().toString()).getTime();
+						long end = sdf1.parse(tvEndTime.getText().toString()).getTime();
+						if (start > end) {
+							Toast.makeText(ShawnMyDisasterActivity.this, "开始时间不能大于结束时间", Toast.LENGTH_SHORT).show();
+							return;
+						}
+					} catch (ParseException e) {
+						e.printStackTrace();
+					}
 				}
+
 				dataList.clear();
 				OkHttpList();
 				break;
-
 		}
 	}
 
-	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-		super.onActivityResult(requestCode, resultCode, data);
-		if (resultCode == RESULT_OK) {
-			switch (requestCode) {
-				case 1001: {
-					refresh();
-				}
+	private WheelView year, month, day;
+	private void initWheelView() {
+		Calendar c = Calendar.getInstance();
+		int curYear = c.get(Calendar.YEAR);
+		int curMonth = c.get(Calendar.MONTH) + 1;//通过Calendar算出的月数要+1
+		int curDate = c.get(Calendar.DATE);
+
+		year = findViewById(R.id.year);
+		NumericWheelAdapter numericWheelAdapter1=new NumericWheelAdapter(this,1950, curYear);
+		numericWheelAdapter1.setLabel("年");
+		year.setViewAdapter(numericWheelAdapter1);
+		year.setCyclic(false);//是否可循环滑动
+		year.addScrollingListener(scrollListener);
+		year.setVisibleItems(7);
+
+		month = findViewById(R.id.month);
+		NumericWheelAdapter numericWheelAdapter2=new NumericWheelAdapter(this,1, 12, "%02d");
+		numericWheelAdapter2.setLabel("月");
+		month.setViewAdapter(numericWheelAdapter2);
+		month.setCyclic(false);
+		month.addScrollingListener(scrollListener);
+		month.setVisibleItems(7);
+
+		day = findViewById(R.id.day);
+		initDay(curYear,curMonth);
+		day.setCyclic(false);
+		day.setVisibleItems(7);
+
+		year.setCurrentItem(curYear - 1950);
+		month.setCurrentItem(curMonth - 1);
+		day.setCurrentItem(curDate - 1);
+	}
+
+	private OnWheelScrollListener scrollListener = new OnWheelScrollListener() {
+		@Override
+		public void onScrollingStarted(WheelView wheel) {
+		}
+		@Override
+		public void onScrollingFinished(WheelView wheel) {
+			int n_year = year.getCurrentItem() + 1950;//年
+			int n_month = month.getCurrentItem() + 1;//月
+			initDay(n_year,n_month);
+		}
+	};
+
+	/**
+	 */
+	private void initDay(int arg1, int arg2) {
+		NumericWheelAdapter numericWheelAdapter=new NumericWheelAdapter(this,1, getDay(arg1, arg2), "%02d");
+		numericWheelAdapter.setLabel("日");
+		day.setViewAdapter(numericWheelAdapter);
+	}
+
+	/**
+	 *
+	 * @param year
+	 * @param month
+	 * @return
+	 */
+	private int getDay(int year, int month) {
+		int day = 30;
+		boolean flag = false;
+		switch (year % 4) {
+			case 0:
+				flag = true;
+				break;
+			default:
+				flag = false;
+				break;
+		}
+		switch (month) {
+			case 1:
+			case 3:
+			case 5:
+			case 7:
+			case 8:
+			case 10:
+			case 12:
+				day = 31;
+				break;
+			case 2:
+				day = flag ? 29 : 28;
+				break;
+			default:
+				day = 30;
+				break;
+		}
+		return day;
+	}
+
+	/**
+	 */
+	private String setTextViewValue() {
+		String yearStr = String.valueOf(year.getCurrentItem()+1950);
+		String monthStr = String.valueOf((month.getCurrentItem() + 1) < 10 ? "0" + (month.getCurrentItem() + 1) : (month.getCurrentItem() + 1));
+		String dayStr = String.valueOf(((day.getCurrentItem()+1) < 10) ? "0" + (day.getCurrentItem()+1) : (day.getCurrentItem()+1));
+		return yearStr+"-"+monthStr+"-"+dayStr;
+	}
+
+	private void bootTimeLayoutAnimation() {
+		if (layoutDate.getVisibility() == View.GONE) {
+			timeLayoutAnimation(true, layoutDate);
+			layoutDate.setVisibility(View.VISIBLE);
+		}else {
+			timeLayoutAnimation(false, layoutDate);
+			layoutDate.setVisibility(View.GONE);
+		}
+	}
+
+	/**
+	 * 时间图层动画
+	 * @param flag
+	 * @param view
+	 */
+	private void timeLayoutAnimation(boolean flag, final View view) {
+		//列表动画
+		AnimationSet animationSet = new AnimationSet(true);
+		TranslateAnimation animation;
+		if (!flag) {
+			animation = new TranslateAnimation(
+					Animation.RELATIVE_TO_SELF,0f,
+					Animation.RELATIVE_TO_SELF,0f,
+					Animation.RELATIVE_TO_SELF,0f,
+					Animation.RELATIVE_TO_SELF,1f);
+		}else {
+			animation = new TranslateAnimation(
+					Animation.RELATIVE_TO_SELF,0f,
+					Animation.RELATIVE_TO_SELF,0f,
+					Animation.RELATIVE_TO_SELF,1f,
+					Animation.RELATIVE_TO_SELF,0f);
+		}
+		animation.setDuration(400);
+		animationSet.addAnimation(animation);
+		animationSet.setFillAfter(true);
+		view.startAnimation(animationSet);
+		animationSet.setAnimationListener(new Animation.AnimationListener() {
+			@Override
+			public void onAnimationStart(Animation arg0) {
 			}
-		}
+			@Override
+			public void onAnimationRepeat(Animation arg0) {
+			}
+			@Override
+			public void onAnimationEnd(Animation arg0) {
+				view.clearAnimation();
+			}
+		});
 	}
+
 }

@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
+import android.support.constraint.ConstraintLayout;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
@@ -98,7 +99,7 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 	private AVLoadingIndicatorView loadingView;
 	private ShawnDisasterUploadAdapter mAdapter;
 	private List<DisasterDto> dataList = new ArrayList<>();
-	private RelativeLayout reViewPager;
+	private ConstraintLayout clViewPager;
 	private RelativeLayout layoutDate;
 	private SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
 	private double lat = 0, lng = 0;
@@ -134,7 +135,7 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 		tvTime = findViewById(R.id.tvTime);
 		tvTime.setOnClickListener(this);
 		tvCount = findViewById(R.id.tvCount);
-		reViewPager = findViewById(R.id.reViewPager);
+		clViewPager = findViewById(R.id.clViewPager);
 		layoutDate = findViewById(R.id.layoutDate);
 		TextView tvNegtive = findViewById(R.id.tvNegtive);
 		tvNegtive.setOnClickListener(this);
@@ -270,59 +271,18 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 						}
 					}
 					initViewPager(position, imgList);
-					if (reViewPager.getVisibility() == View.GONE) {
-						scaleExpandAnimation(reViewPager);
-						reViewPager.setVisibility(View.VISIBLE);
+					if (clViewPager.getVisibility() == View.GONE) {
+						scaleExpandAnimation(clViewPager);
+						clViewPager.setVisibility(View.VISIBLE);
 						tvCount.setText((position+1)+"/"+imgList.size());
 					}
 				}
 			}
 		});
-		gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-			@Override
-			public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-				dialogCache(position);
-				return true;
-			}
-		});
 	}
 
 	/**
-	 * 清除缓存
-	 */
-	private void dialogCache(final int position) {
-		LayoutInflater inflater = (LayoutInflater) getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-		View view = inflater.inflate(R.layout.shawn_dialog_cache, null);
-		TextView tvContent = view.findViewById(R.id.tvContent);
-		TextView tvNegtive = view.findViewById(R.id.tvNegtive);
-		TextView tvPositive = view.findViewById(R.id.tvPositive);
-
-		final Dialog dialog = new Dialog(this, R.style.CustomProgressDialog);
-		dialog.setContentView(view);
-		dialog.show();
-
-		tvContent.setText("确定删除？");
-		tvNegtive.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				dialog.dismiss();
-			}
-		});
-
-		tvPositive.setOnClickListener(new View.OnClickListener() {
-			@Override
-			public void onClick(View arg0) {
-				dialog.dismiss();
-				dataList.remove(position);
-				if (mAdapter != null) {
-					mAdapter.notifyDataSetChanged();
-				}
-			}
-		});
-	}
-
-	/**
-	 * 再请反馈
+	 * 灾情反馈
 	 */
 	private void OkHttpPost() {
 		loadingView.setVisibility(View.VISIBLE);
@@ -347,7 +307,7 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 		etMiao4.setText(TextUtils.isEmpty(etMiao4.getText().toString()) ? "0" : etMiao4.getText().toString());
 		etMiao5.setText(TextUtils.isEmpty(etMiao5.getText().toString()) ? "0" : etMiao5.getText().toString());
 		String other_param1 = "行距："+etMiao1.getText().toString()+"米；10米苗树：总苗树："+etMiao2.getText().toString()+
-				"株、枯心病数"+etMiao3.getText().toString()+
+				"株、枯心苗数"+etMiao3.getText().toString()+
 				"株、黑穗病数"+etMiao4.getText().toString()+
 				"株、其它病虫数"+etMiao5.getText().toString()+"株";
 		Log.e("other_param1", other_param1);
@@ -592,9 +552,9 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 
 	@Override
 	public boolean onKeyDown(int keyCode, KeyEvent event) {
-		if (reViewPager.getVisibility() == View.VISIBLE) {
-			scaleColloseAnimation(reViewPager);
-			reViewPager.setVisibility(View.GONE);
+		if (clViewPager.getVisibility() == View.VISIBLE) {
+			scaleColloseAnimation(clViewPager);
+			clViewPager.setVisibility(View.GONE);
 			return false;
 		}else {
 			finish();
@@ -671,8 +631,8 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 			photoView.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
 				@Override
 				public void onPhotoTap(View view, float v, float v1) {
-					scaleColloseAnimation(reViewPager);
-					reViewPager.setVisibility(View.GONE);
+					scaleColloseAnimation(clViewPager);
+					clViewPager.setVisibility(View.GONE);
 				}
 			});
 			return photoView;
@@ -873,6 +833,7 @@ public class ShawnDisasterUploadActivity extends ShawnBaseActivity implements On
 		hour.setCyclic(false);
 		hour.addScrollingListener(scrollListener);
 		hour.setVisibleItems(7);
+		hour.setVisibility(View.VISIBLE);
 
 		minute = findViewById(R.id.minute);
 		NumericWheelAdapter numericWheelAdapter4=new NumericWheelAdapter(mContext,1, 59, "%02d");

@@ -28,7 +28,7 @@ public class ShawnDisasterUploadAdapter extends BaseAdapter {
 	private int itemWidth;
 
 	private final class ViewHolder{
-		ImageView imageView;
+		ImageView imageView,ivDelete;
 	}
 
 	public ShawnDisasterUploadAdapter(Context context, List<DisasterDto> mArrayList, int itemWidth) {
@@ -55,12 +55,13 @@ public class ShawnDisasterUploadAdapter extends BaseAdapter {
 	}
 
 	@Override
-	public View getView(int position, View convertView, ViewGroup parent) {
-		ViewHolder mHolder;
+	public View getView(final int position, View convertView, ViewGroup parent) {
+		final ViewHolder mHolder;
 		if (convertView == null) {
 			convertView = mInflater.inflate(R.layout.shawn_adapter_disaster_upload, null);
 			mHolder = new ViewHolder();
 			mHolder.imageView = convertView.findViewById(R.id.imageView);
+			mHolder.ivDelete = convertView.findViewById(R.id.ivDelete);
 			convertView.setTag(mHolder);
 		}else {
 			mHolder = (ViewHolder) convertView.getTag();
@@ -77,12 +78,23 @@ public class ShawnDisasterUploadAdapter extends BaseAdapter {
 					mHolder.imageView.setLayoutParams(params);
 				}
 			}
+			mHolder.ivDelete.setVisibility(View.VISIBLE);
+			mHolder.ivDelete.setTag(position);
 		}else {
 			mHolder.imageView.setBackgroundColor(mContext.getResources().getColor(R.color.light_gray));
 			mHolder.imageView.setImageResource(R.drawable.shawn_icon_plus);
 			mHolder.imageView.setPadding(itemWidth/4,itemWidth/4,itemWidth/4,itemWidth/4);
 			mHolder.imageView.setLayoutParams(params);
+			mHolder.ivDelete.setVisibility(View.INVISIBLE);
 		}
+
+		mHolder.ivDelete.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mArrayList.remove(position);
+				notifyDataSetChanged();
+			}
+		});
 
 		return convertView;
 	}
