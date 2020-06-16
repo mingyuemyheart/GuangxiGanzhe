@@ -16,6 +16,9 @@ public class DisasterDto implements Parcelable {
     public boolean isSelected;
     public boolean isLastItem;//为了区分添加按钮
     public List<String> imgList = new ArrayList<>();//图片集合
+    public String userName,mobile,uName,gzType,gzTime;
+    public String fileType,filePath;//1图片、2视频、3音频、4文档、5文件夹
+    public long fileSize;//文件大小
 
     public DisasterDto() {
     }
@@ -41,6 +44,14 @@ public class DisasterDto implements Parcelable {
         dest.writeByte(this.isSelected ? (byte) 1 : (byte) 0);
         dest.writeByte(this.isLastItem ? (byte) 1 : (byte) 0);
         dest.writeStringList(this.imgList);
+        dest.writeString(this.userName);
+        dest.writeString(this.mobile);
+        dest.writeString(this.uName);
+        dest.writeString(this.gzType);
+        dest.writeString(this.gzTime);
+        dest.writeString(this.fileType);
+        dest.writeString(this.filePath);
+        dest.writeLong(this.fileSize);
     }
 
     protected DisasterDto(Parcel in) {
@@ -58,6 +69,14 @@ public class DisasterDto implements Parcelable {
         this.isSelected = in.readByte() != 0;
         this.isLastItem = in.readByte() != 0;
         this.imgList = in.createStringArrayList();
+        this.userName = in.readString();
+        this.mobile = in.readString();
+        this.uName = in.readString();
+        this.gzType = in.readString();
+        this.gzTime = in.readString();
+        this.fileType = in.readString();
+        this.filePath = in.readString();
+        this.fileSize = in.readLong();
     }
 
     public static final Creator<DisasterDto> CREATOR = new Creator<DisasterDto>() {

@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
@@ -40,8 +39,6 @@ public class ShawnColumnsActivity extends FragmentActivity implements View.OnCli
     private MainViewPager viewPager;
     private List<Fragment> fragments = new ArrayList<>();
     private HorizontalScrollView hScrollView1;
-    private int width;
-    private float density;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,11 +55,6 @@ public class ShawnColumnsActivity extends FragmentActivity implements View.OnCli
         TextView tvTitle = findViewById(R.id.tvTitle);
         llContainer = findViewById(R.id.llContainer);
         hScrollView1 = findViewById(R.id.hScrollView1);
-
-        DisplayMetrics dm = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(dm);
-        width = dm.widthPixels;
-        density = dm.density;
 
         String title = getIntent().getStringExtra(CONST.ACTIVITY_NAME);
         if (!TextUtils.isEmpty(title)) {
@@ -90,7 +82,7 @@ public class ShawnColumnsActivity extends FragmentActivity implements View.OnCli
                     TextView tvName = new TextView(mContext);
                     tvName.setGravity(Gravity.CENTER);
                     tvName.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-                    tvName.setPadding(0, (int)(density*5), 0, (int)(density*5));
+                    tvName.setPadding(0, (int)CommonUtil.dip2px(this, 5), 0, (int)CommonUtil.dip2px(this, 5));
                     tvName.setOnClickListener(new MyOnClickListener(i));
                     if (i == 0) {
                         tvName.setTextColor(getResources().getColor(R.color.white));
@@ -113,11 +105,11 @@ public class ShawnColumnsActivity extends FragmentActivity implements View.OnCli
 //                    params.width = tvName.getMeasuredWidth();
                     params.setMargins(0, 0, (int)CommonUtil.dip2px(mContext, 0.5f), 0);
 					if (columnSize == 1) {
-						params.width = width;
+						params.width = CommonUtil.widthPixels(this);
 					}else if (columnSize == 2) {
-						params.width = width/2;
+						params.width = CommonUtil.widthPixels(this)/2;
 					}else {
-						params.width = width/3;
+						params.width = CommonUtil.widthPixels(this)/3;
 					}
                     tvName.setLayoutParams(params);
                     llContainer.addView(tvName, i);
@@ -177,16 +169,13 @@ public class ShawnColumnsActivity extends FragmentActivity implements View.OnCli
                 }
 
                 if (llContainer.getChildCount() > 4) {
-                    hScrollView1.smoothScrollTo(width/4*arg0, 0);
+                    hScrollView1.smoothScrollTo(CommonUtil.widthPixels(mContext)/4*arg0, 0);
                 }
-
             }
         }
-
         @Override
         public void onPageScrolled(int arg0, float arg1, int arg2) {
         }
-
         @Override
         public void onPageScrollStateChanged(int arg0) {
         }
@@ -216,7 +205,6 @@ public class ShawnColumnsActivity extends FragmentActivity implements View.OnCli
      * @Description: TODO填充ViewPager的数据适配器
      * @author Panyy
      * @date 2013 2013年11月6日 下午2:37:47
-     *
      */
     private class MyPagerAdapter extends PagerAdapter {
         @Override

@@ -8,7 +8,6 @@ import android.support.annotation.Nullable;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -46,16 +45,13 @@ public class ShawnFactFragment extends Fragment {
     private LinearLayout llContainer;
     private MainViewPager viewPager;
     private List<Fragment> fragments = new ArrayList<>();
-    private int width;
-    private float density;
     private List<FactDto> dataList = new ArrayList<>();
     private AVLoadingIndicatorView loadingView;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.shawn_fragment_fact, null);
-        return view;
+        return inflater.inflate(R.layout.shawn_fragment_fact, null);
     }
 
     @Override
@@ -67,11 +63,6 @@ public class ShawnFactFragment extends Fragment {
     private void initWidget(View view) {
         llContainer = view.findViewById(R.id.llContainer);
         loadingView = view.findViewById(R.id.loadingView);
-
-        DisplayMetrics dm = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        width = dm.widthPixels;
-        density = dm.density;
 
         OkHttpFact(view);
     }
@@ -273,7 +264,7 @@ public class ShawnFactFragment extends Fragment {
             TextView tvName = new TextView(getActivity());
             tvName.setGravity(Gravity.CENTER);
             tvName.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 14);
-            tvName.setPadding(0, (int)(density*5), 0, (int)(density*5));
+            tvName.setPadding(0, (int)CommonUtil.dip2px(getActivity(), 5f), 0, (int)CommonUtil.dip2px(getActivity(), 5f));
             tvName.setOnClickListener(new MyOnClickListener(i));
             tvName.setTextColor(getResources().getColor(R.color.white));
             if (i == 0) {
@@ -290,13 +281,13 @@ public class ShawnFactFragment extends Fragment {
 //                    params.width = tvName.getMeasuredWidth();
             params.setMargins(0, 0, (int)CommonUtil.dip2px(getActivity(), 0.5f), 0);
             if (columnSize == 1) {
-                params.width = width;
+                params.width = CommonUtil.widthPixels(getActivity());
             }else if (columnSize == 2) {
-                params.width = width/2;
+                params.width = CommonUtil.widthPixels(getActivity())/2;
             }else if (columnSize == 3) {
-                params.width = width/3;
+                params.width = CommonUtil.widthPixels(getActivity())/3;
             }else {
-                params.width = width/4;
+                params.width = CommonUtil.widthPixels(getActivity())/4;
             }
             tvName.setLayoutParams(params);
             llContainer.addView(tvName, i);

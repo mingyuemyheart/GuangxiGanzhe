@@ -1,0 +1,812 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/reTitle"
+        layout="@layout/shawn_layout_title" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:scrollbars="none"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/reTitle">
+
+        <android.support.constraint.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tvTitleStr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="标题"
+                android:textColor="@color/text_color3"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/etTitle"
+                app:layout_constraintEnd_toStartOf="@+id/etTitle"
+                app:layout_constraintTop_toTopOf="@+id/etTitle" />
+
+            <EditText
+                android:id="@+id/etTitle"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:background="@color/transparent"
+                android:gravity="end"
+                android:hint="请输入灾情标题"
+                android:padding="10dp"
+                android:textColor="@color/text_color4"
+                android:textColorHint="@color/text_color2"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/tvTitleStr"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/divider1"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/light_gray"
+                app:layout_constraintTop_toBottomOf="@+id/etTitle" />
+
+            <TextView
+                android:id="@+id/tvGzType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="甘蔗品种"
+                android:textColor="@color/text_color3"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider1" />
+
+            <LinearLayout
+                android:id="@+id/llGzType"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvGzType" />
+
+            <EditText
+                android:id="@+id/etOtherType"
+                android:layout_width="0dp"
+                android:layout_height="25dp"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="5dp"
+                android:background="@drawable/bg_edittext_gz_type"
+                android:hint="请输入甘蔗品种名称"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:textColor="@color/text_color3"
+                android:textColorHint="@color/text_color4"
+                android:textSize="@dimen/level_4"
+                android:visibility="gone"
+                app:layout_constraintEnd_toStartOf="@+id/tvCancel"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llGzType" />
+
+            <TextView
+                android:id="@+id/tvCancel"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginEnd="5dp"
+                android:background="@color/refresh_color4"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="取消"
+                android:textColor="@color/colorPrimary"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/etOtherType"
+                app:layout_constraintEnd_toStartOf="@+id/tvSure"
+                app:layout_constraintStart_toEndOf="@+id/etOtherType"
+                app:layout_constraintTop_toTopOf="@+id/etOtherType" />
+
+            <TextView
+                android:id="@+id/tvSure"
+                android:layout_width="wrap_content"
+                android:layout_height="25dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/colorPrimary"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:text="确定"
+                android:textColor="@color/white"
+                android:visibility="gone"
+                app:layout_constraintBottom_toBottomOf="@+id/etOtherType"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/etOtherType" />
+
+            <TextView
+                android:id="@+id/divider2"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/light_gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/etOtherType" />
+
+            <TextView
+                android:id="@+id/tvGzTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="甘蔗种植时间"
+                android:textColor="@color/text_color3"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider2" />
+
+            <LinearLayout
+                android:id="@+id/llGzTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="5dp"
+                android:layout_marginTop="10dp"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvGzTime" />
+
+            <TextView
+                android:id="@+id/divider3"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/light_gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/llGzTime" />
+
+            <TextView
+                android:id="@+id/tvMiao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="苗情"
+                android:textColor="@color/text_color3"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider3" />
+
+            <TextView
+                android:id="@+id/tvMiao1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="行距："
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvMiao" />
+
+            <EditText
+                android:id="@+id/etMiao1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="0.0"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/tvMiao1"
+                app:layout_constraintStart_toEndOf="@+id/tvMiao1"
+                app:layout_constraintTop_toTopOf="@+id/tvMiao1" />
+
+            <TextView
+                android:id="@+id/tvMiao2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="米；30米苗树："
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/etMiao1"
+                app:layout_constraintStart_toEndOf="@+id/etMiao1"
+                app:layout_constraintTop_toTopOf="@+id/etMiao1" />
+
+            <EditText
+                android:id="@+id/etMiao2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="0"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/tvMiao2"
+                app:layout_constraintStart_toEndOf="@+id/tvMiao2"
+                app:layout_constraintTop_toTopOf="@+id/tvMiao2" />
+
+            <TextView
+                android:id="@+id/tvMiao3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="株。"
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/etMiao2"
+                app:layout_constraintStart_toEndOf="@+id/etMiao2"
+                app:layout_constraintTop_toTopOf="@+id/etMiao2" />
+
+            <TextView
+                android:id="@+id/tvMiao4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="30米有效茎数："
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvMiao1" />
+
+            <EditText
+                android:id="@+id/etMiao3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="number"
+                android:text="0"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/tvMiao4"
+                app:layout_constraintStart_toEndOf="@+id/tvMiao4"
+                app:layout_constraintTop_toTopOf="@+id/tvMiao4" />
+
+            <TextView
+                android:id="@+id/tvMiao5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="株；株高："
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/etMiao3"
+                app:layout_constraintStart_toEndOf="@+id/etMiao3"
+                app:layout_constraintTop_toTopOf="@+id/etMiao3" />
+
+            <EditText
+                android:id="@+id/etMiao4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="0.0"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/tvMiao5"
+                app:layout_constraintStart_toEndOf="@+id/tvMiao5"
+                app:layout_constraintTop_toTopOf="@+id/tvMiao5" />
+
+            <TextView
+                android:id="@+id/tvMiao6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="厘米。"
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/etMiao4"
+                app:layout_constraintStart_toEndOf="@+id/etMiao4"
+                app:layout_constraintTop_toTopOf="@+id/etMiao4" />
+
+            <TextView
+                android:id="@+id/tvMiao7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="茎粗："
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvMiao4" />
+
+            <EditText
+                android:id="@+id/etMiao5"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="0.0"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/tvMiao7"
+                app:layout_constraintStart_toEndOf="@+id/tvMiao7"
+                app:layout_constraintTop_toTopOf="@+id/tvMiao7" />
+
+            <TextView
+                android:id="@+id/tvMiao8"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:text="米；糖分："
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/etMiao5"
+                app:layout_constraintStart_toEndOf="@+id/etMiao5"
+                app:layout_constraintTop_toTopOf="@+id/etMiao5" />
+
+            <EditText
+                android:id="@+id/etMiao6"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="0.0"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/tvMiao8"
+                app:layout_constraintStart_toEndOf="@+id/tvMiao8"
+                app:layout_constraintTop_toTopOf="@+id/tvMiao8" />
+
+            <TextView
+                android:id="@+id/tvMiao9"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%。"
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/etMiao6"
+                app:layout_constraintStart_toEndOf="@+id/etMiao6"
+                app:layout_constraintTop_toTopOf="@+id/etMiao6" />
+
+            <TextView
+                android:id="@+id/tvMiao10"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="锤度："
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvMiao7" />
+
+            <EditText
+                android:id="@+id/etMiao7"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:inputType="numberDecimal"
+                android:text="0.0"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/tvMiao10"
+                app:layout_constraintStart_toEndOf="@+id/tvMiao10"
+                app:layout_constraintTop_toTopOf="@+id/tvMiao10" />
+
+            <TextView
+                android:id="@+id/tvMiao11"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="%。"
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/etMiao7"
+                app:layout_constraintStart_toEndOf="@+id/etMiao7"
+                app:layout_constraintTop_toTopOf="@+id/etMiao7" />
+
+            <TextView
+                android:id="@+id/divider4"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/light_gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvMiao10" />
+
+            <TextView
+                android:id="@+id/tvDisaster"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="灾情类型"
+                android:textColor="@color/text_color3"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider4" />
+
+            <TextView
+                android:id="@+id/tvDisaster1"
+                android:layout_width="80dp"
+                android:layout_height="25dp"
+                android:background="@drawable/shawn_bg_corner_left_blue"
+                android:gravity="center"
+                android:text="气象灾害"
+                android:textColor="@color/white"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/tvDisaster"
+                app:layout_constraintEnd_toStartOf="@+id/tvDisaster2"
+                app:layout_constraintTop_toTopOf="@+id/tvDisaster" />
+
+            <TextView
+                android:id="@+id/tvDisaster2"
+                android:layout_width="60dp"
+                android:layout_height="25dp"
+                android:layout_marginEnd="10dp"
+                android:background="@drawable/shawn_bg_corner_right_white"
+                android:gravity="center"
+                android:text="病虫害"
+                android:textColor="@color/colorPrimary"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/tvDisaster"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvDisaster" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/clDis"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/tvDisaster">
+
+                <LinearLayout
+                    android:id="@+id/llDisaster"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="5dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/llDisasterItem"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/llDisaster" />
+
+                <TextView
+                    android:id="@+id/tvBingchou1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:text="其它："
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/llDisaster" />
+
+                <EditText
+                    android:id="@+id/etBingchou"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:inputType="number"
+                    android:text="0"
+                    android:textColor="@color/colorPrimary"
+                    android:textSize="@dimen/level_4"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/tvBingchou1"
+                    app:layout_constraintStart_toEndOf="@+id/tvBingchou1"
+                    app:layout_constraintTop_toTopOf="@+id/tvBingchou1" />
+
+                <TextView
+                    android:id="@+id/tvBingchou2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="株"
+                    android:textColor="@color/text_color3"
+                    android:textSize="@dimen/level_5"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/etBingchou"
+                    app:layout_constraintStart_toEndOf="@+id/etBingchou"
+                    app:layout_constraintTop_toTopOf="@+id/etBingchou" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <TextView
+                android:id="@+id/divider5"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/light_gray"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/clDis" />
+
+            <TextView
+                android:id="@+id/tvTimeStr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="采集时间："
+                android:textColor="@color/text_color3"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintTop_toBottomOf="@+id/divider5"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/tvTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvTimeStr"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTimeStr"/>
+
+            <TextView
+                android:id="@+id/divider6"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/light_gray"
+                app:layout_constraintTop_toBottomOf="@+id/tvTimeStr" />
+
+            <TextView
+                android:id="@+id/tvLatLngStr"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="经纬度："
+                android:textColor="@color/text_color3"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintTop_toBottomOf="@+id/divider6"
+                app:layout_constraintStart_toStartOf="parent"/>
+
+            <TextView
+                android:id="@+id/tvLatLng"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:paddingStart="10dp"
+                android:paddingEnd="10dp"
+                android:layout_marginEnd="10dp"
+                android:textColor="@color/text_color4"
+                android:textColorHint="@color/text_color2"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintTop_toTopOf="@+id/tvLatLngStr"
+                app:layout_constraintBottom_toBottomOf="@+id/tvLatLngStr"
+                app:layout_constraintEnd_toEndOf="parent" />
+
+            <TextView
+                android:id="@+id/divider7"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:background="@color/light_gray"
+                app:layout_constraintTop_toBottomOf="@+id/tvLatLngStr" />
+
+            <TextView
+                android:id="@+id/tvInfo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="信息备注"
+                android:textColor="@color/text_color3"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider7" />
+
+            <EditText
+                android:id="@+id/etContent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginEnd="10dp"
+                android:background="@color/light_gray"
+                android:gravity="top|start"
+                android:hint="记录灾情现场，留下想说的话~"
+                android:lineSpacingExtra="3dp"
+                android:maxLength="200"
+                android:minLines="5"
+                android:padding="10dp"
+                android:textColor="@color/text_color3"
+                android:textColorHint="@color/text_color2"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintTop_toBottomOf="@+id/tvInfo" />
+
+            <TextView
+                android:id="@+id/tvTextCount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="5dp"
+                android:layout_marginBottom="5dp"
+                android:text="(100字以内)"
+                android:textColor="@color/text_color2"
+                android:textSize="@dimen/level_5"
+                app:layout_constraintBottom_toBottomOf="@+id/etContent"
+                app:layout_constraintEnd_toEndOf="@+id/etContent" />
+
+            <TextView
+                android:id="@+id/divider8"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/light_gray"
+                app:layout_constraintTop_toBottomOf="@+id/etContent" />
+
+            <TextView
+                android:id="@+id/tvPic"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="添加图片"
+                android:textColor="@color/text_color3"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider8" />
+
+            <com.cxwl.shawn.guangxi.ganzhe.view.ScrollviewGridview
+                android:id="@+id/gridView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:cacheColorHint="@color/transparent"
+                android:fadingEdge="none"
+                android:gravity="center"
+                android:horizontalSpacing="2dp"
+                android:listSelector="@color/transparent"
+                android:numColumns="3"
+                android:overScrollMode="never"
+                android:padding="10dp"
+                android:scrollbars="none"
+                android:stretchMode="columnWidth"
+                android:verticalSpacing="2dp"
+                app:layout_constraintTop_toBottomOf="@+id/tvPic" />
+
+            <TextView
+                android:id="@+id/divider9"
+                android:layout_width="match_parent"
+                android:layout_height="5dp"
+                android:layout_marginTop="10dp"
+                android:background="@color/light_gray"
+                app:layout_constraintTop_toBottomOf="@+id/gridView" />
+
+            <TextView
+                android:id="@+id/tvWord"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="10dp"
+                android:text="文档上传"
+                android:textColor="@color/text_color3"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider9" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="仅支持Word、Excel和Txt格式"
+                android:textColor="@color/text_color4"
+                android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/tvWord"
+                app:layout_constraintStart_toEndOf="@+id/tvWord"
+                app:layout_constraintTop_toTopOf="@+id/tvWord" />
+
+            <android.support.constraint.ConstraintLayout
+                android:id="@+id/csWord"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@+id/tvWord">
+
+                <ImageView
+                    android:id="@+id/ivWord"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="15dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/shawn_icon_plus"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tvWordName"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="15dp"
+                    android:layout_marginTop="15dp"
+                    android:layout_marginEnd="20dp"
+                    android:background="@drawable/bg_file_word"
+                    android:padding="10dp"
+                    android:singleLine="true"
+                    android:textColor="@color/white"
+                    android:textSize="@dimen/level_4"
+                    android:visibility="gone"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageView
+                    android:id="@+id/ivWordDelete"
+                    android:layout_width="20dp"
+                    android:layout_height="20dp"
+                    android:background="@drawable/shawn_bg_corner_login"
+                    android:src="@drawable/icon_delete"
+                    android:translationX="-10dp"
+                    android:translationY="-10dp"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toEndOf="@+id/tvWordName"
+                    app:layout_constraintTop_toTopOf="@+id/tvWordName" />
+
+            </android.support.constraint.ConstraintLayout>
+
+            <ImageView
+                android:id="@+id/tvSubmit"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:adjustViewBounds="true"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="20dp"
+                android:src="@drawable/icon_submit"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/csWord" />
+
+        </android.support.constraint.ConstraintLayout>
+
+    </ScrollView>
+
+    <android.support.constraint.ConstraintLayout
+        android:id="@+id/clViewPager"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:visibility="gone">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:padding="10dp"
+            android:textColor="@color/black"
+            android:textSize="@dimen/level_3"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </android.support.constraint.ConstraintLayout>
+
+    <com.wang.avi.AVLoadingIndicatorView
+        android:id="@+id/loadingView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:indicator="LineScalePulseOutRapid"
+        app:indicator_color="@color/colorPrimary"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <include
+        android:id="@+id/layoutDate"
+        layout="@layout/layout_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</android.support.constraint.ConstraintLayout>

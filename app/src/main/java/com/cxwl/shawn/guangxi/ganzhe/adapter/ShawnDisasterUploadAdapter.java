@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 
 import com.cxwl.shawn.guangxi.ganzhe.R;
 import com.cxwl.shawn.guangxi.ganzhe.dto.DisasterDto;
+import com.cxwl.shawn.guangxi.ganzhe.util.CommonUtil;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
@@ -21,19 +22,16 @@ import java.util.List;
  */
 public class ShawnDisasterUploadAdapter extends BaseAdapter {
 
-	private Context mContext;
 	private LayoutInflater mInflater;
 	private List<DisasterDto> mArrayList;
 	private RelativeLayout.LayoutParams params;
-	private int itemWidth;
 
 	private final class ViewHolder{
 		ImageView imageView,ivDelete;
 	}
 
-	public ShawnDisasterUploadAdapter(Context context, List<DisasterDto> mArrayList, int itemWidth) {
-		mContext = context;
-		this.itemWidth = itemWidth;
+	public ShawnDisasterUploadAdapter(Context context, List<DisasterDto> mArrayList) {
+		int itemWidth = (CommonUtil.widthPixels(context) - (int)CommonUtil.dip2px(context, 24f)) / 3;
 		this.mArrayList = mArrayList;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		params = new RelativeLayout.LayoutParams(itemWidth, itemWidth);
@@ -81,9 +79,7 @@ public class ShawnDisasterUploadAdapter extends BaseAdapter {
 			mHolder.ivDelete.setVisibility(View.VISIBLE);
 			mHolder.ivDelete.setTag(position);
 		}else {
-			mHolder.imageView.setBackgroundColor(mContext.getResources().getColor(R.color.light_gray));
 			mHolder.imageView.setImageResource(R.drawable.shawn_icon_plus);
-			mHolder.imageView.setPadding(itemWidth/4,itemWidth/4,itemWidth/4,itemWidth/4);
 			mHolder.imageView.setLayoutParams(params);
 			mHolder.ivDelete.setVisibility(View.INVISIBLE);
 		}

@@ -851,7 +851,8 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
     //需要申请的所有权限
     private String[] allPermissions = new String[] {
             Manifest.permission.ACCESS_COARSE_LOCATION,
-            Manifest.permission.READ_PHONE_STATE
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.WRITE_EXTERNAL_STORAGE
     };
 
     //拒绝的权限集合
@@ -894,12 +895,12 @@ public class ShawnMainActivity extends ShawnBaseActivity implements OnClickListe
                     if (isAllGranted) {//所有权限都授予
                         refresh();
                     }else {//只要有一个没有授权，就提示进入设置界面设置
-                        AuthorityUtil.intentAuthorSetting(mContext, "\""+getString(R.string.app_name)+"\""+"需要使用您的位置权限、电话权限，是否前往设置？");
+                        AuthorityUtil.intentAuthorSetting(mContext, "\""+getString(R.string.app_name)+"\""+"需要使用您的位置权限、电话权限、存储权限，是否前往设置？");
                     }
                 }else {
                     for (String permission : permissions) {
                         if (!ActivityCompat.shouldShowRequestPermissionRationale(ShawnMainActivity.this, permission)) {
-                            AuthorityUtil.intentAuthorSetting(mContext, "\""+getString(R.string.app_name)+"\""+"需要使用您的位置权限、电话权限，是否前往设置？");
+                            AuthorityUtil.intentAuthorSetting(mContext, "\""+getString(R.string.app_name)+"\""+"需要使用您的位置权限、电话权限、存储权限，是否前往设置？");
                             break;
                         }
                     }

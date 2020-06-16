@@ -18,17 +18,17 @@ import java.util.List;
 /**
  * 我上传的灾情反馈
  */
-public class ShawnMyDisasterAdapter extends BaseAdapter {
+public class DisasterAdapter extends BaseAdapter {
 
 	private LayoutInflater mInflater;
 	private List<DisasterDto> mArrayList;
 
 	private final class ViewHolder{
 		ImageView imageView;
-		TextView tvTitle,tvType,tvAddr,tvLatLng,tvTime;
+		TextView tvTitle,tvType,tvAddr,tvTime;
 	}
 
-	public ShawnMyDisasterAdapter(Context context, List<DisasterDto> mArrayList) {
+	public DisasterAdapter(Context context, List<DisasterDto> mArrayList) {
 		this.mArrayList = mArrayList;
 		mInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 	}
@@ -52,13 +52,12 @@ public class ShawnMyDisasterAdapter extends BaseAdapter {
 	public View getView(int position, View convertView, ViewGroup parent) {
 		ViewHolder mHolder;
 		if (convertView == null) {
-			convertView = mInflater.inflate(R.layout.shawn_adapter_my_disaster, null);
+			convertView = mInflater.inflate(R.layout.adapter_disaster, null);
 			mHolder = new ViewHolder();
 			mHolder.imageView = convertView.findViewById(R.id.imageView);
 			mHolder.tvTitle = convertView.findViewById(R.id.tvTitle);
 			mHolder.tvType = convertView.findViewById(R.id.tvType);
 			mHolder.tvAddr = convertView.findViewById(R.id.tvAddr);
-			mHolder.tvLatLng = convertView.findViewById(R.id.tvLatLng);
 			mHolder.tvTime = convertView.findViewById(R.id.tvTime);
 			convertView.setTag(mHolder);
 		}else {
@@ -88,16 +87,12 @@ public class ShawnMyDisasterAdapter extends BaseAdapter {
 			mHolder.tvAddr.setText("上传地点："+dto.addr);
 		}
 
-		if (!TextUtils.isEmpty(dto.latlon)) {
-			mHolder.tvAddr.setText("经纬度："+dto.latlon);
-		}
-
 		if (!TextUtils.isEmpty(dto.time)) {
 			mHolder.tvTime.setText("上传时间："+dto.time);
 		}
 
 		if (!TextUtils.isEmpty(dto.disasterType)) {
-			mHolder.tvType.setText("灾情类型："+dto.disasterType);
+			mHolder.tvType.setText(dto.disasterType);
 		}
 
 		return convertView;

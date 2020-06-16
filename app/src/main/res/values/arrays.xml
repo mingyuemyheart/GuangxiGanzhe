@@ -364,15 +364,80 @@
 		<item>西南,拉萨,JC_RADAR_AZ9891_JB,2,5401</item>
 	</string-array>
 
-	<!--灾害类型-->
-	<string-array name="disaster_type">
+	<!--甘蔗品种-->
+	<string-array name="gz_type">
+		<item>桂糖42</item>
+		<item>柳城05-136</item>
+		<item>新台糖22</item>
+		<item>桂糖46</item>
+		<item>其它</item>
+	</string-array>
+
+	<!--甘蔗种植时间-->
+	<string-array name="gz_time">
+		<item>新值</item>
+		<item>一年宿根</item>
+		<item>两年宿根</item>
+		<item>三年宿根</item>
+		<item>三年以上宿根</item>
+	</string-array>
+
+	<!--气象灾害-->
+	<string-array name="disaster_weather">
 		<item>干旱</item>
 		<item>洪涝</item>
 		<item>倒伏</item>
 		<item>寒冻害</item>
-		<item>病害</item>
-		<item>虫害</item>
 		<item>低温阴雨</item>
+		<item>其它</item>
+	</string-array>
+
+	<!--干旱-->
+	<string-array name="disaster_weather1">
+		<item>轻度</item>
+		<item>中度</item>
+		<item>重度</item>
+		<item>特重</item>
+	</string-array>
+
+	<!--洪涝-->
+	<string-array name="disaster_weather2">
+		<item>轻涝</item>
+		<item>中涝</item>
+		<item>重涝</item>
+		<item>特重涝</item>
+	</string-array>
+
+	<!--倒伏-->
+	<string-array name="disaster_weather3">
+		<item>轻度</item>
+		<item>中度</item>
+		<item>重度</item>
+		<item>特重</item>
+	</string-array>
+
+	<!--寒冻害-->
+	<string-array name="disaster_weather4">
+		<item>轻度</item>
+		<item>中度</item>
+		<item>重度</item>
+		<item>特重</item>
+	</string-array>
+
+	<!--低温阴雨-->
+	<string-array name="disaster_weather5">
+		<item>轻度</item>
+		<item>中度</item>
+		<item>重度</item>
+		<item>特重</item>
+	</string-array>
+
+	<!--病虫害-->
+	<string-array name="disaster_type">
+		<item>黑穗病</item>
+		<item>枯心苗</item>
+		<item>锈病</item>
+		<item>稍腐病</item>
 		<item>其它</item>
 	</string-array>
 

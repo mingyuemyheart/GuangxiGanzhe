@@ -6,11 +6,10 @@
         <shape>
             <solid android:color="@color/colorPrimary" />
 
-            <corners android:radius="20dp" />
-
             <size
                 android:height="25dp"
                 android:width="40dp" />
+
         </shape>
     </item>
 

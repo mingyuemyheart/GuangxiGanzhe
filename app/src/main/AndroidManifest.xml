@@ -131,19 +131,25 @@
         <activity android:name=".ShawnWebviewActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".ShawnMyDisasterActivity"
+        <activity android:name=".DisasterActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".ShawnMyDisasterDetailActivity"
+        <activity android:name=".DisasterDetailActivity"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".ShawnSelectPictureActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".ShawnDisasterUploadActivity"
+        <activity android:name=".DisasterUploadActivity"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".ShawnForeActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".SelectFileActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".SelectPositionActivity"
             android:screenOrientation="portrait"/>
 
     </application>

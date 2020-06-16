@@ -9,6 +9,17 @@ public class CONST {
 	public static final String APPID = "35";
 	public static String ADCODE = "450103";//定位户会根据定位点改变，为雷达所用
 	public static final String imageSuffix = ".png";//图标后缀名
+	public static final String lastFile = "..";//返回上级目录
+	public static final String doc = ".doc";
+	public static final String docx = ".docx";
+	public static final String ppt = ".ppt";
+	public static final String pptx = ".pptx";
+	public static final String pdf = ".pdf";
+	public static final String xls = ".xls";
+	public static final String xlsx = ".xlsx";
+	public static final String txt = ".txt";
+	public static final String zip = ".zip";
+	public static final String rar = ".rar";
 
 	//下拉刷新progresBar四种颜色
 	public static final int color1 = R.color.refresh_color1;
@@ -35,5 +46,6 @@ public class CONST {
 
 	//通用
 	public static String SDCARD_PATH = Environment.getExternalStorageDirectory()+"/gxgz";
+	public static String FILEALL = "0", FILETYPE1 = "1",FILETYPE2 = "2",FILETYPE3 = "3",FILETYPE4 = "4",FILETYPE5 = "5";//1图片、2视频、3音频、4文档、5文件夹
 
 }

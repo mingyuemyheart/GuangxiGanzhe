@@ -17,6 +17,7 @@ import android.widget.TextView;
 import com.cxwl.shawn.guangxi.ganzhe.R;
 import com.cxwl.shawn.guangxi.ganzhe.adapter.ShawnFactImageAdapter;
 import com.cxwl.shawn.guangxi.ganzhe.dto.FactDto;
+import com.cxwl.shawn.guangxi.ganzhe.util.CommonUtil;
 import com.cxwl.shawn.guangxi.ganzhe.view.ScrollviewGridview;
 import com.squareup.picasso.Picasso;
 
@@ -35,15 +36,16 @@ public class ShawnFactImageFragment extends Fragment implements View.OnClickList
     private TextView tvStationName,tvRecordTime;
     private SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
     private SimpleDateFormat sdf2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss.0", Locale.CHINA);
-    private ShawnFactImageAdapter mAdapter;
+    private ShawnFactImageAdapter mAdapter,mAdapter2;
     private List<FactDto> dataList = new ArrayList<>();
+    private List<FactDto> dataList2 = new ArrayList<>();
     private ScrollView scrollView;
+    private ScrollviewGridview gridView2;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.shawn_fragment_fact_image, null);
-        return view;
+        return inflater.inflate(R.layout.shawn_fragment_fact_image, null);
     }
 
     @Override
@@ -51,6 +53,7 @@ public class ShawnFactImageFragment extends Fragment implements View.OnClickList
         super.onViewCreated(view, savedInstanceState);
         initWidget(view);
         initGridView(view);
+        initGridView2(view);
     }
 
     /**
@@ -65,18 +68,27 @@ public class ShawnFactImageFragment extends Fragment implements View.OnClickList
         tvStationName = view.findViewById(R.id.tvStationName);
         tvRecordTime = view.findViewById(R.id.tvRecordTime);
         scrollView = view.findViewById(R.id.scrollView);
-
-        DisplayMetrics dm = new DisplayMetrics();
-        getActivity().getWindowManager().getDefaultDisplay().getMetrics(dm);
-        int width = dm.widthPixels;
+        TextView tvOther = view.findViewById(R.id.tvOther);
+        tvOther.setOnClickListener(this);
 
         ViewGroup.LayoutParams params = imageView.getLayoutParams();
-        params.width = width;
-        params.height = width*3/4;
+        params.width = CommonUtil.widthPixels(getActivity());
+        params.height = CommonUtil.widthPixels(getActivity())*3/4;
         imageView.setLayoutParams(params);
 
         dataList.clear();
-        dataList.addAll(getArguments().<FactDto>getParcelableArrayList("dataList"));
+        dataList2.clear();
+
+        List<FactDto> list = getArguments().<FactDto>getParcelableArrayList("dataList");
+        for (int i = 0; i < list.size(); i++) {
+            FactDto dto = list.get(i);
+            if (dto.stationName.contains("甘蔗")) {
+                dataList.add(dto);
+            } else {
+                dataList2.add(dto);
+            }
+        }
+
         if (dataList.size() > 0) {
             FactDto dto = dataList.get(0);
             dataList.get(0).isSelected = true;
@@ -85,6 +97,9 @@ public class ShawnFactImageFragment extends Fragment implements View.OnClickList
 
         if (mAdapter != null) {
             mAdapter.notifyDataSetChanged();
+        }
+        if (mAdapter2 != null) {
+            mAdapter2.notifyDataSetChanged();
         }
     }
 
@@ -111,6 +126,35 @@ public class ShawnFactImageFragment extends Fragment implements View.OnClickList
                 }
 
                 FactDto dto = dataList.get(arg2);
+                setValue(dto);
+
+            }
+        });
+    }
+
+    /**
+     * 初始化gridview
+     */
+    private void initGridView2(View view) {
+        gridView2 = view.findViewById(R.id.gridView2);
+        mAdapter2 = new ShawnFactImageAdapter(getActivity(), dataList2);
+        gridView2.setAdapter(mAdapter2);
+        gridView2.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> arg0, View arg1, int arg2,long arg3) {
+                for (int i = 0; i < dataList2.size(); i++) {
+                    FactDto dto = dataList2.get(i);
+                    if (i == arg2) {
+                        dto.isSelected = true;
+                    }else {
+                        dto.isSelected = false;
+                    }
+                }
+                if (mAdapter2 != null) {
+                    mAdapter2.notifyDataSetChanged();
+                }
+
+                FactDto dto = dataList2.get(arg2);
                 setValue(dto);
 
             }
@@ -147,8 +191,12 @@ public class ShawnFactImageFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-
-            default:
+            case R.id.tvOther:
+                if (gridView2 != null && gridView2.getVisibility() == View.VISIBLE) {
+                    gridView2.setVisibility(View.GONE);
+                } else {
+                    gridView2.setVisibility(View.VISIBLE);
+                }
                 break;
         }
     }

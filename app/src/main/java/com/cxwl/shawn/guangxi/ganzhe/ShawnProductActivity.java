@@ -9,7 +9,6 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.cxwl.shawn.guangxi.ganzhe.adapter.ShawnMainAdapter;
 import com.cxwl.shawn.guangxi.ganzhe.common.CONST;
@@ -85,12 +84,13 @@ public class ShawnProductActivity extends ShawnBaseActivity implements View.OnCl
                         intent = new Intent(mContext, ShawnFarmPostActivity.class);
                         intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
                         startActivity(intent);
-                    }else if (TextUtils.equals(dto.id, "401")) {//农情灾情上报
-                        intent = new Intent(mContext, ShawnDisasterUploadActivity.class);
+                    }else if (TextUtils.equals(dto.id, "401") || TextUtils.equals(dto.id, "403")) {//农情灾情上报
+                        intent = new Intent(mContext, DisasterUploadActivity.class);
                         intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
+                        intent.putExtra(CONST.LOCAL_ID, dto.id);
                         startActivity(intent);
                     }else if (TextUtils.equals(dto.id, "402")) {//历史农情查询
-                        intent = new Intent(mContext, ShawnMyDisasterActivity.class);
+                        intent = new Intent(mContext, DisasterActivity.class);
                         intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
                         intent.putExtra(CONST.WEB_URL, dto.dataUrl);
                         startActivity(intent);
