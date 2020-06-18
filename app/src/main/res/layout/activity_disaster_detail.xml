@@ -147,6 +147,7 @@
         app:layout_constraintTop_toBottomOf="@+id/divider2" />
 
     <HorizontalScrollView
+        android:id="@+id/hScrollView1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
@@ -162,6 +163,43 @@
             android:orientation="horizontal" />
 
     </HorizontalScrollView>
+
+    <android.support.constraint.ConstraintLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/hScrollView1">
+
+        <TextView
+            android:id="@+id/tvDelete"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shawn_bg_corner_left_blue"
+            android:gravity="center"
+            android:text="删除"
+            android:textColor="@color/white"
+            android:textSize="@dimen/level_3"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toStartOf="@+id/tvEdit"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/tvEdit"
+            android:layout_width="100dp"
+            android:layout_height="35dp"
+            android:layout_marginTop="20dp"
+            android:background="@drawable/shawn_bg_corner_right_white"
+            android:gravity="center"
+            android:text="编辑"
+            android:textColor="@color/colorPrimary"
+            android:textSize="@dimen/level_3"
+            android:textStyle="bold"
+            app:layout_constraintStart_toEndOf="@+id/tvDelete"
+            app:layout_constraintTop_toTopOf="parent" />
+
+    </android.support.constraint.ConstraintLayout>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/viewPager"

@@ -211,6 +211,7 @@ public class ShawnLoginActivity extends ShawnBaseActivity implements OnClickList
 
 												if (!object.isNull("info")) {
 													JSONObject obj = new JSONObject(object.getString("info"));
+													MyApplication.USERGROUP = obj.getString("usergroup");
 													MyApplication.UID = obj.getString("id");
 													MyApplication.USERNAME = etUserName.getText().toString();
 													MyApplication.PASSWORD = etPwd.getText().toString();

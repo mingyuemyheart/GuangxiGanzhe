@@ -87,7 +87,6 @@ public class ShawnProductActivity extends ShawnBaseActivity implements View.OnCl
                     }else if (TextUtils.equals(dto.id, "401") || TextUtils.equals(dto.id, "403")) {//农情灾情上报
                         intent = new Intent(mContext, DisasterUploadActivity.class);
                         intent.putExtra(CONST.ACTIVITY_NAME, dto.name);
-                        intent.putExtra(CONST.LOCAL_ID, dto.id);
                         startActivity(intent);
                     }else if (TextUtils.equals(dto.id, "402")) {//历史农情查询
                         intent = new Intent(mContext, DisasterActivity.class);

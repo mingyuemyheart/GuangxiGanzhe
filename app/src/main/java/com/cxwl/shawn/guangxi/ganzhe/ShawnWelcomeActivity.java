@@ -198,6 +198,7 @@ public class ShawnWelcomeActivity extends ShawnBaseActivity {
 
 												if (!object.isNull("info")) {
 													JSONObject obj = new JSONObject(object.getString("info"));
+													MyApplication.USERGROUP = obj.getString("usergroup");
 													MyApplication.UID = obj.getString("id");
 													if (!obj.isNull("name")) {
 														MyApplication.NAME = obj.getString("name");
@@ -221,6 +222,7 @@ public class ShawnWelcomeActivity extends ShawnBaseActivity {
 													if (msg != null) {
 														Toast.makeText(mContext, msg, Toast.LENGTH_SHORT).show();
 													}
+													startActivity(new Intent(mContext, ShawnLoginActivity.class));
 												}
 											}
 										}

@@ -432,6 +432,14 @@
 		<item>特重</item>
 	</string-array>
 
+	<!--其它-->
+	<string-array name="disaster_weather6">
+		<item>轻度</item>
+		<item>中度</item>
+		<item>重度</item>
+		<item>特重</item>
+	</string-array>
+
 	<!--病虫害-->
 	<string-array name="disaster_type">
 		<item>黑穗病</item>

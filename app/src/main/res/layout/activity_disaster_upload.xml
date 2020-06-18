@@ -94,12 +94,12 @@
                 android:textColorHint="@color/text_color4"
                 android:textSize="@dimen/level_4"
                 android:visibility="gone"
-                app:layout_constraintEnd_toStartOf="@+id/tvCancel"
+                app:layout_constraintEnd_toStartOf="@+id/tvTypeCancel"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/llGzType" />
 
             <TextView
-                android:id="@+id/tvCancel"
+                android:id="@+id/tvTypeCancel"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:layout_marginEnd="5dp"
@@ -111,12 +111,12 @@
                 android:textColor="@color/colorPrimary"
                 android:visibility="gone"
                 app:layout_constraintBottom_toBottomOf="@+id/etOtherType"
-                app:layout_constraintEnd_toStartOf="@+id/tvSure"
+                app:layout_constraintEnd_toStartOf="@+id/tvTypeSure"
                 app:layout_constraintStart_toEndOf="@+id/etOtherType"
                 app:layout_constraintTop_toTopOf="@+id/etOtherType" />
 
             <TextView
-                android:id="@+id/tvSure"
+                android:id="@+id/tvTypeSure"
                 android:layout_width="wrap_content"
                 android:layout_height="25dp"
                 android:layout_marginEnd="10dp"
@@ -293,7 +293,7 @@
                 android:id="@+id/tvMiao6"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="厘米。"
+                android:text="米。"
                 android:textColor="@color/text_color4"
                 android:textSize="@dimen/level_4"
                 app:layout_constraintBottom_toBottomOf="@+id/etMiao4"
@@ -329,7 +329,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
-                android:text="米；糖分："
+                android:text="厘米；糖分："
                 android:textColor="@color/text_color4"
                 android:textSize="@dimen/level_4"
                 app:layout_constraintBottom_toBottomOf="@+id/etMiao5"
@@ -460,6 +460,56 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent" />
 
+                <EditText
+                    android:id="@+id/etDisaster"
+                    android:layout_width="0dp"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:background="@drawable/bg_edittext_gz_type"
+                    android:hint="请输入灾害名称"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:textColor="@color/text_color3"
+                    android:textColorHint="@color/text_color4"
+                    android:textSize="@dimen/level_4"
+                    android:visibility="gone"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/llDisaster" />
+
+                <TextView
+                    android:id="@+id/tvDisasterCancel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="5dp"
+                    android:background="@color/refresh_color4"
+                    android:gravity="center"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:text="取消"
+                    android:textColor="@color/colorPrimary"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/etDisaster"
+                    app:layout_constraintStart_toEndOf="@+id/etDisaster"
+                    app:layout_constraintTop_toTopOf="@+id/etDisaster" />
+
+                <TextView
+                    android:id="@+id/tvDisasterSure"
+                    android:layout_width="wrap_content"
+                    android:layout_height="25dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:background="@color/colorPrimary"
+                    android:gravity="center"
+                    android:paddingStart="10dp"
+                    android:paddingEnd="10dp"
+                    android:text="确定"
+                    android:textColor="@color/white"
+                    android:visibility="gone"
+                    app:layout_constraintBottom_toBottomOf="@+id/etDisaster"
+                    app:layout_constraintStart_toEndOf="@+id/tvDisasterCancel"
+                    app:layout_constraintTop_toTopOf="@+id/etDisaster" />
+
                 <LinearLayout
                     android:id="@+id/llDisasterItem"
                     android:layout_width="wrap_content"
@@ -468,7 +518,7 @@
                     android:gravity="center_vertical"
                     android:orientation="horizontal"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/llDisaster" />
+                    app:layout_constraintTop_toBottomOf="@+id/etDisaster" />
 
                 <TextView
                     android:id="@+id/tvBingchou1"
@@ -476,12 +526,12 @@
                     android:layout_height="wrap_content"
                     android:layout_marginStart="10dp"
                     android:layout_marginTop="10dp"
-                    android:text="其它："
+                    android:text="数量："
                     android:textColor="@color/text_color3"
                     android:textSize="@dimen/level_5"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/llDisaster" />
+                    app:layout_constraintTop_toBottomOf="@+id/llDisasterItem" />
 
                 <EditText
                     android:id="@+id/etBingchou"
@@ -527,22 +577,22 @@
                 android:text="采集时间："
                 android:textColor="@color/text_color3"
                 android:textSize="@dimen/level_4"
-                app:layout_constraintTop_toBottomOf="@+id/divider5"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider5" />
 
             <TextView
                 android:id="@+id/tvTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:gravity="center"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:layout_marginEnd="10dp"
                 android:textColor="@color/text_color4"
                 android:textSize="@dimen/level_4"
+                app:layout_constraintBottom_toBottomOf="@+id/tvTimeStr"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/tvTimeStr"
-                app:layout_constraintBottom_toBottomOf="@+id/tvTimeStr"/>
+                app:layout_constraintTop_toTopOf="@+id/tvTimeStr" />
 
             <TextView
                 android:id="@+id/divider6"
@@ -559,23 +609,23 @@
                 android:text="经纬度："
                 android:textColor="@color/text_color3"
                 android:textSize="@dimen/level_4"
-                app:layout_constraintTop_toBottomOf="@+id/divider6"
-                app:layout_constraintStart_toStartOf="parent"/>
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/divider6" />
 
             <TextView
                 android:id="@+id/tvLatLng"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginEnd="10dp"
                 android:gravity="center"
                 android:paddingStart="10dp"
                 android:paddingEnd="10dp"
-                android:layout_marginEnd="10dp"
                 android:textColor="@color/text_color4"
                 android:textColorHint="@color/text_color2"
                 android:textSize="@dimen/level_4"
-                app:layout_constraintTop_toTopOf="@+id/tvLatLngStr"
                 app:layout_constraintBottom_toBottomOf="@+id/tvLatLngStr"
-                app:layout_constraintEnd_toEndOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/tvLatLngStr" />
 
             <TextView
                 android:id="@+id/divider7"
@@ -685,6 +735,7 @@
                 app:layout_constraintTop_toBottomOf="@+id/divider9" />
 
             <TextView
+                android:id="@+id/tvWordStr"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
@@ -747,9 +798,9 @@
                 android:id="@+id/tvSubmit"
                 android:layout_width="wrap_content"
                 android:layout_height="50dp"
-                android:adjustViewBounds="true"
                 android:layout_marginTop="20dp"
                 android:layout_marginBottom="20dp"
+                android:adjustViewBounds="true"
                 android:src="@drawable/icon_submit"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"

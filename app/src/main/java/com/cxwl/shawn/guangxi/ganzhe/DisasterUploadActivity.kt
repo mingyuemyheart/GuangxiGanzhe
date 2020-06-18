@@ -56,6 +56,7 @@ import wheelview.WheelView
 import java.io.*
 import java.text.SimpleDateFormat
 import java.util.*
+import java.util.regex.Pattern
 import kotlin.collections.ArrayList
 
 /**
@@ -87,7 +88,6 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
         tvDisaster.setOnClickListener(this)
         tvNegtive.setOnClickListener(this)
         tvPositive.setOnClickListener(this)
-        tvTime.text = sdf1.format(Date())
         val itemWidth = (CommonUtil.widthPixels(this) - CommonUtil.dip2px(this, 24f).toInt()) / 3
         val param = ivWord.layoutParams
         param.width = itemWidth
@@ -95,18 +95,84 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
         ivWord.layoutParams = param
         ivWord.setOnClickListener(this)
         tvWordName.setOnClickListener(this)
+        tvWordName.tag = ""
         ivWordDelete.setOnClickListener(this)
         val title = intent.getStringExtra(CONST.ACTIVITY_NAME)
         if (!TextUtils.isEmpty(title)) {
             tvTitle.text = title
+            if (title.contains("延时") || title.contains("修改")) {//延时
+                tvTime.setBackgroundResource(R.drawable.bg_gz_time)
+                tvTime.setOnClickListener(this)
+                tvLatLng.setBackgroundResource(R.drawable.bg_gz_time)
+                tvLatLng.setOnClickListener(this)
+            }
         }
 
-        val localViewId = intent.getStringExtra(CONST.LOCAL_ID);
-        if (TextUtils.equals(localViewId, "403")) {//延时
-            tvTime.setBackgroundResource(R.drawable.bg_gz_time)
-            tvTime.setOnClickListener(this)
-            tvLatLng.setBackgroundResource(R.drawable.bg_gz_time)
-            tvLatLng.setOnClickListener(this)
+        if (intent.hasExtra("data")) {//编辑
+            val data: DisasterDto = intent.getParcelableExtra("data")
+            etTitle.setText(data.title)
+            gzType = data.gzType
+            gzTime = data.gzTime
+
+            val regex = "[0-9]+(\\.[0-9]+)?"
+            val pattern = Pattern.compile(regex)
+            val matcher = pattern.matcher(data.miao)
+            var result = ""
+            while (matcher.find()) {
+                result += matcher.group()+","
+            }
+            Log.e("resultresult", result)
+            if (result.contains(",")) {
+                val results = result.split(",")
+                etMiao1.setText(results[0])
+                etMiao2.setText(results[1])
+                etMiao3.setText(results[2])
+                etMiao4.setText(results[3])
+                etMiao5.setText(results[4])
+                etMiao6.setText(results[5])
+                etMiao7.setText(results[6])
+            }
+
+            disasterType = data.disasterType
+            if (disasterType!!.contains("气象灾害")) {
+                tvDisaster1.setTextColor(Color.WHITE)
+                tvDisaster1.setBackgroundResource(R.drawable.shawn_bg_corner_left_blue)
+                tvDisaster2.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                tvDisaster2.setBackgroundResource(R.drawable.shawn_bg_corner_right_white)
+                llDisasterItem.visibility = View.VISIBLE
+                tvBingchou1.visibility = View.GONE
+                etBingchou.visibility = View.GONE
+                tvBingchou2.visibility = View.GONE
+                addDisWeather()
+            } else {
+                tvDisaster1.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                tvDisaster1.setBackgroundResource(R.drawable.shawn_bg_corner_left_white)
+                tvDisaster2.setTextColor(Color.WHITE)
+                tvDisaster2.setBackgroundResource(R.drawable.shawn_bg_corner_right_blue)
+                llDisasterItem.visibility = View.GONE
+                addDisaster()
+            }
+
+            tvTime.text = data.time
+            if (!TextUtils.isEmpty(data.latlon) && data.latlon.contains(",")) {
+                val latLngs = data.latlon.split(",")
+                lat = latLngs[0].toDouble()
+                lng = latLngs[1].toDouble()
+                tvLatLng.text = "${lat}N,${lng}E"
+            }
+            position = data.addr
+            etContent.setText(data.content)
+            divider8.visibility = View.GONE
+            tvPic.visibility = View.GONE
+            gridView.visibility = View.GONE
+            divider9.visibility = View.GONE
+            tvWord.visibility = View.GONE
+            tvWordStr.visibility = View.GONE
+            csWord.visibility = View.GONE
+        } else {//上传
+            tvTime.text = sdf1.format(Date())
+            startLocation()
+            addDisWeather()
         }
 
         //甘蔗品种
@@ -115,9 +181,18 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
         for (i in gzTypes.indices) {
             val tv = TextView(this)
             tv.text = gzTypes[i]
+            if (TextUtils.equals(gzType, tv.text)) {//选中
+                tv.setTextColor(Color.WHITE)
+                tv.setBackgroundResource(R.drawable.bg_gz_type_press)
+            } else if (!TextUtils.isEmpty(gzType) && TextUtils.equals("其它", tv.text)) {//编辑时传过来的，其它类型输入的
+                etOtherType.setText(gzType)
+                tv.setTextColor(Color.WHITE)
+                tv.setBackgroundResource(R.drawable.bg_gz_type_press)
+            } else {
+                tv.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                tv.setBackgroundResource(R.drawable.bg_gz_type)
+            }
             tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f)
-            tv.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
-            tv.setBackgroundResource(R.drawable.bg_gz_type)
             tv.setPadding(CommonUtil.dip2px(this, 5f).toInt(),0,CommonUtil.dip2px(this, 5f).toInt(),0)
             tv.gravity = Gravity.CENTER
             val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -141,28 +216,28 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
                 if (TextUtils.equals(tv.text, "其它")) {
                     llGzType.visibility = View.GONE
                     etOtherType.visibility = View.VISIBLE
-                    tvCancel.visibility = View.VISIBLE
-                    tvSure.visibility = View.VISIBLE
+                    tvTypeCancel.visibility = View.VISIBLE
+                    tvTypeSure.visibility = View.VISIBLE
                 } else {
                     etOtherType.visibility = View.GONE
-                    tvCancel.visibility = View.GONE
-                    tvSure.visibility = View.GONE
+                    tvTypeCancel.visibility = View.GONE
+                    tvTypeSure.visibility = View.GONE
                 }
             }
         }
-        tvCancel.setOnClickListener {
+        tvTypeCancel.setOnClickListener {
             llGzType.visibility = View.VISIBLE
             etOtherType.visibility = View.GONE
-            tvCancel.visibility = View.GONE
-            tvSure.visibility = View.GONE
+            tvTypeCancel.visibility = View.GONE
+            tvTypeSure.visibility = View.GONE
             CommonUtil.hideInputSoft(etOtherType, this)
         }
-        tvSure.setOnClickListener {
+        tvTypeSure.setOnClickListener {
             gzType = etOtherType.text.toString()
             llGzType.visibility = View.VISIBLE
             etOtherType.visibility = View.GONE
-            tvCancel.visibility = View.GONE
-            tvSure.visibility = View.GONE
+            tvTypeCancel.visibility = View.GONE
+            tvTypeSure.visibility = View.GONE
             CommonUtil.hideInputSoft(etOtherType, this)
         }
 
@@ -172,9 +247,14 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
         for (i in gzTimes.indices) {
             val tv = TextView(this)
             tv.text = gzTimes[i]
+            if (TextUtils.equals(gzTime, tv.text)) {//选中
+                tv.setTextColor(Color.WHITE)
+                tv.setBackgroundResource(R.drawable.bg_gz_type_press)
+            } else {
+                tv.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                tv.setBackgroundResource(R.drawable.bg_gz_type)
+            }
             tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f)
-            tv.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
-            tv.setBackgroundResource(R.drawable.bg_gz_type)
             tv.setPadding(CommonUtil.dip2px(this, 5f).toInt(),0,CommonUtil.dip2px(this, 5f).toInt(),0)
             tv.gravity = Gravity.CENTER
             val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -197,9 +277,6 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
             }
         }
 
-        //气象灾害
-        addDisWeather()
-
         tvDisaster1.setOnClickListener {
             tvDisaster1.setTextColor(Color.WHITE)
             tvDisaster1.setBackgroundResource(R.drawable.shawn_bg_corner_left_blue)
@@ -209,6 +286,7 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
             tvBingchou1.visibility = View.GONE
             etBingchou.visibility = View.GONE
             tvBingchou2.visibility = View.GONE
+            disasterType = "气象灾害"
             addDisWeather()
         }
         tvDisaster2.setOnClickListener {
@@ -217,24 +295,46 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
             tvDisaster2.setTextColor(Color.WHITE)
             tvDisaster2.setBackgroundResource(R.drawable.shawn_bg_corner_right_blue)
             llDisasterItem.visibility = View.GONE
+            disasterType = "病虫害"
             addDisaster()
         }
 
+        tvDisasterCancel.setOnClickListener {
+            llDisasterItem.visibility = View.GONE
+            etDisaster.visibility = View.GONE
+            tvDisasterCancel.visibility = View.GONE
+            tvDisasterSure.visibility = View.GONE
+        }
+        tvDisasterSure.setOnClickListener {
+            llDisasterItem.visibility = View.GONE
+            etDisaster.visibility = View.GONE
+            tvDisasterCancel.visibility = View.GONE
+            tvDisasterSure.visibility = View.GONE
+            disasterType = disasterType+", "+etDisaster.text.toString()
+        }
+
         initGridView()
-        startLocation()
     }
 
     //气象灾害
     private fun addDisWeather() {
-        disasterType = "气象灾害"
         llDisaster.removeAllViews()
+        llDisasterItem.visibility = View.GONE
+        etDisaster.visibility = View.GONE
+        tvDisasterCancel.visibility = View.GONE
+        tvDisasterSure.visibility = View.GONE
         val disWeathers = resources.getStringArray(R.array.disaster_weather)
         for (i in disWeathers.indices) {
             val tv = TextView(this)
             tv.text = disWeathers[i]
+            if (disasterType!!.contains(tv.text)) {
+                tv.setTextColor(Color.WHITE)
+                tv.setBackgroundResource(R.drawable.bg_gz_type_press)
+            } else {
+                tv.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                tv.setBackgroundResource(R.drawable.bg_gz_type)
+            }
             tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f)
-            tv.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
-            tv.setBackgroundResource(R.drawable.bg_gz_type)
             tv.setPadding(CommonUtil.dip2px(this, 5f).toInt(),0,CommonUtil.dip2px(this, 5f).toInt(),0)
             tv.gravity = Gravity.CENTER
             val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -247,7 +347,7 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
                 for (j in 0 until llDisaster.childCount) {
                     val item = llDisaster.getChildAt(j) as TextView
                     if (TextUtils.equals(item.text, tv.text)) {
-                        disasterType = disasterType+"， "+tv.text.toString()
+                        disasterType = disasterType+", "+tv.text.toString()
                         item.setTextColor(Color.WHITE)
                         item.setBackgroundResource(R.drawable.bg_gz_type_press)
                     } else {
@@ -257,10 +357,14 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
                 }
 
                 if (TextUtils.equals(tv.text, "其它")) {
-                    llDisasterItem.visibility = View.GONE
-                    return@setOnClickListener
+                    etDisaster.hint = "请输入灾害名称"
+                    etDisaster.visibility = View.VISIBLE
+                    tvDisasterCancel.visibility = View.VISIBLE
+                    tvDisasterSure.visibility = View.VISIBLE
                 } else {
-                    llDisasterItem.visibility = View.VISIBLE
+                    etDisaster.visibility = View.GONE
+                    tvDisasterCancel.visibility = View.GONE
+                    tvDisasterSure.visibility = View.GONE
                 }
 
                 var arrayName: Array<String>? = null
@@ -280,6 +384,9 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
                     disWeathers[4] -> {
                         arrayName = resources.getStringArray(R.array.disaster_weather5)
                     }
+                    disWeathers[5] -> {
+                        arrayName = resources.getStringArray(R.array.disaster_weather6)
+                    }
                 }
                 if (arrayName != null) {
                     addDisWeatherItem(arrayName)
@@ -290,6 +397,7 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
 
     //气象灾害item
     private fun addDisWeatherItem(arrayName: Array<String>) {
+        llDisasterItem.visibility = View.VISIBLE
         llDisasterItem.removeAllViews()
         for (i in arrayName.indices) {
             val tv = CheckBox(this)
@@ -302,7 +410,7 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
             llDisasterItem.addView(tv)
 
             tv.setOnClickListener {
-                disasterType = disasterType+"， "+tv.text
+                disasterType = disasterType+", "+tv.text
                 for (j in 0 until llDisasterItem.childCount) {
                     val item = llDisasterItem.getChildAt(j) as CheckBox
                     item.isChecked = TextUtils.equals(tv.text, item.text)
@@ -313,15 +421,23 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
 
     //病虫害
     private fun addDisaster() {
-        disasterType = "病虫害"
         llDisaster.removeAllViews()
+        llDisasterItem.visibility = View.GONE
+        etDisaster.visibility = View.GONE
+        tvDisasterCancel.visibility = View.GONE
+        tvDisasterSure.visibility = View.GONE
         val disWeathers = resources.getStringArray(R.array.disaster_type)
         for (i in disWeathers.indices) {
             val tv = TextView(this)
             tv.text = disWeathers[i]
+            if (disasterType!!.contains(tv.text)) {
+                tv.setTextColor(Color.WHITE)
+                tv.setBackgroundResource(R.drawable.bg_gz_type_press)
+            } else {
+                tv.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
+                tv.setBackgroundResource(R.drawable.bg_gz_type)
+            }
             tv.setTextSize(TypedValue.COMPLEX_UNIT_DIP, 12f)
-            tv.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
-            tv.setBackgroundResource(R.drawable.bg_gz_type)
             tv.setPadding(CommonUtil.dip2px(this, 5f).toInt(),0,CommonUtil.dip2px(this, 5f).toInt(),0)
             tv.gravity = Gravity.CENTER
             val params = LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT)
@@ -337,13 +453,23 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
                 for (j in 0 until llDisaster.childCount) {
                     val item = llDisaster.getChildAt(j) as TextView
                     if (TextUtils.equals(item.text, tv.text)) {
-                        tvBingchou1.text = tv.text.toString()+":"
                         item.setTextColor(Color.WHITE)
                         item.setBackgroundResource(R.drawable.bg_gz_type_press)
                     } else {
                         item.setTextColor(ContextCompat.getColor(this, R.color.colorPrimary))
                         item.setBackgroundResource(R.drawable.bg_gz_type)
                     }
+                }
+
+                if (TextUtils.equals(tv.text, "其它")) {
+                    etDisaster.hint = "请输入病害或虫害名称"
+                    etDisaster.visibility = View.VISIBLE
+                    tvDisasterCancel.visibility = View.VISIBLE
+                    tvDisasterSure.visibility = View.VISIBLE
+                } else {
+                    etDisaster.visibility = View.GONE
+                    tvDisasterCancel.visibility = View.GONE
+                    tvDisasterSure.visibility = View.GONE
                 }
             }
         }
@@ -451,7 +577,7 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
         if (etBingchou.visibility != View.VISIBLE) {//气象灾害
             builder.addFormDataPart("type", disasterType!!)
         } else {//病虫害
-            disasterType = disasterType+"， "+tvBingchou1.text+etBingchou.text+tvBingchou2.text
+            disasterType = disasterType+", "+tvBingchou1.text+etBingchou.text+tvBingchou2.text
             builder.addFormDataPart("type", disasterType!!)
         }
         if (!TextUtils.isEmpty(tvTime.text.toString())) {
@@ -580,6 +706,7 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
             R.id.ivWordDelete -> {
                 ivWord.visibility = View.VISIBLE
                 tvWordName.text = ""
+                tvWordName.tag = ""
                 tvWordName.visibility = View.GONE
                 ivWordDelete.visibility = View.GONE
             }

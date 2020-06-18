@@ -1,5 +1,6 @@
 package com.cxwl.shawn.guangxi.ganzhe;
 
+import android.app.Activity
 import android.content.Intent
 import android.graphics.Color
 import android.os.Bundle
@@ -94,7 +95,7 @@ class DisasterActivity : ShawnBaseActivity(), OnClickListener {
 			val bundle = Bundle()
 			bundle.putParcelable("data", data)
 			intent.putExtras(bundle)
-			startActivity(intent)
+			startActivityForResult(intent, 1001)
 		}
 		listView.setOnScrollListener(object : AbsListView.OnScrollListener {
 			override fun onScrollStateChanged(view: AbsListView, scrollState: Int) {
@@ -174,6 +175,9 @@ class DisasterActivity : ShawnBaseActivity(), OnClickListener {
 									for (i in 0 until array.length()) {
 										val itemObj = array.getJSONObject(i)
 										val dto = DisasterDto()
+										if (!itemObj.isNull("id")) {
+											dto.id = itemObj.getString("id")
+										}
 										if (!itemObj.isNull("username")) {
 											dto.userName = itemObj.getString("username")
 										}
@@ -303,6 +307,15 @@ class DisasterActivity : ShawnBaseActivity(), OnClickListener {
 			R.id.tvSearch -> {
 				dataList.clear()
 				okHttpList()
+			}
+		}
+	}
+
+	override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+		super.onActivityResult(requestCode, resultCode, data)
+		if (resultCode == Activity.RESULT_OK) {
+			when(requestCode) {
+				1001 -> refresh()
 			}
 		}
 	}

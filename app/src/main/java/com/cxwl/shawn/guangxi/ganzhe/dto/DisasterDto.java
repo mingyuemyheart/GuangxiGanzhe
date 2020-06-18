@@ -11,7 +11,7 @@ import java.util.List;
  */
 public class DisasterDto implements Parcelable {
 
-    public String disasterName,disasterType;//对应预警类型名称,预警类型，如11B09
+    public String id, disasterName,disasterType;//对应预警类型名称,预警类型，如11B09
     public String title,aoiName,addr,content,time,imgUrl,imageName,latlon,miao;
     public boolean isSelected;
     public boolean isLastItem;//为了区分添加按钮
@@ -30,6 +30,7 @@ public class DisasterDto implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(this.id);
         dest.writeString(this.disasterName);
         dest.writeString(this.disasterType);
         dest.writeString(this.title);
@@ -55,6 +56,7 @@ public class DisasterDto implements Parcelable {
     }
 
     protected DisasterDto(Parcel in) {
+        this.id = in.readString();
         this.disasterName = in.readString();
         this.disasterType = in.readString();
         this.title = in.readString();
