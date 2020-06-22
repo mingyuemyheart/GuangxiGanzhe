@@ -261,7 +261,7 @@ public class ShawnLoginActivity extends ShawnBaseActivity implements OnClickList
 				OkHttpLogin();
 				break;
 			case R.id.tvRegister:
-				startActivityForResult(new Intent(this, ShawnRegisterActivity.class), 1001);
+				startActivityForResult(new Intent(this, RegisterActivity.class), 1001);
 
 		default:
 			break;

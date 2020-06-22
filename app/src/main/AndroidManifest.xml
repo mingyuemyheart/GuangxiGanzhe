@@ -68,7 +68,7 @@
         <activity android:name=".ShawnLoginActivity"
                   android:screenOrientation="portrait"/>
 
-        <activity android:name=".ShawnRegisterActivity"
+        <activity android:name=".RegisterActivity"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".ShawnMainActivity"
@@ -137,7 +137,7 @@
         <activity android:name=".DisasterDetailActivity"
             android:screenOrientation="portrait"/>
 
-        <activity android:name=".ShawnSelectPictureActivity"
+        <activity android:name=".SelectPictureActivity"
             android:screenOrientation="portrait"/>
 
         <activity android:name=".DisasterUploadActivity"
@@ -150,6 +150,9 @@
             android:screenOrientation="portrait"/>
 
         <activity android:name=".SelectPositionActivity"
+            android:screenOrientation="portrait"/>
+
+        <activity android:name=".ColumnActivity"
             android:screenOrientation="portrait"/>
 
     </application>

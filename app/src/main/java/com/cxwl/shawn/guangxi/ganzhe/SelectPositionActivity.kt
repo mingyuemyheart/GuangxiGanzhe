@@ -47,6 +47,7 @@ class SelectPositionActivity : ShawnBaseActivity(), View.OnClickListener, AMap.O
     private var addr: String? = null
     private var mAdapter: PositionAdapter? = null
     private val dataList: ArrayList<DisasterDto> = ArrayList()
+    private var isFirstSearch = true
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -105,13 +106,18 @@ class SelectPositionActivity : ShawnBaseActivity(), View.OnClickListener, AMap.O
         mAdapter = PositionAdapter(this, dataList)
         listView.adapter = mAdapter
         listView.onItemClickListener = AdapterView.OnItemClickListener { parent, view, position, id ->
-            listView.visibility = View.GONE
-            CommonUtil.hideInputSoft(etSearch, this)
             val data = dataList[position]
-            addr = data.title
-            if (data.latlon.contains(",")) {
-                val latLngs = data.latlon.split(",")
-                addMarker(LatLng(latLngs[0].toDouble(), latLngs[1].toDouble()))
+            if (isFirstSearch) {
+                isFirstSearch = false
+                poiSearch(data.title)
+            } else {
+                listView.visibility = View.GONE
+                CommonUtil.hideInputSoft(etSearch, this)
+                addr = data.title
+                if (data.latlon.contains(",")) {
+                    val latLngs = data.latlon.split(",")
+                    addMarker(LatLng(latLngs[0].toDouble(), latLngs[1].toDouble()))
+                }
             }
         }
     }

@@ -13,8 +13,8 @@ android {
         applicationId "com.cxwl.shawn.guangxi.ganzhe"
         minSdkVersion 21
         targetSdkVersion 28
-        versionCode 30
-        versionName "1.2.9"
+        versionCode 31
+        versionName "1.3.0"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
 
         ndk {

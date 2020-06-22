@@ -103,10 +103,12 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_alignParentBottom="true"
+        android:gravity="center"
         android:layout_marginBottom="60dp"
         android:textSize="@dimen/level_5"
+        android:lineSpacingExtra="3dp"
         android:textColor="@color/white"
-        android:text="广西壮族自治区气象减灾研究所©copyright"/>
+        android:text="广西壮族自治区气象科学研究所/甘蔗气象服务中心\n联系电话：0771-5865594"/>
 
     <com.wang.avi.AVLoadingIndicatorView
         xmlns:app="http://schemas.android.com/apk/res-auto"

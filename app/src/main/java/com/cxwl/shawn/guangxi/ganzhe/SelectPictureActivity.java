@@ -21,7 +21,7 @@ import java.util.List;
 /**
  * 获取本地相册图片
  */
-public class ShawnSelectPictureActivity extends ShawnBaseActivity implements View.OnClickListener {
+public class SelectPictureActivity extends ShawnBaseActivity implements View.OnClickListener {
 
     private Context mContext;
     private TextView tvControl;
@@ -33,7 +33,7 @@ public class ShawnSelectPictureActivity extends ShawnBaseActivity implements Vie
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.shawn_activity_select_picture);
+        setContentView(R.layout.activity_select_picture);
         mContext = this;
         initWidget();
         initGridView();
@@ -66,8 +66,8 @@ public class ShawnSelectPictureActivity extends ShawnBaseActivity implements Vie
                     dto.isSelected = false;
                     selectCount--;
                 }else {
-                    if ((selectCount+lastCount) >= 9) {
-                        Toast.makeText(mContext, "最多只能选择"+(9-lastCount)+"张图片", Toast.LENGTH_SHORT).show();
+                    if ((selectCount+lastCount) >= 6) {
+                        Toast.makeText(mContext, "最多只能选择"+(6-lastCount)+"张图片", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     dto.isSelected = true;
@@ -77,7 +77,7 @@ public class ShawnSelectPictureActivity extends ShawnBaseActivity implements Vie
                     mAdapter.notifyDataSetChanged();
                 }
 
-                tvControl.setText("完成("+selectCount+"/"+(9-lastCount)+")");
+                tvControl.setText("完成("+selectCount+"/"+(6-lastCount)+")");
                 if (selectCount <= 0) {
                     tvControl.setVisibility(View.INVISIBLE);
                 }else {

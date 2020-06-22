@@ -5,6 +5,8 @@ import android.app.Activity
 import android.app.Dialog
 import android.content.Context
 import android.content.Intent
+import android.content.Intent.ACTION_GET_CONTENT
+import android.content.Intent.ACTION_OPEN_DOCUMENT
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
@@ -38,6 +40,7 @@ import com.cxwl.shawn.guangxi.ganzhe.common.MyApplication
 import com.cxwl.shawn.guangxi.ganzhe.dto.DisasterDto
 import com.cxwl.shawn.guangxi.ganzhe.util.AuthorityUtil
 import com.cxwl.shawn.guangxi.ganzhe.util.CommonUtil
+import com.cxwl.shawn.guangxi.ganzhe.util.FileUtils
 import com.cxwl.shawn.guangxi.ganzhe.util.OkHttpUtil
 import kotlinx.android.synthetic.main.activity_disaster_upload.*
 import kotlinx.android.synthetic.main.layout_date.*
@@ -46,6 +49,7 @@ import kotlinx.android.synthetic.main.shawn_layout_title.*
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request.Builder
+import okio.ArrayIndexOutOfBoundsException
 import org.json.JSONException
 import org.json.JSONObject
 import uk.co.senab.photoview.PhotoView
@@ -124,13 +128,17 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
             Log.e("resultresult", result)
             if (result.contains(",")) {
                 val results = result.split(",")
-                etMiao1.setText(results[0])
-                etMiao2.setText(results[1])
-                etMiao3.setText(results[2])
-                etMiao4.setText(results[3])
-                etMiao5.setText(results[4])
-                etMiao6.setText(results[5])
-                etMiao7.setText(results[6])
+                try {
+                    etMiao1.setText(results[0])
+                    etMiao2.setText(results[2])
+                    etMiao3.setText(results[4])
+                    etMiao4.setText(results[5])
+                    etMiao5.setText(results[6])
+                    etMiao6.setText(results[7])
+                    etMiao7.setText(results[8])
+                } catch (e: ArrayIndexOutOfBoundsException) {
+                    e.printStackTrace()
+                }
             }
 
             disasterType = data.disasterType
@@ -701,7 +709,8 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
                 startActivityForResult(intent, 1004)
             }
             R.id.ivWord, R.id.tvWordName -> {
-                startActivityForResult(Intent(this, SelectFileActivity::class.java), 1003)
+//                startActivityForResult(Intent(this, SelectFileActivity::class.java), 1003)
+                intentSdcard()
             }
             R.id.ivWordDelete -> {
                 ivWord.visibility = View.VISIBLE
@@ -746,9 +755,23 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
     }
 
     private fun intentAlbum() {
-        val intent = Intent(this, ShawnSelectPictureActivity::class.java)
+        val intent = Intent(this, SelectPictureActivity::class.java)
         intent.putExtra("count", dataList.size - 1)
         startActivityForResult(intent, 1001)
+    }
+
+    /**
+     * 调用本地sdcard
+     */
+    private fun intentSdcard() {
+        val intent = Intent(ACTION_OPEN_DOCUMENT)
+//        intent.type = "image/*"//选择图片
+//        intent.type = "audio/*"//选择音频
+//        intent.type = "audio/*"//选择视频 （mp4 3gp 是android支持的视频格式）
+//        intent.type = "video/*;image/*"//同时选择视频和图片
+        intent.type = "*/*"
+        intent.addCategory(Intent.CATEGORY_OPENABLE)
+        startActivityForResult(intent, 1005)
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -766,7 +789,7 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
                         val list: ArrayList<DisasterDto> = bundle.getParcelableArrayList("dataList")
                         dataList.addAll(list)
                         addLastElement()
-                        if (dataList.size >= 10) {
+                        if (dataList.size >= 7) {
                             dataList.removeAt(dataList.size - 1)
                         }
                         if (mAdapter != null) {
@@ -790,7 +813,7 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
                         dto.imgUrl = cameraFile!!.absolutePath
                         dataList.add(dto)
                         addLastElement()
-                        if (dataList.size >= 10) {
+                        if (dataList.size >= 7) {
                             dataList.removeAt(dataList.size - 1)
                         }
                         if (mAdapter != null) {
@@ -830,6 +853,26 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
                                 tvLatLng.text = latLng
                             }
                             position = bundle.getString("position")
+                        }
+                    }
+                }
+                1005 -> {
+                    if (data != null) {
+                        val filePath = FileUtils.getFilePathByUri(this, data.data)
+                        if (!TextUtils.isEmpty(filePath)) {
+                            if (filePath.endsWith(".xlsx") || filePath.endsWith(".xls")) {
+                                if (filePath.contains("/")) {
+                                    val result = filePath.split("/")
+                                    val title = result[result.size-1]
+                                    ivWord.visibility = View.GONE
+                                    tvWordName.visibility = View.VISIBLE
+                                    ivWordDelete.visibility = View.VISIBLE
+                                    tvWordName.text = "附件文档：${title}"
+                                    tvWordName.tag = filePath
+                                }
+                            } else {
+                                Toast.makeText(this, "请选择excel表格文件", Toast.LENGTH_SHORT).show()
+                            }
                         }
                     }
                 }
