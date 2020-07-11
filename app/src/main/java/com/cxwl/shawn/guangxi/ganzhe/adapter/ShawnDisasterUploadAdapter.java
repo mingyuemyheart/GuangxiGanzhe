@@ -88,6 +88,18 @@ public class ShawnDisasterUploadAdapter extends BaseAdapter {
 			@Override
 			public void onClick(View v) {
 				mArrayList.remove(position);
+				boolean isLastItem = false;
+				for (int i = 0; i < mArrayList.size(); i++) {
+					DisasterDto d = mArrayList.get(i);
+					if (d.isLastItem) {
+						isLastItem = true;
+					}
+				}
+				if (!isLastItem) {
+					DisasterDto data = new DisasterDto();
+					data.isLastItem = true;
+					mArrayList.add(data);
+				}
 				notifyDataSetChanged();
 			}
 		});

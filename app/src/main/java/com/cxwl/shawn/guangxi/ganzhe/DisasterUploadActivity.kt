@@ -6,14 +6,15 @@ import android.app.Dialog
 import android.content.Context
 import android.content.Intent
 import android.content.Intent.ACTION_GET_CONTENT
-import android.content.Intent.ACTION_OPEN_DOCUMENT
 import android.content.pm.PackageManager
+import android.database.Cursor
 import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.graphics.Color
 import android.net.Uri
 import android.os.Build
 import android.os.Bundle
+import android.provider.DocumentsContract
 import android.provider.MediaStore
 import android.support.v4.app.ActivityCompat
 import android.support.v4.content.ContextCompat
@@ -49,6 +50,7 @@ import kotlinx.android.synthetic.main.shawn_layout_title.*
 import okhttp3.*
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.Request.Builder
+import okhttp3.RequestBody.Companion.asRequestBody
 import okio.ArrayIndexOutOfBoundsException
 import org.json.JSONException
 import org.json.JSONObject
@@ -603,14 +605,14 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
                 if (!TextUtils.isEmpty(dto.imgUrl)) {
                     val imgFile = File(compressBitmap(dto.imgUrl))
                     if (imgFile.exists()) {
-                        builder.addFormDataPart("pic$i", imgFile.name, RequestBody.create("image/*".toMediaTypeOrNull(), imgFile))
+                        builder.addFormDataPart("pic$i", imgFile.name, imgFile.asRequestBody("image/*".toMediaTypeOrNull()))
                     }
                 }
             }
         }
         if (!TextUtils.isEmpty(tvWordName.tag.toString())) {
             val wordFile = File(tvWordName.tag.toString())
-            builder.addFormDataPart("annex1", wordFile.name, RequestBody.create("image/*".toMediaTypeOrNull(), wordFile))
+            builder.addFormDataPart("annex1", wordFile.name, wordFile.asRequestBody("image/*".toMediaTypeOrNull()))
         }
         val body: RequestBody = builder.build()
         Thread(Runnable {
@@ -709,8 +711,8 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
                 startActivityForResult(intent, 1004)
             }
             R.id.ivWord, R.id.tvWordName -> {
-//                startActivityForResult(Intent(this, SelectFileActivity::class.java), 1003)
-                intentSdcard()
+                startActivityForResult(Intent(this, SelectFileActivity::class.java), 1003)
+//                intentSdcard()
             }
             R.id.ivWordDelete -> {
                 ivWord.visibility = View.VISIBLE
@@ -764,13 +766,13 @@ class DisasterUploadActivity : ShawnBaseActivity(), OnClickListener, AMapLocatio
      * 调用本地sdcard
      */
     private fun intentSdcard() {
-        val intent = Intent(ACTION_OPEN_DOCUMENT)
+        val intent = Intent(ACTION_GET_CONTENT)
 //        intent.type = "image/*"//选择图片
 //        intent.type = "audio/*"//选择音频
 //        intent.type = "audio/*"//选择视频 （mp4 3gp 是android支持的视频格式）
 //        intent.type = "video/*;image/*"//同时选择视频和图片
         intent.type = "*/*"
-        intent.addCategory(Intent.CATEGORY_OPENABLE)
+//        intent.addCategory(Intent.CATEGORY_OPENABLE)
         startActivityForResult(intent, 1005)
     }
 

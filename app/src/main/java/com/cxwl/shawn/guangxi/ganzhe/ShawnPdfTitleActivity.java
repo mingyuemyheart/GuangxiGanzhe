@@ -109,16 +109,8 @@ public class ShawnPdfTitleActivity extends FragmentActivity implements OnClickLi
 					}
 					tvName.measure(0, 0);
 					LayoutParams params = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-//					params.weight = 1.0f;
 					params.width = tvName.getMeasuredWidth();
 					params.setMargins((int)(density*10), 0, (int)(density*10), 0);
-//					if (columnSize == 1) {
-//						params.width = width;
-//					}else if (columnSize == 2) {
-//						params.width = width/2;
-//					}else {
-//						params.width = width/3;
-//					}
 					tvName.setLayoutParams(params);
 					llContainer.addView(tvName, i);
 
@@ -131,15 +123,7 @@ public class ShawnPdfTitleActivity extends FragmentActivity implements OnClickLi
 						tvBar.setBackgroundColor(getResources().getColor(R.color.transparent));
 					}
 					LayoutParams params1 = new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT);
-//					params1.weight = 1.0f;
 					params1.width = tvName.getMeasuredWidth();
-//					if (columnSize == 1) {
-//						params1.width = width;
-//					}else if (columnSize == 2) {
-//						params1.width = width/2-(int)(density*20);
-//					}else {
-//						params1.width = width/3-(int)(density*20);
-//					}
 					params1.height = (int) (density*3);
 					params1.setMargins((int)(density*10), 0, (int)(density*10), 0);
 					tvBar.setLayoutParams(params1);

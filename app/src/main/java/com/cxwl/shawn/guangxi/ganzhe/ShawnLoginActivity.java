@@ -262,6 +262,7 @@ public class ShawnLoginActivity extends ShawnBaseActivity implements OnClickList
 				break;
 			case R.id.tvRegister:
 				startActivityForResult(new Intent(this, RegisterActivity.class), 1001);
+				break;
 
 		default:
 			break;
